@@ -583,6 +583,14 @@
       border-color: var(--accent);
     }
     .cat-link.active::after { display: none; }
+    .cat-link.cat-in-season { color: var(--accent); }
+    .cat-live-dot {
+      display: inline-block; width: 5px; height: 5px;
+      border-radius: 50%; background: var(--live);
+      margin-right: 4px; animation: pulse 1.6s infinite;
+      vertical-align: middle;
+    }
+    .cat-link.active .cat-live-dot { background: #0a0906; }
 
     /* ══════════════════════════════
        LAYOUT
@@ -1306,7 +1314,7 @@
     }
     .wc-groups {
       display: grid;
-      grid-template-columns: repeat(6, minmax(198px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(198px, 1fr));
       gap: 1px;
       background: var(--border);
       min-width: 0;
@@ -1362,9 +1370,10 @@
     }
     .wc-row:last-child { border-bottom: none; }
     .wc-row:hover { background: var(--surface-2); }
-    .wc-row.q1 { border-left: 3px solid var(--accent); }
-    .wc-row.q2 { border-left: 3px solid rgba(212,255,0,.35); }
-    .wc-row.out { opacity: .4; }
+    .wc-row.q1 { border-left: 3px solid var(--accent); background: rgba(212,255,0,.055); }
+    .wc-row.q2 { border-left: 3px solid rgba(212,255,0,.45); background: rgba(212,255,0,.025); }
+    .wc-row.q3 { border-left: 3px solid rgba(255,160,48,.6); background: rgba(255,160,48,.04); }
+    .wc-row.out { opacity: .38; }
     .wc-team {
       display: flex;
       align-items: center;
@@ -1697,6 +1706,16 @@
     .badge-hot      { background: rgba(255,107,53,.15); color: #FF6B35; border: 1px solid rgba(255,107,53,.35); }
     .badge-video    { background: rgba(212,255,0,.1); color: var(--accent); border: 1px solid rgba(212,255,0,.3); }
     .badge-exclusive{ background: rgba(255,184,0,.1); color: var(--gold); border: 1px solid rgba(255,184,0,.3); }
+    .badge-yt       { background: rgba(255,0,0,.12); color: #FF4545; border: 1px solid rgba(255,0,0,.3); }
+    .card-row-yt    { color: var(--text); }
+    .card-row-yt:hover { background: var(--surface-2); }
+    .yt-card-bg {
+      position: absolute; inset: 0;
+      opacity: .06; background-size: cover; background-position: center;
+    }
+    .yt-bg-1 { background-image: linear-gradient(135deg,#FF4545 0%,#D4FF00 100%); opacity: .08; }
+    .yt-bg-2 { background-image: linear-gradient(135deg,#FF6B35 0%,#FF4545 100%); opacity: .07; }
+    .yt-bg-3 { background-image: linear-gradient(135deg,#D4FF00 0%,#00C8FF 100%); opacity: .06; }
 
     /* ── Featured article stats strip ── */
     .article-stats {
@@ -2174,19 +2193,9 @@
 
 <!-- ══ CATEGORIES ══ -->
 <nav class="categories" aria-label="스포츠 종목 필터">
-  <div class="cat-track">
-    <a href="#" class="cat-link active">전체</a>
-    <a href="#worldcup" class="cat-link" style="color:var(--accent);border-bottom:2px solid var(--accent)">⚽ 월드컵 2026</a>
-    <a href="#" class="cat-link">스케이트보드</a>
-    <a href="#" class="cat-link">BMX</a>
-    <a href="#" class="cat-link">모토크로스</a>
-    <a href="#" class="cat-link">마운틴바이크</a>
-    <a href="#" class="cat-link">서핑</a>
-    <a href="#" class="cat-link">스노보드</a>
-    <a href="#" class="cat-link">클리프다이빙</a>
-    <a href="#waterpolo" class="cat-link">워터폴로</a>
-    <a href="#" class="cat-link">파쿠르</a>
-    <a href="#" class="cat-link">윙슈트</a>
+  <div class="cat-track" id="cat-track">
+    <a href="#" class="cat-link active" data-sport-id="all">전체</a>
+    <!-- JS가 현재 시즌 종목을 인기 순으로 동적 생성 -->
   </div>
 </nav>
 
@@ -2205,7 +2214,7 @@
   </div>
 
   <div class="wc-groups-scroll">
-    <div class="wc-groups">
+    <div class="wc-groups" id="wc-groups-dynamic">
 
       <!-- A조 -->
       <div class="wc-group">
@@ -2317,8 +2326,8 @@
     <div class="sec-header">
       <div class="sec-title-wrap">
         <div class="sec-accent-bar"></div>
-        <h2 class="sec-title">최신 <span>뉴스</span></h2>
-        <span class="sec-count">6건</span>
+        <h2 class="sec-title">뉴스 <span>&amp; 하이라이트</span></h2>
+        <span class="sec-count" id="news-count">로딩 중</span>
       </div>
       <a href="#" class="sec-more">모든 뉴스 →</a>
     </div>
@@ -2332,28 +2341,33 @@
     </div>
     <div class="ticker-track">
       <div class="ticker-inner" id="tickerInner">
-        <span class="ticker-item">⚽ FIFA 월드컵 2026 — 32강 전 경기 일정 확정, 7월 2일 첫 경기 시작</span>
+        <span class="ticker-item">⚽ FIFA 월드컵 2026 — 조별리그 완료, 32강 진출 32팀 확정 · 7월 2일 Round of 32 시작</span>
         <span class="ticker-sep">●</span>
-        <span class="ticker-item">🏀 NBA 2025–26 시즌 종료 · 파이널 결과 및 챔피언 확정 · ESPN에서 실시간 확인</span>
+        <span class="ticker-item">🎾 윔블던 2026 — 6월 29일 개막 · 2주간 올 잉글랜드 클럽에서 그랜드슬램 진행 중</span>
         <span class="ticker-sep">●</span>
-        <span class="ticker-item">⚾ MLB — 뉴욕 메츠 후안 소토, 시즌 타격 상위권 · NL 최강 타선 견인</span>
+        <span class="ticker-item">🏎 Formula 1 2026 — 시즌 진행 중 · 최신 레이스 결과 YouTube에서 확인</span>
         <span class="ticker-sep">●</span>
-        <span class="ticker-item">🚵 Red Bull Rampage 2026 — 신규 와일드카드 5인 선발 완료, 10월 버진 유타 개최</span>
+        <span class="ticker-item">🚴 투르 드 프랑스 2026 — 7월 4일 개막 예정 · 그랑 데파르 릴리 출발</span>
         <span class="ticker-sep">●</span>
-        <span class="ticker-item">🏄 WSL 챔피언십 투어 — Gabriel Medina, 시즌 포인트 1위 단독 선두 복귀</span>
+        <span class="ticker-item">🏍 MotoGP 2026 — 시즌 진행 중 · 그랑프리 최신 결과 YouTube에서 확인</span>
         <span class="ticker-sep">●</span>
-        <span class="ticker-item">🤽 LEN 챔피언스리그 워터폴로 — 파이널 에이트 8팀 모두 확정, 베오그라드 9월 개최</span>
+        <span class="ticker-item">⚾ MLB — 2026 시즌 진행 중 · ESPN 실시간 스코어 연동</span>
         <span class="ticker-sep">●</span>
-        <span class="ticker-item">🏂 Shaun White 재단, 차세대 라이더 글로벌 장학 프로그램 공식 출범</span>
+        <span class="ticker-item">🧗 Red Bull Cliff Diving World Series 2026 — 시즌 진행 중 (5월~9월)</span>
         <span class="ticker-sep">●</span>
-        <span class="ticker-item">🪂 Red Bull Cliff Diving World Series — 오슬로 피요르드 27m 절벽 신규 스테이지 확정</span>
+        <span class="ticker-item">🚲 UCI BMX 프리스타일 월드컵 2026 — 시즌 진행 중 · 세계 최고 BMX 라이더 경쟁</span>
         <span class="ticker-sep">●</span>
       </div>
     </div>
   </div>
 
   <div class="wrap">
-    <div class="news-primary">
+    <!-- ESPN 뉴스 zone — JS 동적 로딩 -->
+    <div id="news-espn-primary" class="news-primary">
+      <p class="espn-loading">ESPN 뉴스 로딩 중...<span>최신 헤드라인 연동 중</span></p>
+    </div>
+    <!-- ESPN 뉴스 static fallback (hidden until needed) -->
+    <div id="news-espn-fallback" class="news-primary" style="display:none">
       <!-- 피처드 기사 -->
       <article class="card card-featured reveal" tabindex="0">
         <div class="card-bg">
@@ -2465,86 +2479,64 @@
           </div>
         </article>
       </div>
-    </div>
+    </div><!-- /news-espn-fallback -->
 
-    <div class="news-row">
-      <!-- 로우 카드 1 -->
-      <article class="card-row reveal" style="position:relative;overflow:hidden">
-        <span class="trend-num">01</span>
-        <img class="card-row-photo" src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=700&h=300&fit=crop&q=80" alt="" loading="lazy" onerror="this.style.display='none'">
+    <!-- YouTube 최신 하이라이트 zone (항상 최신 검색 결과 연결) -->
+    <div class="news-row" id="news-yt-zone">
+      <!-- YT 카드 1 — 월드컵/메이저 스포츠 최신 하이라이트 -->
+      <a class="card-row card-row-yt reveal" href="https://www.youtube.com/results?search_query=FIFA+World+Cup+2026+F1+highlights+latest&sp=EgIIAw%3D%3D" target="_blank" rel="noopener" style="position:relative;overflow:hidden;display:block;text-decoration:none;cursor:pointer">
+        <div class="yt-card-bg yt-bg-1"></div>
+        <span class="trend-num" style="position:relative">01</span>
         <div class="card-row-badge-row" style="position:relative">
-          <span class="art-badge badge-exclusive">Exclusive</span>
-          <span class="tag" style="margin:0">BMX 프리스타일</span>
+          <span class="art-badge badge-yt">▶ YouTube</span>
+          <span class="tag" style="margin:0">월드컵 · F1 · 테니스</span>
         </div>
         <div style="position:relative">
-          <h3 class="card-title card-title-md">Logan Martin, 연습 영상 공개 — 연속 쿼드 테일위핑 완성도 화제</h3>
+          <h3 class="card-title card-title-md">최신 하이라이트 — FIFA WC 2026 · F1 · 윔블던</h3>
           <p style="font-size:13px;color:var(--muted);line-height:1.7;margin-top:8px">
-            BMX 프리스타일 세계 챔피언 Logan Martin이 최신 훈련 영상에서 쿼드 테일위핑 연속 성공을 공개해 커뮤니티를 달궜다.
+            YouTube 최신 업로드 순으로 정렬 · 클릭하면 지금 이 시간 올라온 최신 영상을 바로 볼 수 있습니다
           </p>
         </div>
         <div class="card-engage" style="margin-top:10px">
-          <span class="engage-item">3분 읽기</span>
-          <span class="engage-item">
-            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-            28.1K
-          </span>
-          <span class="card-sep" style="margin-left:auto">·</span>
-          <span class="card-byline">김민준 기자</span>
-          <span class="card-sep">·</span>
-          <span class="card-date">2026.06.25</span>
+          <span class="engage-item" style="color:var(--accent)">YouTube 최신순 보기 →</span>
         </div>
-      </article>
-      <!-- 로우 카드 2 -->
-      <article class="card-row reveal" style="position:relative;overflow:hidden">
-        <span class="trend-num">02</span>
-        <img class="card-row-photo" src="https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=700&h=300&fit=crop&q=80" alt="" loading="lazy" onerror="this.style.display='none'">
+      </a>
+      <!-- YT 카드 2 — MotoGP / 사이클 / 투르드프랑스 -->
+      <a class="card-row card-row-yt reveal" href="https://www.youtube.com/results?search_query=MotoGP+Tour+de+France+2026+highlights+latest&sp=EgIIAw%3D%3D" target="_blank" rel="noopener" style="position:relative;overflow:hidden;display:block;text-decoration:none;cursor:pointer">
+        <div class="yt-card-bg yt-bg-2"></div>
+        <span class="trend-num" style="position:relative">02</span>
         <div class="card-row-badge-row" style="position:relative">
-          <span class="tag" style="margin:0">스노보드</span>
+          <span class="art-badge badge-yt">▶ YouTube</span>
+          <span class="tag" style="margin:0">MotoGP · 투르드프랑스</span>
         </div>
         <div style="position:relative">
-          <h3 class="card-title card-title-md">Shaun White 재단, 차세대 라이더 장학 프로그램 런칭</h3>
+          <h3 class="card-title card-title-md">최신 레이스 영상 — MotoGP · 투르 드 프랑스 2026</h3>
           <p style="font-size:13px;color:var(--muted);line-height:1.7;margin-top:8px">
-            3회 올림픽 금메달리스트 Shaun White 재단이 전 세계 14세 이하 선수 육성 프로그램을 시작했다.
+            YouTube 날짜 정렬 · MotoGP 그랑프리 · 사이클 스테이지 최신 결과 영상 모음
           </p>
         </div>
         <div class="card-engage" style="margin-top:10px">
-          <span class="engage-item">2분 읽기</span>
-          <span class="engage-item">
-            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-            6.2K
-          </span>
-          <span class="card-sep" style="margin-left:auto">·</span>
-          <span class="card-byline">박수진 기자</span>
-          <span class="card-sep">·</span>
-          <span class="card-date">2026.06.24</span>
+          <span class="engage-item" style="color:var(--accent)">YouTube 최신순 보기 →</span>
         </div>
-      </article>
-      <!-- 로우 카드 3 -->
-      <article class="card-row reveal" style="position:relative;overflow:hidden">
-        <span class="trend-num">03</span>
-        <img class="card-row-photo" src="https://images.unsplash.com/photo-1530549387789-4c1017266635?w=700&h=300&fit=crop&q=80" alt="" loading="lazy" onerror="this.style.display='none'">
+      </a>
+      <!-- YT 카드 3 — 익스트림 스포츠 종합 -->
+      <a class="card-row card-row-yt reveal" href="https://www.youtube.com/results?search_query=Red+Bull+extreme+sports+BMX+cliff+diving+2026+highlights&sp=EgIIAw%3D%3D" target="_blank" rel="noopener" style="position:relative;overflow:hidden;display:block;text-decoration:none;cursor:pointer">
+        <div class="yt-card-bg yt-bg-3"></div>
+        <span class="trend-num" style="position:relative">03</span>
         <div class="card-row-badge-row" style="position:relative">
-          <span class="art-badge badge-hot">🔥 Hot</span>
-          <span class="tag" style="margin:0">클리프다이빙</span>
+          <span class="art-badge badge-yt">▶ YouTube</span>
+          <span class="tag" style="margin:0">익스트림 · Red Bull</span>
         </div>
         <div style="position:relative">
-          <h3 class="card-title card-title-md">Red Bull Cliff Diving, 오슬로 피요르드를 새 무대로</h3>
+          <h3 class="card-title card-title-md">익스트림 스포츠 최신 영상 — BMX · 클리프다이빙 · Rampage</h3>
           <p style="font-size:13px;color:var(--muted);line-height:1.7;margin-top:8px">
-            27m 오슬로 피요르드 절벽이 2026 Red Bull Cliff Diving World Series 새 스테이지로 선정됐다.
+            YouTube 최신 업로드 · Red Bull 익스트림 종목 하이라이트 · SLS 스케이트 포함
           </p>
         </div>
         <div class="card-engage" style="margin-top:10px">
-          <span class="engage-item">3분 읽기</span>
-          <span class="engage-item">
-            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-            15.7K
-          </span>
-          <span class="card-sep" style="margin-left:auto">·</span>
-          <span class="card-byline">최한솔 기자</span>
-          <span class="card-sep">·</span>
-          <span class="card-date">2026.06.23</span>
+          <span class="engage-item" style="color:var(--accent)">YouTube 최신순 보기 →</span>
         </div>
-      </article>
+      </a>
     </div>
   </div>
 </main>
@@ -2913,14 +2905,7 @@
   }
   window.addEventListener('scroll', updateActiveNav, { passive: true });
 
-  /* ── Category filter ── */
-  document.querySelectorAll('.cat-link').forEach(link => {
-    link.addEventListener('click', e => {
-      e.preventDefault();
-      document.querySelectorAll('.cat-link').forEach(l => l.classList.remove('active'));
-      link.classList.add('active');
-    });
-  });
+  /* ── Category filter는 buildCategoriesNav()에서 통합 처리 ── */
 
   /* ── ESPN World Cup 실시간 결과 ── */
   const WC_FLAGS = {
@@ -3042,6 +3027,72 @@
         { start: '2026-12-08', end: '2027-01-10' }
       ],
       hotness: 6, isExample: true
+    },
+    /* ── 신규 종목 ── */
+    {
+      id: 'f1', name: 'Formula 1 2026', tag: 'F1',
+      noApi: true,
+      ytQuery: 'Formula+1+2026+race+highlights+grand+prix+latest', ytLabel: '최신 레이스',
+      seasons: [{ start: '2026-03-15', end: '2026-11-22' }], hotness: 9
+    },
+    {
+      id: 'wimbledon', name: '윔블던 2026', tag: '테니스',
+      noApi: true,
+      ytQuery: 'Wimbledon+2026+tennis+highlights+best+matches', ytLabel: '최신 하이라이트',
+      seasons: [{ start: '2026-06-29', end: '2026-07-12' }], hotness: 9
+    },
+    {
+      id: 'motogp', name: 'MotoGP 2026', tag: 'MotoGP',
+      noApi: true,
+      ytQuery: 'MotoGP+2026+race+highlights+grand+prix+latest', ytLabel: '최신 레이스',
+      seasons: [{ start: '2026-03-01', end: '2026-11-15' }], hotness: 8
+    },
+    {
+      id: 'tdf', name: '투르 드 프랑스 2026', tag: '사이클',
+      noApi: true,
+      ytQuery: 'Tour+de+France+2026+stage+highlights+etape+latest', ytLabel: '스테이지 하이라이트',
+      seasons: [{ start: '2026-07-04', end: '2026-07-26' }], hotness: 8
+    },
+    {
+      id: 'nfl', name: 'NFL 2026–27', tag: '미식축구',
+      espnSport: 'football/nfl', espnType: 'scoreboard',
+      cardClass: 'result-card--nfl',
+      badgeHtml: '<span class="live-badge live-badge--nfl">ESPN LIVE</span>',
+      ytQuery: 'NFL+2026+season+highlights+best+plays', ytLabel: '하이라이트 보기',
+      seasons: [{ start: '2026-09-10', end: '2027-02-07' }], hotness: 9
+    },
+    {
+      id: 'mxgp', name: 'MXGP 모토크로스 2026', tag: '모토크로스',
+      noApi: true,
+      ytQuery: 'MXGP+2026+motocross+Grand+Prix+race+highlights', ytLabel: '하이라이트 보기',
+      seasons: [{ start: '2026-03-01', end: '2026-10-25' }], hotness: 6
+    },
+    {
+      id: 'mtbwc', name: 'UCI MTB 월드컵 2026', tag: '마운틴바이크',
+      noApi: true,
+      ytQuery: 'UCI+Mountain+Bike+World+Cup+2026+downhill+XCO+highlights', ytLabel: '하이라이트 보기',
+      seasons: [{ start: '2026-04-01', end: '2026-09-20' }], hotness: 5
+    },
+    {
+      id: 'sls', name: 'Street League Skateboarding 2026', tag: '스케이트보드',
+      noApi: true,
+      ytQuery: 'Street+League+Skateboarding+2026+SLS+highlights+best', ytLabel: '하이라이트 보기',
+      seasons: [{ start: '2026-05-01', end: '2026-10-31' }], hotness: 6
+    },
+    {
+      id: 'snowboard', name: 'FIS 스노보드 월드컵', tag: '스노보드',
+      noApi: true,
+      ytQuery: 'FIS+Snowboard+World+Cup+2026+halfpipe+slopestyle+highlights', ytLabel: '하이라이트 보기',
+      seasons: [
+        { start: '2025-10-15', end: '2026-03-20' },
+        { start: '2026-10-15', end: '2027-03-20' }
+      ], hotness: 6
+    },
+    {
+      id: 'golf', name: '디 오픈 챔피언십 2026', tag: '골프',
+      noApi: true,
+      ytQuery: 'The+Open+Championship+2026+golf+highlights+British+Open', ytLabel: '하이라이트 보기',
+      seasons: [{ start: '2026-07-16', end: '2026-07-19' }], hotness: 7
     }
   ];
 
@@ -3149,7 +3200,7 @@
     var ytBtn = '<a class="result-yt-btn" href="https://www.youtube.com/results?search_query=' + sport.ytQuery + '" target="_blank" rel="noopener">' +
       YT_ICON + ' ' + sport.ytLabel + '</a>';
 
-    return '<div class="result-card ' + cardExtra + ' ' + stateClass + ' revealed">' +
+    return '<div class="result-card ' + cardExtra + ' ' + stateClass + ' revealed" data-sport-id="' + sport.id + '">' +
       titleBar + metaRow + body + ytBtn + '</div>';
   }
 
@@ -3294,6 +3345,113 @@
     }
   }
 
+  /* ── WC 조별리그 ESPN 실시간 순위 ── */
+  var WC_TF = {
+    'BRA':'🇧🇷','GER':'🇩🇪','ENG':'🏴󠁧󠁢󠁥󠁮󠁧󠁿','FRA':'🇫🇷','ESP':'🇪🇸','ARG':'🇦🇷','POR':'🇵🇹',
+    'NED':'🇳🇱','BEL':'🇧🇪','ITA':'🇮🇹','USA':'🇺🇸','MEX':'🇲🇽','CAN':'🇨🇦','KOR':'🇰🇷',
+    'JPN':'🇯🇵','MAR':'🇲🇦','CRO':'🇭🇷','SUI':'🇨🇭','SEN':'🇸🇳','COL':'🇨🇴','ECU':'🇪🇨',
+    'KSA':'🇸🇦','ALG':'🇩🇿','TUN':'🇹🇳','POL':'🇵🇱','QAT':'🇶🇦','AUS':'🇦🇺','NGA':'🇳🇬',
+    'URU':'🇺🇾','VEN':'🇻🇪','PAR':'🇵🇾','BOL':'🇧🇴','CHI':'🇨🇱','PER':'🇵🇪','HON':'🇭🇳',
+    'PAN':'🇵🇦','CRI':'🇨🇷','SLV':'🇸🇻','JAM':'🇯🇲','TRI':'🇹🇹','GUA':'🇬🇹','NZL':'🇳🇿',
+    'IRN':'🇮🇷','IRQ':'🇮🇶','SYR':'🇸🇾','UZB':'🇺🇿','THA':'🇹🇭','IDN':'🇮🇩','CHN':'🇨🇳',
+    'TUR':'🇹🇷','UKR':'🇺🇦','SRB':'🇷🇸','AUT':'🇦🇹','CZE':'🇨🇿','SVK':'🇸🇰','HUN':'🇭🇺',
+    'ROU':'🇷🇴','GRE':'🇬🇷','DEN':'🇩🇰','SWE':'🇸🇪','NOR':'🇳🇴','SVN':'🇸🇮','ALB':'🇦🇱',
+    'GHA':'🇬🇭','CMR':'🇨🇲','EGY':'🇪🇬','CIV':'🇨🇮','UAE':'🇦🇪','SAU':'🇸🇦','JOR':'🇯🇴',
+    'MOR':'🇲🇦','PHI':'🇵🇭','VIE':'🇻🇳','HAI':'🇭🇹','GRN':'🇬🇩','TAH':'🇵🇫','FIJ':'🇫🇯'
+  };
+  function wcTF(a) { return WC_TF[a] || WC_TF[(a||'').toUpperCase()] || '🏳'; }
+
+  async function loadWCStandings() {
+    var grid = document.getElementById('wc-groups-dynamic');
+    if (!grid) return;
+    try {
+      var r = await fetch(
+        'https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/standings',
+        { mode: 'cors' }
+      );
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      var data = await r.json();
+
+      var groups = (data.children || data.standings || []).filter(function(g) {
+        return g.standings && g.standings.entries && g.standings.entries.length > 1;
+      });
+      if (groups.length < 2) throw new Error('groups: ' + groups.length);
+
+      var now = new Date();
+
+      grid.innerHTML = groups.map(function(grp) {
+        var label = grp.abbreviation || (grp.name || '').replace(/^Group\s*/i,'') || '?';
+        var entries = grp.standings.entries;
+
+        var colRow = '<div class="wc-col-row"><span class="wc-col-h">팀</span><span class="wc-col-h">P</span><span class="wc-col-h">W</span><span class="wc-col-h">D</span><span class="wc-col-h">L</span><span class="wc-col-h">득</span><span class="wc-col-h">실</span><span class="wc-col-h">승점</span></div>';
+
+        var rows = entries.map(function(e, idx) {
+          var team = e.team || {};
+          var abbr = team.abbreviation || '';
+          var name = team.shortDisplayName || team.displayName || abbr;
+          var flag = wcTF(abbr);
+          var getStat = function(n) {
+            var s = (e.stats||[]).find(function(x){return x.name===n;});
+            return s ? (s.displayValue !== undefined ? String(s.displayValue) : String(s.value||0)) : '0';
+          };
+          /* ESPN note.color 로 진출 상태 판별 */
+          var nc = ((e.note && e.note.color) || '').toLowerCase().replace('#','');
+          var rowCls;
+          if (nc) {
+            if (nc==='3cb442'||nc==='00b140'||nc==='009900'||nc==='green') rowCls = (idx===0?'q1':'q2');
+            else if (nc==='ffb300'||nc==='ff8c00'||nc==='ffa500'||nc==='amber'||nc==='orange') rowCls = 'q3';
+            else rowCls = 'out';
+          } else {
+            rowCls = idx===0?'q1':(idx===1?'q2':'out');
+          }
+          var ptsCls = 'pts'+(idx===0?' hi':'');
+          return '<div class="wc-row '+rowCls+'">'+
+            '<div class="wc-team"><span class="wc-flag">'+flag+'</span><span class="wc-name">'+name+'</span></div>'+
+            '<span class="wc-n">'+getStat('gamesPlayed')+'</span>'+
+            '<span class="wc-n">'+getStat('wins')+'</span>'+
+            '<span class="wc-n">'+getStat('ties')+'</span>'+
+            '<span class="wc-n">'+getStat('losses')+'</span>'+
+            '<span class="wc-n">'+getStat('pointsFor')+'</span>'+
+            '<span class="wc-n">'+getStat('pointsAgainst')+'</span>'+
+            '<span class="wc-n '+ptsCls+'">'+getStat('points')+'</span>'+
+          '</div>';
+        }).join('');
+
+        var played = (entries[0]&&entries[0].stats&&entries[0].stats.find(function(x){return x.name==='gamesPlayed';}));
+        var pgStr = played ? played.displayValue+'경기' : 'LIVE';
+
+        return '<div class="wc-group">'+
+          '<div class="wc-group-hd">'+
+            '<span class="wc-group-label"><em>'+label+'</em>조</span>'+
+            '<span class="wc-group-done" style="color:var(--accent)">'+pgStr+'</span>'+
+          '</div>'+
+          colRow+rows+
+        '</div>';
+      }).join('');
+
+      var disclaimer = document.querySelector('.wc-data-disclaimer');
+      if (disclaimer) {
+        disclaimer.innerHTML = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9 12l2 2 4-4"/></svg> ESPN 실시간 연동 · '+now.toLocaleString('ko-KR',{month:'numeric',day:'numeric',hour:'2-digit',minute:'2-digit'})+' 기준';
+        disclaimer.style.color = 'rgba(212,255,0,.75)';
+      }
+      var pill = document.querySelector('.wc-status-pill');
+      if (pill) pill.innerHTML = '<span class="live-dot"></span>ESPN 실시간 연동 · '+groups.length+'개 그룹';
+
+      var legend = document.querySelector('.wc-legend');
+      if (legend) legend.innerHTML =
+        '<div class="wc-legend-item"><div class="wc-legend-dot" style="background:var(--accent)"></div>32강 진출 (1위)</div>'+
+        '<div class="wc-legend-item"><div class="wc-legend-dot" style="background:rgba(212,255,0,.45)"></div>32강 진출 (2위)</div>'+
+        '<div class="wc-legend-item"><div class="wc-legend-dot" style="background:rgba(255,160,48,.7)"></div>상위 3위 경쟁</div>'+
+        '<div class="wc-legend-item" style="opacity:.5"><div class="wc-legend-dot" style="background:var(--muted)"></div>탈락</div>';
+
+    } catch(err) {
+      console.warn('[WC Standings] ESPN API 실패 — 정적 데이터 유지:', err.message);
+    }
+  }
+
+  loadWCStandings();
+  setInterval(loadWCStandings, 300000); /* 5분마다 갱신 */
+
   /* ── 초기 렌더링 ── */
   buildDynamicResults();
 
@@ -3409,6 +3567,163 @@
   }
 
   /* ESPN 직접 호출은 buildDynamicResults() 에서 통합 관리됩니다 */
+
+  /* ── 종목 네비게이션 동적 생성 ── */
+  var SPORT_NAV = {
+    'wc2026':'⚽ 월드컵 2026','nba':'🏀 NBA','mlb':'⚾ MLB',
+    'f1':'🏎 F1','wimbledon':'🎾 윔블던','motogp':'🏍 MotoGP',
+    'tdf':'🚴 투르드프랑스','nfl':'🏈 NFL','mxgp':'🏍 MXGP',
+    'mtbwc':'🚵 MTB','sls':'🛹 스케이트','snowboard':'🏂 스노보드',
+    'golf':'⛳ 골프','rampage':'🚵 Rampage','cliffdiving':'🧗 클리프다이빙',
+    'bmxwc':'🚲 BMX','waterpolo':'🤽 워터폴로','supercross':'🏍 수퍼크로스',
+    'xgames':'🛹 X Games','wsl':'🏄 서핑'
+  };
+
+  function buildCategoriesNav() {
+    var track = document.getElementById('cat-track');
+    if (!track) return;
+
+    var active = SPORTS_CONFIG.map(function(s) {
+      return { sport: s, info: getSeasonInfo(s) };
+    })
+    .filter(function(item) { return item.info.score >= 40; })
+    .sort(function(a, b) { return b.info.score - a.info.score; });
+
+    var html = '<a href="#" class="cat-link active" data-sport-id="all">전체</a>';
+    active.forEach(function(item) {
+      var s = item.sport;
+      var label = SPORT_NAV[s.id] || s.tag;
+      var isLive = item.info.inSeason;
+      var dot = isLive ? '<span class="cat-live-dot"></span>' : '';
+      html += '<a href="#" class="cat-link' + (isLive ? ' cat-in-season' : '') + '" data-sport-id="' + s.id + '">' + dot + label + '</a>';
+    });
+    track.innerHTML = html;
+
+    /* 클릭 핸들러 */
+    track.querySelectorAll('.cat-link').forEach(function(link) {
+      link.addEventListener('click', function(e) {
+        e.preventDefault();
+        track.querySelectorAll('.cat-link').forEach(function(l) { l.classList.remove('active'); });
+        this.classList.add('active');
+        var sid = this.dataset.sportId;
+        var grid = document.getElementById('dynamic-results-grid');
+        if (!grid) return;
+        grid.querySelectorAll('[data-sport-id]').forEach(function(card) {
+          card.style.display = (sid === 'all' || card.dataset.sportId === sid) ? '' : 'none';
+        });
+        grid.querySelectorAll('.results-section-label').forEach(function(lbl) {
+          lbl.style.display = sid === 'all' ? '' : 'none';
+        });
+        /* 결과 섹션으로 스크롤 */
+        if (sid !== 'all') {
+          var resultsEl = document.getElementById('results');
+          if (resultsEl) resultsEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    });
+  }
+
+  buildCategoriesNav();
+
+  /* ── ESPN 뉴스 로딩 (Idea #3) ── */
+  async function loadEspnNews() {
+    var zone = document.getElementById('news-espn-primary');
+    var fallback = document.getElementById('news-espn-fallback');
+    var countEl = document.getElementById('news-count');
+    if (!zone) return;
+
+    var QUERIES = [
+      { url: 'https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/news?limit=3', tag: '⚽ 월드컵' },
+      { url: 'https://site.api.espn.com/apis/site/v2/sports/basketball/nba/news?limit=2', tag: '🏀 NBA' },
+      { url: 'https://site.api.espn.com/apis/site/v2/sports/baseball/mlb/news?limit=1', tag: '⚾ MLB' }
+    ];
+
+    var allArticles = [];
+    for (var i = 0; i < QUERIES.length && allArticles.length < 4; i++) {
+      try {
+        var r = await fetch(QUERIES[i].url, { mode: 'cors' });
+        if (!r.ok) continue;
+        var data = await r.json();
+        var arts = (data.articles || []).map(function(a) {
+          a._tag = QUERIES[i].tag; return a;
+        });
+        allArticles = allArticles.concat(arts);
+      } catch(e) { /* continue */ }
+    }
+
+    if (allArticles.length < 1) {
+      /* API 실패 — 정적 fallback 표시 */
+      zone.style.display = 'none';
+      if (fallback) fallback.style.display = '';
+      if (countEl) countEl.textContent = '6건';
+      return;
+    }
+
+    /* 카드 생성 */
+    var top = allArticles[0];
+    var sideArts = allArticles.slice(1, 4);
+
+    function fmtDate(iso) {
+      if (!iso) return '';
+      var d = new Date(iso);
+      return d.getFullYear() + '.' + String(d.getMonth()+1).padStart(2,'0') + '.' + String(d.getDate()).padStart(2,'0');
+    }
+    function safeLink(a) {
+      return (a.links && a.links.web && a.links.web.href) ? a.links.web.href : '#';
+    }
+    function safeImg(a) {
+      var img = (a.images || []).find(function(i) { return i.type === 'header' || i.type === 'photo'; }) || (a.images||[])[0];
+      return img ? img.url : '';
+    }
+
+    /* 피처드 카드 */
+    var featImg = safeImg(top);
+    var featHtml = '<article class="card card-featured reveal" tabindex="0"><a href="' + safeLink(top) + '" target="_blank" rel="noopener" style="display:contents;text-decoration:none;color:inherit">' +
+      '<div class="card-bg">' + (featImg ? '<img class="card-photo" src="' + featImg + '" alt="" loading="lazy" onerror="this.style.display=\'none\'">' : '') + '</div>' +
+      '<div class="card-body">' +
+        '<div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;flex-wrap:wrap">' +
+          '<span class="art-badge badge-breaking">ESPN</span>' +
+          '<span class="tag" style="margin:0">' + (top._tag || '') + '</span>' +
+        '</div>' +
+        '<h3 class="card-title card-title-lg">' + (top.headline || '') + '</h3>' +
+        '<p class="card-excerpt">' + (top.description || '') + '</p>' +
+        '<div class="card-engage"><span class="engage-item card-date">' + fmtDate(top.published) + '</span>' +
+        '<span class="engage-item" style="margin-left:auto;color:var(--accent)">ESPN에서 읽기 →</span></div>' +
+      '</div></a></article>';
+
+    /* 사이드 카드들 */
+    var sideHtml = sideArts.map(function(a) {
+      var sImg = safeImg(a);
+      return '<article class="card card-sm reveal"><a href="' + safeLink(a) + '" target="_blank" rel="noopener" style="display:contents;text-decoration:none;color:inherit">' +
+        '<div class="card-bg">' + (sImg ? '<img class="card-photo" src="' + sImg + '" alt="" loading="lazy" onerror="this.style.display=\'none\'">' : '') + '</div>' +
+        '<div class="card-body">' +
+          '<div style="display:flex;align-items:center;gap:6px;margin-bottom:7px">' +
+            '<span class="art-badge badge-breaking">ESPN</span>' +
+            '<span class="tag" style="margin:0">' + (a._tag || '') + '</span>' +
+          '</div>' +
+          '<h3 class="card-title card-title-sm">' + (a.headline || '') + '</h3>' +
+          '<div class="card-engage" style="margin-top:8px"><span class="card-date" style="margin-left:auto;font-family:\'Space Mono\',monospace;font-size:9px;color:var(--muted)">' + fmtDate(a.published) + '</span></div>' +
+        '</div></a></article>';
+    }).join('');
+
+    zone.innerHTML = featHtml + '<div class="news-sidebar">' + sideHtml + '</div>';
+
+    if (countEl) countEl.textContent = 'ESPN ' + allArticles.length + '건 + YouTube 3건';
+
+    /* fallback 숨기기 */
+    if (fallback) fallback.style.display = 'none';
+  }
+
+  loadEspnNews();
+
+  /* ── 자정마다 카테고리 nav 재계산 ── */
+  (function() {
+    var lastDay2 = new Date().toDateString();
+    setInterval(function() {
+      var today2 = new Date().toDateString();
+      if (today2 !== lastDay2) { lastDay2 = today2; buildCategoriesNav(); }
+    }, 60000);
+  })();
 </script>
 
 </body>
