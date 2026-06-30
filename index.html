@@ -16,7 +16,7 @@
       --accent:    #D4FF00;
       --live:      #FF3800;
       --text:      #F4F2EC;
-      --muted:     #7A7870;
+      --muted:     #A8A6A0;
       --border:    #2A2820;
       --gold:      #FFB800;
       --silver:    #A8A8B0;
@@ -1956,6 +1956,64 @@
     ::-webkit-scrollbar-thumb:hover { background: var(--muted); }
 
     :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+    /* ════════════════════════════════════════════
+       가독성 오버라이드 — 전체 페이지 tiny font 통합 수정
+       기준: 한국어 포함 레이블 최소 11px, 영문 전용 최소 10px
+    ════════════════════════════════════════════ */
+
+    /* 카테고리/스포츠 태그 */
+    .tag                { font-size: 11px; }
+    .result-sport       { font-size: 11px; }
+    .sched-sport        { font-size: 11px; }
+
+    /* 경기 일정 */
+    .sched-mon          { font-size: 11px; letter-spacing: .1em; }
+    .sched-name         { font-size: 20px; }
+    .sched-loc          { font-size: 13px; }
+    .badge              { font-size: 11px; padding: 5px 11px; }
+    .sched-btn          { font-size: 12px; color: var(--text); opacity: .75; }
+    .sched-btn:hover    { opacity: 1; color: var(--accent); }
+
+    /* 결과 카드 */
+    .score-lbl          { font-size: 11px; }
+    .result-loc,
+    .result-date        { font-size: 12px; }
+    .athlete-nat        { font-size: 12px; }
+    .data-warn          { font-size: 11px; padding: 3px 9px; }
+
+    /* ESPN 실시간 */
+    .espn-live-stamp    { font-size: 11px; opacity: .85; }
+    .espn-loading span  { font-size: 11px; opacity: .75; }
+    .live-badge         { font-size: 10px; padding: 3px 8px; }
+    .sb-status          { font-size: 10px; }
+    .sb-team-name       { font-size: 11px; }
+    .season-status-badge{ font-size: 10px; }
+    .results-section-label { font-size: 11px; }
+
+    /* 뉴스 카드 */
+    .art-badge          { font-size: 10px; padding: 3px 9px; }
+    .stat-lbl           { font-size: 11px; }
+    .engage-item        { font-size: 11px; }
+    .card-date,
+    .card-byline        { font-size: 12px; }
+    .card-excerpt       { font-size: 14px; color: var(--muted); }
+
+    /* WC/WP 테이블 */
+    .wc-col-h           { font-size: 11px; }
+    .wc-group-done      { font-size: 10px; }
+    .wc-legend-item     { font-size: 11px; }
+    .wc-data-disclaimer { font-size: 11px; opacity: .9; }
+
+    /* 속보 티커 */
+    .ticker-label       { font-size: 11px; }
+    .ticker-item        { font-size: 13px; }
+
+    /* 히어로 사이드 패널 */
+    .hstat-label        { font-size: 11px; }
+
+    /* 푸터 */
+    .footer-heading     { font-size: 11px; letter-spacing: .12em; }
 
     @media (prefers-reduced-motion: reduce) {
       .ticker-inner, .hero-grain, .live-dot, .hero-scroll,
