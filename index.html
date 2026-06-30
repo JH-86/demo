@@ -7,7 +7,7 @@
   <title>SURGE — 익스트림 스포츠 뉴스</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=Inter:wght@300;400;500;600&family=Space+Mono&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=Noto+Sans+KR:wght@300;400;500;700&family=Space+Mono&display=swap" rel="stylesheet">
   <style>
     :root {
       --bg:        #0A0906;
@@ -32,11 +32,13 @@
     body {
       background: var(--bg);
       color: var(--text);
-      font-family: 'Inter', sans-serif;
-      font-size: 16px;
-      line-height: 1.5;
+      font-family: 'Noto Sans KR', 'Inter', sans-serif;
+      font-size: 15px;
+      line-height: 1.65;
       overflow-x: hidden;
       -webkit-font-smoothing: antialiased;
+      word-break: keep-all;
+      overflow-wrap: break-word;
     }
     body.nav-open { overflow: hidden; }
 
@@ -696,7 +698,7 @@
     .card-title-sm { font-size: 17px; }
 
     .card-excerpt {
-      font-size: 13px;
+      font-size: 14px;
       color: var(--muted);
       line-height: 1.65;
       margin-bottom: 16px;
@@ -1484,6 +1486,87 @@
       margin-left: 6px;
       vertical-align: middle;
     }
+    /* ── Multi-game scoreboard (NBA / MLB) ── */
+    .scoreboard-game {
+      display: flex;
+      align-items: center;
+      padding: 9px 0;
+      border-bottom: 1px solid var(--border);
+      gap: 4px;
+      min-height: 44px;
+    }
+    .scoreboard-game:last-child { border-bottom: none; }
+    .sb-side {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      flex: 1;
+      min-width: 0;
+    }
+    .sb-side.home { flex-direction: row-reverse; text-align: right; }
+    .sb-abbr {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 17px;
+      font-weight: 800;
+      letter-spacing: .04em;
+      flex-shrink: 0;
+      min-width: 30px;
+    }
+    .sb-team-name {
+      font-family: 'Noto Sans KR', sans-serif;
+      font-size: 11px;
+      color: var(--muted);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .sb-center {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      flex-shrink: 0;
+      min-width: 114px;
+      justify-content: center;
+    }
+    .sb-score {
+      font-family: 'Space Mono', monospace;
+      font-size: 20px;
+      min-width: 30px;
+      text-align: center;
+      font-variant-numeric: tabular-nums;
+      line-height: 1;
+    }
+    .sb-score.win  { color: var(--text); }
+    .sb-score.lose { color: var(--muted); }
+    .sb-score.tbd  { font-size: 11px; color: var(--muted); font-family: 'Noto Sans KR', sans-serif; }
+    .sb-status-block {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-width: 46px;
+    }
+    .sb-status {
+      font-family: 'Space Mono', monospace;
+      font-size: 8px;
+      letter-spacing: .05em;
+      text-align: center;
+      color: var(--muted);
+      line-height: 1.4;
+      text-transform: uppercase;
+    }
+    .sb-status.live  { color: var(--live); }
+    .sb-status.final { opacity: .5; }
+    @media (max-width: 480px) {
+      .sb-abbr { font-size: 14px; min-width: 24px; }
+      .sb-score { font-size: 17px; min-width: 24px; }
+      .sb-center { min-width: 96px; gap: 3px; }
+      .sb-team-name { display: none; }
+    }
+    /* Result section live accent colors */
+    .result-card--nba { border-top: 2px solid #FF6B35 !important; }
+    .result-card--mlb { border-top: 2px solid #00C8FF !important; }
+    .live-badge--nba { background: #FF6B35; }
+    .live-badge--mlb { background: #00C8FF; color: #0A0906; }
     /* WC standings disclaimer bar */
     .wc-data-disclaimer {
       font-family: 'Space Mono', monospace;
@@ -2079,7 +2162,7 @@
       <div class="sec-title-wrap">
         <div class="sec-accent-bar"></div>
         <h2 class="sec-title">최근 <span>경기 결과</span></h2>
-        <span class="sec-count">6건</span>
+        <span class="sec-count">8건</span>
       </div>
       <a href="#" class="sec-more">전체 결과 →</a>
     </div>
@@ -2184,7 +2267,45 @@
         </a>
       </div>
 
-      <!-- ⑥ LEN CL Water Polo — YouTube 링크만 제공 (API 미지원 종목) -->
+      <!-- ⑥ NBA — ESPN 실시간 연동 -->
+      <div class="result-card result-card--nba reveal">
+        <div class="result-title">
+          NBA — 오늘의 경기
+          <span class="live-badge live-badge--nba">ESPN LIVE</span>
+        </div>
+        <div class="result-meta">
+          <span class="result-sport" style="color:#FF6B35">농구 · ESPN 실시간 연동</span>
+          <span class="espn-live-stamp" id="nba-stamp"></span>
+        </div>
+        <div id="nba-body">
+          <p class="espn-loading">경기 결과 불러오는 중...<span>ESPN API 연결 중</span></p>
+        </div>
+        <a class="result-yt-btn" href="https://www.youtube.com/results?search_query=NBA+best+plays+highlights+2026" target="_blank" rel="noopener" aria-label="NBA 하이라이트">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1C24 15.9 24 12 24 12s0-3.9-.5-5.8z"/><path d="M9.7 15.5V8.5l6.3 3.5-6.3 3.5z" fill="#0A0906"/></svg>
+          하이라이트 보기
+        </a>
+      </div>
+
+      <!-- ⑦ MLB — ESPN 실시간 연동 -->
+      <div class="result-card result-card--mlb reveal">
+        <div class="result-title">
+          MLB — 오늘의 경기
+          <span class="live-badge live-badge--mlb">ESPN LIVE</span>
+        </div>
+        <div class="result-meta">
+          <span class="result-sport" style="color:#00C8FF">야구 · ESPN 실시간 연동</span>
+          <span class="espn-live-stamp" id="mlb-stamp"></span>
+        </div>
+        <div id="mlb-body">
+          <p class="espn-loading">경기 결과 불러오는 중...<span>ESPN API 연결 중</span></p>
+        </div>
+        <a class="result-yt-btn" href="https://www.youtube.com/results?search_query=MLB+best+plays+highlights+today+2026" target="_blank" rel="noopener" aria-label="MLB 하이라이트">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1C24 15.9 24 12 24 12s0-3.9-.5-5.8z"/><path d="M9.7 15.5V8.5l6.3 3.5-6.3 3.5z" fill="#0A0906"/></svg>
+          하이라이트 보기
+        </a>
+      </div>
+
+      <!-- ⑧ LEN CL Water Polo — YouTube 링크만 제공 (API 미지원 종목) -->
       <div class="result-card reveal">
         <div class="result-title">LEN 챔피언스리그 워터폴로 2025–26</div>
         <div class="result-meta">
@@ -2675,6 +2796,99 @@
 
   loadEspnWC();
   setInterval(loadEspnWC, 120000); /* 2분마다 자동 갱신 */
+
+  /* ── ESPN NBA / MLB 실시간 스코어보드 ── */
+  function renderScoreboard(events, max) {
+    max = max || 6;
+    return events.slice(0, max).map(function(ev) {
+      var comp = ev.competitions && ev.competitions[0];
+      if (!comp) return '';
+      var home = (comp.competitors || []).find(function(c) { return c.homeAway === 'home'; }) || (comp.competitors || [])[0];
+      var away = (comp.competitors || []).find(function(c) { return c.homeAway === 'away'; }) || (comp.competitors || [])[1];
+      if (!home || !away) return '';
+
+      var hAbbr = (home.team && home.team.abbreviation) || '?';
+      var aAbbr = (away.team && away.team.abbreviation) || '?';
+      var hName = (home.team && (home.team.shortDisplayName || home.team.displayName)) || '';
+      var aName = (away.team && (away.team.shortDisplayName || away.team.displayName)) || '';
+      var hs    = home.score !== undefined ? home.score : null;
+      var as2   = away.score !== undefined ? away.score : null;
+      var completed = ev.status && ev.status.type && ev.status.type.completed;
+      var inProgress = ev.status && ev.status.type && ev.status.type.id === '2';
+      var statusDetail = (ev.status && (ev.status.displayClock || (ev.status.type && ev.status.type.shortDetail))) || '';
+      var statusClass = completed ? 'final' : (inProgress ? 'live' : '');
+      var statusLabel = completed ? 'FINAL' : (inProgress ? statusDetail : (statusDetail || '예정'));
+      var hasScore = hs !== null && as2 !== null;
+      var hWin = !!home.winner;
+      var aWin = !!away.winner;
+
+      return '<div class="scoreboard-game">' +
+        '<div class="sb-side away">' +
+          '<span class="sb-abbr">' + aAbbr + '</span>' +
+          '<span class="sb-team-name">' + aName + '</span>' +
+        '</div>' +
+        '<div class="sb-center">' +
+          (hasScore
+            ? '<span class="sb-score ' + (aWin ? 'win' : (hWin ? 'lose' : '')) + '">' + as2 + '</span>'
+            : '<span class="sb-score tbd">–</span>') +
+          '<div class="sb-status-block"><span class="sb-status ' + statusClass + '">' + statusLabel + '</span></div>' +
+          (hasScore
+            ? '<span class="sb-score ' + (hWin ? 'win' : (aWin ? 'lose' : '')) + '">' + hs + '</span>'
+            : '<span class="sb-score tbd">–</span>') +
+        '</div>' +
+        '<div class="sb-side home">' +
+          '<span class="sb-abbr">' + hAbbr + '</span>' +
+          '<span class="sb-team-name">' + hName + '</span>' +
+        '</div>' +
+      '</div>';
+    }).join('');
+  }
+
+  async function loadEspnSport(sport, bodyId, stampId) {
+    var body  = document.getElementById(bodyId);
+    var stamp = document.getElementById(stampId);
+    if (!body) return;
+
+    try {
+      var now = new Date();
+      var events = [];
+
+      /* 오늘 + 어제까지 검색 (시즌외에는 2일 전까지) */
+      for (var i = 0; i < 3 && events.length < 1; i++) {
+        var d  = new Date(now.getTime() - i * 86400000);
+        var ds = d.getFullYear() + String(d.getMonth()+1).padStart(2,'0') + String(d.getDate()).padStart(2,'0');
+        var r  = await fetch(
+          'https://site.api.espn.com/apis/site/v2/sports/' + sport + '/scoreboard?dates=' + ds,
+          { mode: 'cors' }
+        );
+        if (!r.ok) continue;
+        var json = await r.json();
+        events = json.events || [];
+      }
+
+      if (!events.length) {
+        body.innerHTML = '<p class="espn-loading">오늘 경기 없음<span>시즌 외 기간이거나 경기 없는 날입니다</span></p>';
+      } else {
+        body.innerHTML = renderScoreboard(events, 6);
+      }
+
+      if (stamp) {
+        stamp.textContent = 'ESPN 실시간 · ' + now.toLocaleTimeString('ko-KR', {hour:'2-digit',minute:'2-digit'}) + ' 업데이트';
+      }
+    } catch(err) {
+      body.innerHTML = '<p class="espn-loading">ESPN 연결 오류<span>잠시 후 재시도됩니다</span></p>';
+      if (stamp) stamp.textContent = '연결 실패 · 재시도 중';
+    }
+  }
+
+  loadEspnSport('basketball/nba', 'nba-body', 'nba-stamp');
+  loadEspnSport('baseball/mlb',   'mlb-body', 'mlb-stamp');
+
+  /* NBA/MLB는 1분마다 갱신 (진행 중 경기 업데이트) */
+  setInterval(function() {
+    loadEspnSport('basketball/nba', 'nba-body', 'nba-stamp');
+    loadEspnSport('baseball/mlb',   'mlb-body', 'mlb-stamp');
+  }, 60000);
 </script>
 
 </body>
