@@ -1565,6 +1565,43 @@
     /* Result section live accent colors */
     .result-card--nba { border-top: 2px solid #FF6B35 !important; }
     .result-card--mlb { border-top: 2px solid #00C8FF !important; }
+
+    /* ── 시즌 상태 배지 ── */
+    .season-status-badge {
+      font-family: 'Space Mono', monospace;
+      font-size: 9px;
+      padding: 2px 7px;
+      border-radius: 2px;
+      letter-spacing: .04em;
+      white-space: nowrap;
+    }
+    .badge-in-season   { background: rgba(212,255,0,.1); color: var(--accent); border: 1px solid rgba(212,255,0,.28); }
+    .badge-just-ended  { background: rgba(255,107,53,.08); color: #FF6B35; border: 1px solid rgba(255,107,53,.22); }
+    .badge-recently-ended { color: var(--muted); border: 1px solid rgba(255,255,255,.1); }
+    .badge-upcoming    { background: rgba(0,200,255,.07); color: #00C8FF; border: 1px solid rgba(0,200,255,.2); }
+    .badge-off-season  { color: var(--muted); opacity: .55; border: 1px solid rgba(255,255,255,.07); }
+
+    /* 시즌 중 카드 상단 강조 */
+    .result-card.card-in-season  { border-top-color: var(--accent) !important; }
+    .result-card.card-just-ended { border-top-color: #FF6B35 !important; }
+
+    /* 비시즌 카드 약간 dimm */
+    .result-card.card-off-season { opacity: .75; }
+    .result-card.card-off-season:hover { opacity: 1; }
+
+    /* 결과 그리드 섹션 구분선 */
+    .results-section-label {
+      grid-column: 1 / -1;
+      font-family: 'Space Mono', monospace;
+      font-size: 9px;
+      letter-spacing: .15em;
+      color: var(--muted);
+      padding: 16px 0 4px;
+      border-top: 1px solid rgba(255,255,255,.06);
+      margin-top: 4px;
+      text-transform: uppercase;
+    }
+    .results-section-label:first-child { border-top: none; padding-top: 0; margin-top: 0; }
     .live-badge--nba { background: #FF6B35; }
     .live-badge--mlb { background: #00C8FF; color: #0A0906; }
 
@@ -2461,166 +2498,13 @@
       <div class="sec-title-wrap">
         <div class="sec-accent-bar"></div>
         <h2 class="sec-title">최근 <span>경기 결과</span></h2>
-        <span class="sec-count">8건</span>
+        <span class="sec-count" id="results-count">로딩 중</span>
       </div>
       <a href="#" class="sec-more">전체 결과 →</a>
     </div>
-    <div class="results-grid">
-
-      <!-- ① Red Bull Rampage -->
-      <div class="result-card reveal">
-        <div class="result-title">Red Bull Rampage 2026</div>
-        <div class="result-meta">
-          <span class="result-sport">마운틴바이크</span>
-          <span class="result-loc">버진, 유타, 미국</span>
-          <span class="result-date">2026.10 예정</span>
-          <span class="data-warn">예시 데이터</span>
-        </div>
-        <div class="podium" role="list" aria-label="시상대 결과">
-          <div class="podium-row p1" role="listitem"><span class="pos">1</span><div><div class="athlete-name">Cam Zink</div><div class="athlete-nat">미국</div></div><div><div class="score-val">97.20</div><div class="score-lbl">점수</div></div></div>
-          <div class="podium-row p2" role="listitem"><span class="pos">2</span><div><div class="athlete-name">Brendan Fairclough</div><div class="athlete-nat">영국</div></div><div><div class="score-val">94.40</div><div class="score-lbl">점수</div></div></div>
-          <div class="podium-row p3" role="listitem"><span class="pos">3</span><div><div class="athlete-name">Kyle Strait</div><div class="athlete-nat">미국</div></div><div><div class="score-val">91.80</div><div class="score-lbl">점수</div></div></div>
-        </div>
-        <a class="result-yt-btn" href="https://www.youtube.com/results?search_query=Red+Bull+Rampage+2026+highlights+full" target="_blank" rel="noopener" aria-label="YouTube 하이라이트">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1C24 15.9 24 12 24 12s0-3.9-.5-5.8z"/><path d="M9.7 15.5V8.5l6.3 3.5-6.3 3.5z" fill="#0A0906"/></svg>
-          하이라이트 보기
-        </a>
-      </div>
-
-      <!-- ② X Games Skateboard -->
-      <div class="result-card reveal">
-        <div class="result-title">X Games Aspen 2026 — 스케이트 스트리트</div>
-        <div class="result-meta">
-          <span class="result-sport">스케이트보드</span>
-          <span class="result-loc">애스펀, 콜로라도, 미국</span>
-          <span class="result-date">2026.01–02</span>
-          <span class="data-warn">예시 데이터</span>
-        </div>
-        <div class="podium" role="list" aria-label="시상대 결과">
-          <div class="podium-row p1" role="listitem"><span class="pos">1</span><div><div class="athlete-name">Nyjah Huston</div><div class="athlete-nat">미국</div></div><div><div class="score-val">95.00</div><div class="score-lbl">점수</div></div></div>
-          <div class="podium-row p2" role="listitem"><span class="pos">2</span><div><div class="athlete-name">Yuto Horigome</div><div class="athlete-nat">일본</div></div><div><div class="score-val">93.60</div><div class="score-lbl">점수</div></div></div>
-          <div class="podium-row p3" role="listitem"><span class="pos">3</span><div><div class="athlete-name">Kelvin Hoefler</div><div class="athlete-nat">브라질</div></div><div><div class="score-val">90.20</div><div class="score-lbl">점수</div></div></div>
-        </div>
-        <a class="result-yt-btn" href="https://www.youtube.com/results?search_query=X+Games+Aspen+2026+skateboard+street+highlights" target="_blank" rel="noopener" aria-label="YouTube 하이라이트">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1C24 15.9 24 12 24 12s0-3.9-.5-5.8z"/><path d="M9.7 15.5V8.5l6.3 3.5-6.3 3.5z" fill="#0A0906"/></svg>
-          하이라이트 보기
-        </a>
-      </div>
-
-      <!-- ③ WSL Surfing -->
-      <div class="result-card reveal">
-        <div class="result-title">WSL 챔피언십 투어 — 파이프라인</div>
-        <div class="result-meta">
-          <span class="result-sport">서핑</span>
-          <span class="result-loc">파이프라인, 하와이, 미국</span>
-          <span class="result-date">2026.12–01</span>
-          <span class="data-warn">예시 데이터</span>
-        </div>
-        <div class="podium" role="list" aria-label="시상대 결과">
-          <div class="podium-row p1" role="listitem"><span class="pos">1</span><div><div class="athlete-name">Gabriel Medina</div><div class="athlete-nat">브라질</div></div><div><div class="score-val">19.97</div><div class="score-lbl">합산</div></div></div>
-          <div class="podium-row p2" role="listitem"><span class="pos">2</span><div><div class="athlete-name">Jack Robinson</div><div class="athlete-nat">호주</div></div><div><div class="score-val">18.43</div><div class="score-lbl">합산</div></div></div>
-          <div class="podium-row p3" role="listitem"><span class="pos">3</span><div><div class="athlete-name">John John Florence</div><div class="athlete-nat">미국</div></div><div><div class="score-val">17.80</div><div class="score-lbl">합산</div></div></div>
-        </div>
-        <a class="result-yt-btn" href="https://www.youtube.com/results?search_query=WSL+Pipeline+Masters+2026+Medina+highlights" target="_blank" rel="noopener" aria-label="YouTube 하이라이트">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1C24 15.9 24 12 24 12s0-3.9-.5-5.8z"/><path d="M9.7 15.5V8.5l6.3 3.5-6.3 3.5z" fill="#0A0906"/></svg>
-          하이라이트 보기
-        </a>
-      </div>
-
-      <!-- ④ AMA Supercross -->
-      <div class="result-card reveal">
-        <div class="result-title">AMA 수퍼크로스 Round 16</div>
-        <div class="result-meta">
-          <span class="result-sport">모토크로스</span>
-          <span class="result-loc">라스베이거스, 네바다, 미국</span>
-          <span class="result-date">2026.01–05</span>
-          <span class="data-warn">예시 데이터</span>
-        </div>
-        <div class="podium" role="list" aria-label="시상대 결과">
-          <div class="podium-row p1" role="listitem"><span class="pos">1</span><div><div class="athlete-name">Chase Sexton</div><div class="athlete-nat">미국</div></div><div><div class="score-val">+0.0s</div><div class="score-lbl">기준</div></div></div>
-          <div class="podium-row p2" role="listitem"><span class="pos">2</span><div><div class="athlete-name">Eli Tomac</div><div class="athlete-nat">미국</div></div><div><div class="score-val">+1.2s</div><div class="score-lbl">차이</div></div></div>
-          <div class="podium-row p3" role="listitem"><span class="pos">3</span><div><div class="athlete-name">Ken Roczen</div><div class="athlete-nat">독일</div></div><div><div class="score-val">+3.7s</div><div class="score-lbl">차이</div></div></div>
-        </div>
-        <a class="result-yt-btn" href="https://www.youtube.com/results?search_query=AMA+Supercross+2026+Round+16+highlights" target="_blank" rel="noopener" aria-label="YouTube 하이라이트">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1C24 15.9 24 12 24 12s0-3.9-.5-5.8z"/><path d="M9.7 15.5V8.5l6.3 3.5-6.3 3.5z" fill="#0A0906"/></svg>
-          하이라이트 보기
-        </a>
-      </div>
-
-      <!-- ⑤ FIFA WC 2026 — ESPN 실시간 연동 -->
-      <div class="result-card result-card--live reveal">
-        <div class="result-title">
-          FIFA 월드컵 2026 — 최신 경기 결과
-          <span class="live-badge">ESPN LIVE</span>
-        </div>
-        <div class="result-meta">
-          <span class="result-sport" style="color:var(--live)">축구 · ESPN 실시간 연동</span>
-          <span class="espn-live-stamp" id="espn-wc-stamp"></span>
-        </div>
-        <div id="espn-wc-body">
-          <p class="espn-loading">경기 결과 불러오는 중...<span>ESPN API 연결 중</span></p>
-        </div>
-        <a class="result-yt-btn" href="https://www.youtube.com/results?search_query=FIFA+World+Cup+2026+best+goals+highlights" target="_blank" rel="noopener" aria-label="YouTube 하이라이트">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1C24 15.9 24 12 24 12s0-3.9-.5-5.8z"/><path d="M9.7 15.5V8.5l6.3 3.5-6.3 3.5z" fill="#0A0906"/></svg>
-          전체 하이라이트
-        </a>
-      </div>
-
-      <!-- ⑥ NBA — ESPN 실시간 연동 -->
-      <div class="result-card result-card--nba reveal">
-        <div class="result-title">
-          NBA — 오늘의 경기
-          <span class="live-badge live-badge--nba">ESPN LIVE</span>
-        </div>
-        <div class="result-meta">
-          <span class="result-sport" style="color:#FF6B35">농구 · ESPN 실시간 연동</span>
-          <span class="espn-live-stamp" id="nba-stamp"></span>
-        </div>
-        <div id="nba-body">
-          <p class="espn-loading">경기 결과 불러오는 중...<span>ESPN API 연결 중</span></p>
-        </div>
-        <a class="result-yt-btn" href="https://www.youtube.com/results?search_query=NBA+best+plays+highlights+2026" target="_blank" rel="noopener" aria-label="NBA 하이라이트">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1C24 15.9 24 12 24 12s0-3.9-.5-5.8z"/><path d="M9.7 15.5V8.5l6.3 3.5-6.3 3.5z" fill="#0A0906"/></svg>
-          하이라이트 보기
-        </a>
-      </div>
-
-      <!-- ⑦ MLB — ESPN 실시간 연동 -->
-      <div class="result-card result-card--mlb reveal">
-        <div class="result-title">
-          MLB — 오늘의 경기
-          <span class="live-badge live-badge--mlb">ESPN LIVE</span>
-        </div>
-        <div class="result-meta">
-          <span class="result-sport" style="color:#00C8FF">야구 · ESPN 실시간 연동</span>
-          <span class="espn-live-stamp" id="mlb-stamp"></span>
-        </div>
-        <div id="mlb-body">
-          <p class="espn-loading">경기 결과 불러오는 중...<span>ESPN API 연결 중</span></p>
-        </div>
-        <a class="result-yt-btn" href="https://www.youtube.com/results?search_query=MLB+best+plays+highlights+today+2026" target="_blank" rel="noopener" aria-label="MLB 하이라이트">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1C24 15.9 24 12 24 12s0-3.9-.5-5.8z"/><path d="M9.7 15.5V8.5l6.3 3.5-6.3 3.5z" fill="#0A0906"/></svg>
-          하이라이트 보기
-        </a>
-      </div>
-
-      <!-- ⑧ LEN CL Water Polo — YouTube 링크만 제공 (API 미지원 종목) -->
-      <div class="result-card reveal">
-        <div class="result-title">LEN 챔피언스리그 워터폴로 2025–26</div>
-        <div class="result-meta">
-          <span class="result-sport" style="color:#00C8FF">워터폴로</span>
-          <span class="result-loc">유럽 각지</span>
-          <span class="data-warn">API 미지원 종목</span>
-        </div>
-        <p style="font-family:'Space Mono',monospace;font-size:10px;color:var(--muted);line-height:1.7;margin:14px 0 0">
-          워터폴로는 공개 실시간 API가 없습니다.<br>아래 버튼으로 최신 경기 하이라이트를 YouTube에서 확인하세요.
-        </p>
-        <a class="result-yt-btn" href="https://www.youtube.com/results?search_query=LEN+Champions+League+water+polo+2026+highlights" target="_blank" rel="noopener" aria-label="YouTube 하이라이트">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1C24 15.9 24 12 24 12s0-3.9-.5-5.8z"/><path d="M9.7 15.5V8.5l6.3 3.5-6.3 3.5z" fill="#0A0906"/></svg>
-          최신 하이라이트 보기
-        </a>
-      </div>
-
+    <!-- JS가 시즌 우선순위 계산 후 동적 렌더링 -->
+    <div class="results-grid" id="dynamic-results-grid">
+      <p class="espn-loading">종목 데이터 로딩 중...<span>시즌 현황 계산 중</span></p>
     </div>
   </div>
 </section>
@@ -3000,9 +2884,270 @@
   };
   function wcFlag(a) { return WC_FLAGS[a] || '🏳'; }
 
-  async function loadEspnWC() {
-    const body  = document.getElementById('espn-wc-body');
-    const stamp = document.getElementById('espn-wc-stamp');
+  /* ════════════════════════════════════════════════════
+     SPORTS CONFIG — 시즌 날짜 & 우선순위
+     hotness: 종목 인기도 기본값 (1–10)
+     seasons: [{start:'YYYY-MM-DD', end:'YYYY-MM-DD'}]
+     espnSport: ESPN API 경로 (없으면 YouTube만)
+     podium: 최근 이벤트 결과 (ESPN 없는 종목)
+  ════════════════════════════════════════════════════ */
+  var SPORTS_CONFIG = [
+    {
+      id: 'wc2026', name: 'FIFA 월드컵 2026', tag: '축구', tagColor: 'var(--live)',
+      espnSport: 'soccer/fifa.world', espnType: 'wc',
+      cardClass: 'result-card--live',
+      badgeHtml: '<span class="live-badge">ESPN LIVE</span>',
+      ytQuery: 'FIFA+World+Cup+2026+goals+highlights', ytLabel: '전체 하이라이트',
+      seasons: [{ start: '2026-06-11', end: '2026-07-19' }],
+      hotness: 10
+    },
+    {
+      id: 'nba', name: 'NBA', tag: '농구', tagColor: '#FF6B35',
+      espnSport: 'basketball/nba', espnType: 'scoreboard',
+      cardClass: 'result-card--nba',
+      badgeHtml: '<span class="live-badge live-badge--nba">ESPN LIVE</span>',
+      ytQuery: 'NBA+best+plays+highlights+2026', ytLabel: '하이라이트 보기',
+      seasons: [{ start: '2025-10-22', end: '2026-06-22' }],
+      hotness: 9
+    },
+    {
+      id: 'mlb', name: 'MLB', tag: '야구', tagColor: '#00C8FF',
+      espnSport: 'baseball/mlb', espnType: 'scoreboard',
+      cardClass: 'result-card--mlb',
+      badgeHtml: '<span class="live-badge live-badge--mlb">ESPN LIVE</span>',
+      ytQuery: 'MLB+best+plays+highlights+today+2026', ytLabel: '하이라이트 보기',
+      seasons: [{ start: '2026-03-25', end: '2026-11-01' }],
+      hotness: 7
+    },
+    {
+      id: 'rampage', name: 'Red Bull Rampage 2026', tag: '마운틴바이크',
+      ytQuery: 'Red+Bull+Rampage+2026+highlights+full', ytLabel: '하이라이트 보기',
+      podium: [
+        { pos:1, name:'Cam Zink',            nat:'미국', score:'97.20', unit:'점수' },
+        { pos:2, name:'Brendan Fairclough',  nat:'영국', score:'94.40', unit:'점수' },
+        { pos:3, name:'Kyle Strait',         nat:'미국', score:'91.80', unit:'점수' }
+      ],
+      seasons: [{ start: '2026-10-01', end: '2026-10-31' }],
+      hotness: 8, isExample: true
+    },
+    {
+      id: 'cliffdiving', name: 'Red Bull Cliff Diving World Series 2026', tag: '클리프다이빙',
+      ytQuery: 'Red+Bull+Cliff+Diving+2026+highlights', ytLabel: '하이라이트 보기',
+      seriesActive: true, /* 단일 이벤트 아닌 시리즈 — 시즌 중 안내 표시 */
+      seasons: [{ start: '2026-05-01', end: '2026-09-30' }],
+      hotness: 5
+    },
+    {
+      id: 'bmxwc', name: 'UCI BMX 프리스타일 월드컵 2026', tag: 'BMX 프리스타일',
+      ytQuery: 'UCI+BMX+Freestyle+World+Cup+2026+Logan+Martin+highlights', ytLabel: '하이라이트 보기',
+      seriesActive: true,
+      seasons: [{ start: '2026-04-01', end: '2026-09-15' }],
+      hotness: 5
+    },
+    {
+      id: 'waterpolo', name: 'LEN 챔피언스리그 워터폴로 2025–26', tag: '워터폴로', tagColor: '#00C8FF',
+      ytQuery: 'LEN+Champions+League+water+polo+2026+highlights', ytLabel: '최신 하이라이트 보기',
+      noApi: true,
+      seasons: [{ start: '2025-10-01', end: '2026-06-01' }],
+      hotness: 5
+    },
+    {
+      id: 'supercross', name: 'AMA 수퍼크로스 2026 (파이널)', tag: '모토크로스',
+      ytQuery: 'AMA+Supercross+2026+final+round+Chase+Sexton+highlights', ytLabel: '하이라이트 보기',
+      podium: [
+        { pos:1, name:'Chase Sexton', nat:'미국', score:'+0.0s', unit:'기준' },
+        { pos:2, name:'Eli Tomac',    nat:'미국', score:'+1.2s', unit:'차이' },
+        { pos:3, name:'Ken Roczen',   nat:'독일', score:'+3.7s', unit:'차이' }
+      ],
+      seasons: [{ start: '2026-01-10', end: '2026-05-09' }],
+      hotness: 6, isExample: true
+    },
+    {
+      id: 'xgames', name: 'X Games Aspen 2026 — 스케이트 스트리트', tag: '스케이트보드',
+      ytQuery: 'X+Games+Aspen+2026+skateboard+street+highlights', ytLabel: '하이라이트 보기',
+      podium: [
+        { pos:1, name:'Nyjah Huston',    nat:'미국',   score:'95.00', unit:'점수' },
+        { pos:2, name:'Yuto Horigome',   nat:'일본',   score:'93.60', unit:'점수' },
+        { pos:3, name:'Kelvin Hoefler',  nat:'브라질', score:'90.20', unit:'점수' }
+      ],
+      seasons: [{ start: '2026-01-22', end: '2026-02-02' }],
+      hotness: 7, isExample: true
+    },
+    {
+      id: 'wsl', name: 'WSL 챔피언십 투어 — 파이프라인', tag: '서핑',
+      ytQuery: 'WSL+Pipeline+Masters+2026+Medina+highlights', ytLabel: '하이라이트 보기',
+      podium: [
+        { pos:1, name:'Gabriel Medina',     nat:'브라질', score:'19.97', unit:'합산' },
+        { pos:2, name:'Jack Robinson',       nat:'호주',   score:'18.43', unit:'합산' },
+        { pos:3, name:'John John Florence',  nat:'미국',   score:'17.80', unit:'합산' }
+      ],
+      seasons: [
+        { start: '2025-12-08', end: '2026-01-10' },
+        { start: '2026-12-08', end: '2027-01-10' }
+      ],
+      hotness: 6, isExample: true
+    }
+  ];
+
+  /* ── 시즌 상태 계산 ── */
+  function getSeasonInfo(sport) {
+    var today = new Date();
+    today.setHours(0,0,0,0);
+    var inSeason = false;
+    var minDaysSince = Infinity;
+    var minDaysTil   = Infinity;
+
+    sport.seasons.forEach(function(s) {
+      var start = new Date(s.start);
+      var end   = new Date(s.end);
+      if (today >= start && today <= end) {
+        inSeason = true;
+      } else if (today > end) {
+        var d = Math.floor((today - end) / 86400000);
+        if (d < minDaysSince) minDaysSince = d;
+      } else {
+        var d = Math.floor((start - today) / 86400000);
+        if (d < minDaysTil) minDaysTil = d;
+      }
+    });
+
+    var score, cls, text;
+    if (inSeason) {
+      score = sport.hotness + 100;
+      cls   = 'in-season';
+      text  = '시즌 진행 중';
+    } else if (minDaysSince <= 7) {
+      score = sport.hotness + 75;
+      cls   = 'just-ended';
+      text  = '시즌 종료 D+' + minDaysSince;
+    } else if (minDaysSince <= 30) {
+      score = sport.hotness + 50;
+      cls   = 'just-ended';
+      text  = '시즌 종료 D+' + minDaysSince;
+    } else if (minDaysSince <= 90) {
+      score = sport.hotness + 20;
+      cls   = 'recently-ended';
+      text  = '시즌 종료 ' + minDaysSince + '일 경과';
+    } else if (minDaysTil <= 30) {
+      score = sport.hotness + 35;
+      cls   = 'upcoming';
+      text  = 'D-' + minDaysTil + ' 개막 예정';
+    } else if (minDaysTil !== Infinity) {
+      score = sport.hotness + (minDaysTil <= 90 ? 10 : 0);
+      cls   = minDaysTil <= 90 ? 'upcoming' : 'off-season';
+      text  = minDaysTil <= 90 ? 'D-' + minDaysTil + ' 개막 예정' : '비시즌';
+    } else {
+      score = sport.hotness;
+      cls   = 'off-season';
+      text  = '비시즌';
+    }
+    return { score: score, cls: cls, text: text, inSeason: inSeason };
+  }
+
+  /* ── 카드 HTML 빌더 ── */
+  var YT_ICON = '<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1C24 15.9 24 12 24 12s0-3.9-.5-5.8z"/><path d="M9.7 15.5V8.5l6.3 3.5-6.3 3.5z" fill="#0A0906"/></svg>';
+
+  function buildPodium(rows) {
+    return '<div class="podium" role="list">' +
+      rows.map(function(r) {
+        return '<div class="podium-row p' + r.pos + '" role="listitem">' +
+          '<span class="pos">' + r.pos + '</span>' +
+          '<div><div class="athlete-name">' + r.name + '</div><div class="athlete-nat">' + r.nat + '</div></div>' +
+          '<div><div class="score-val">' + r.score + '</div><div class="score-lbl">' + r.unit + '</div></div>' +
+        '</div>';
+      }).join('') + '</div>';
+  }
+
+  function buildResultCardHTML(sport, info) {
+    var cardExtra = sport.cardClass || '';
+    /* 비시즌이면 dimm, 시즌 중이면 accent border */
+    var stateClass = info.inSeason ? 'card-in-season' :
+                     (info.cls === 'just-ended' ? 'card-just-ended' :
+                     (info.cls === 'off-season'  ? 'card-off-season' : ''));
+
+    var titleBar = '<div class="result-title">' + sport.name + ' ' + (sport.badgeHtml || '') + '</div>';
+    var seasonBadge = '<span class="season-status-badge badge-' + info.cls + '">' + info.text + '</span>';
+    var warnBadge   = sport.isExample ? '<span class="data-warn">예시 데이터</span>' :
+                      sport.noApi    ? '<span class="data-warn">API 미지원</span>' : '';
+    var tagStyle    = sport.tagColor ? ' style="color:' + sport.tagColor + '"' : '';
+    var metaRow = '<div class="result-meta">' +
+      '<span class="result-sport"' + tagStyle + '>' + sport.tag +
+        (sport.espnSport ? ' · ESPN 실시간' : '') + '</span>' +
+      (sport.espnSport ? '<span class="espn-live-stamp" id="stamp-' + sport.id + '"></span>' : '') +
+      seasonBadge + warnBadge +
+    '</div>';
+
+    var body = '';
+    if (sport.espnSport) {
+      body = '<div id="body-' + sport.id + '"><p class="espn-loading">불러오는 중...<span>ESPN API 연결 중</span></p></div>';
+    } else if (sport.seriesActive && info.inSeason) {
+      body = '<p style="font-family:\'Space Mono\',monospace;font-size:10px;color:var(--muted);line-height:1.7;margin:14px 0 0">' +
+        '현재 시즌 진행 중 · 최신 경기 결과는 아래 YouTube 버튼에서 확인하세요.</p>';
+    } else if (sport.noApi) {
+      body = '<p style="font-family:\'Space Mono\',monospace;font-size:10px;color:var(--muted);line-height:1.7;margin:14px 0 0">' +
+        '공개 실시간 API 미지원 종목 · 아래 버튼으로 최신 하이라이트를 YouTube에서 확인하세요.</p>';
+    } else if (sport.podium) {
+      body = buildPodium(sport.podium);
+    }
+
+    var ytBtn = '<a class="result-yt-btn" href="https://www.youtube.com/results?search_query=' + sport.ytQuery + '" target="_blank" rel="noopener">' +
+      YT_ICON + ' ' + sport.ytLabel + '</a>';
+
+    return '<div class="result-card ' + cardExtra + ' ' + stateClass + ' revealed">' +
+      titleBar + metaRow + body + ytBtn + '</div>';
+  }
+
+  /* ── 결과 그리드 동적 렌더링 ── */
+  function buildDynamicResults() {
+    var grid = document.getElementById('dynamic-results-grid');
+    if (!grid) return;
+
+    /* 우선순위 계산 후 정렬 */
+    var sports = SPORTS_CONFIG.map(function(s) {
+      return { sport: s, info: getSeasonInfo(s) };
+    }).sort(function(a, b) { return b.info.score - a.info.score; });
+
+    /* 시즌 중 그룹 / 비시즌 그룹 구분선 삽입 */
+    var html = '';
+    var shownActive = false, shownEnded = false, shownOff = false;
+    sports.forEach(function(item) {
+      var cls = item.info.cls;
+      if ((cls === 'in-season') && !shownActive) {
+        html += '<div class="results-section-label">🔥 현재 시즌 진행 중</div>';
+        shownActive = true;
+      } else if ((cls === 'just-ended' || cls === 'recently-ended' || cls === 'upcoming') && !shownEnded && shownActive) {
+        html += '<div class="results-section-label">최근 종료 / 예정</div>';
+        shownEnded = true;
+      } else if (cls === 'off-season' && !shownOff && (shownActive || shownEnded)) {
+        html += '<div class="results-section-label">비시즌</div>';
+        shownOff = true;
+      }
+      html += buildResultCardHTML(item.sport, item.info);
+    });
+    grid.innerHTML = html;
+
+    /* 건수 배지 업데이트 */
+    var badge = document.getElementById('results-count');
+    if (badge) badge.textContent = SPORTS_CONFIG.length + '건';
+
+    /* ESPN 데이터 로드 */
+    sports.forEach(function(item) {
+      if (!item.sport.espnSport) return;
+      var bodyId  = 'body-'  + item.sport.id;
+      var stampId = 'stamp-' + item.sport.id;
+      if (item.sport.espnType === 'wc') {
+        loadEspnWC(bodyId, stampId);
+      } else {
+        loadEspnSport(item.sport.espnSport, bodyId, stampId);
+      }
+    });
+  }
+
+  async function loadEspnWC(bodyId, stampId) {
+    bodyId  = bodyId  || 'body-wc2026';
+    stampId = stampId || 'stamp-wc2026';
+    const body  = document.getElementById(bodyId);
+    const stamp = document.getElementById(stampId);
     if (!body) return;
 
     try {
@@ -3093,8 +3238,29 @@
     }
   }
 
-  loadEspnWC();
-  setInterval(loadEspnWC, 120000); /* 2분마다 자동 갱신 */
+  /* ── 초기 렌더링 ── */
+  buildDynamicResults();
+
+  /* ── 자동 갱신: ESPN은 60초, 시즌 순위는 자정마다 재계산 ── */
+  setInterval(function() {
+    /* ESPN 스코어 갱신 (동적 ID 사용) */
+    SPORTS_CONFIG.forEach(function(s) {
+      if (!s.espnSport) return;
+      var bodyId  = 'body-'  + s.id;
+      var stampId = 'stamp-' + s.id;
+      if (s.espnType === 'wc') loadEspnWC(bodyId, stampId);
+      else                     loadEspnSport(s.espnSport, bodyId, stampId);
+    });
+  }, 60000);
+
+  /* 날짜가 바뀌면(자정) 시즌 우선순위 재계산 → 카드 재정렬 */
+  (function() {
+    var lastDay = new Date().toDateString();
+    setInterval(function() {
+      var today = new Date().toDateString();
+      if (today !== lastDay) { lastDay = today; buildDynamicResults(); }
+    }, 60000);
+  })();
 
   /* ── 속보 티커 무한루프 초기화 ── */
   (function() {
@@ -3186,14 +3352,7 @@
     }
   }
 
-  loadEspnSport('basketball/nba', 'nba-body', 'nba-stamp');
-  loadEspnSport('baseball/mlb',   'mlb-body', 'mlb-stamp');
-
-  /* NBA/MLB는 1분마다 갱신 (진행 중 경기 업데이트) */
-  setInterval(function() {
-    loadEspnSport('basketball/nba', 'nba-body', 'nba-stamp');
-    loadEspnSport('baseball/mlb',   'mlb-body', 'mlb-stamp');
-  }, 60000);
+  /* ESPN 직접 호출은 buildDynamicResults() 에서 통합 관리됩니다 */
 </script>
 
 </body>
