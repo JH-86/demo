@@ -3676,34 +3676,40 @@
       return img ? img.url : '';
     }
 
-    /* 피처드 카드 */
+    /* 피처드 카드 — display:contents 사용 금지 (flex 레이아웃 파괴) */
     var featImg = safeImg(top);
-    var featHtml = '<article class="card card-featured reveal" tabindex="0"><a href="' + safeLink(top) + '" target="_blank" rel="noopener" style="display:contents;text-decoration:none;color:inherit">' +
+    var featLink = safeLink(top);
+    var featHtml = '<article class="card card-featured reveal" tabindex="0" onclick="window.open(\'' + featLink + '\',\'_blank\')" style="cursor:pointer">' +
       '<div class="card-bg">' + (featImg ? '<img class="card-photo" src="' + featImg + '" alt="" loading="lazy" onerror="this.style.display=\'none\'">' : '') + '</div>' +
       '<div class="card-body">' +
         '<div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;flex-wrap:wrap">' +
           '<span class="art-badge badge-breaking">ESPN</span>' +
           '<span class="tag" style="margin:0">' + (top._tag || '') + '</span>' +
         '</div>' +
-        '<h3 class="card-title card-title-lg">' + (top.headline || '') + '</h3>' +
+        '<h3 class="card-title card-title-lg"><a href="' + featLink + '" target="_blank" rel="noopener" style="color:inherit;text-decoration:none">' + (top.headline || '') + '</a></h3>' +
         '<p class="card-excerpt">' + (top.description || '') + '</p>' +
-        '<div class="card-engage"><span class="engage-item card-date">' + fmtDate(top.published) + '</span>' +
-        '<span class="engage-item" style="margin-left:auto;color:var(--accent)">ESPN에서 읽기 →</span></div>' +
-      '</div></a></article>';
+        '<div class="card-engage">' +
+          '<span class="engage-item card-date">' + fmtDate(top.published) + '</span>' +
+          '<a href="' + featLink + '" target="_blank" rel="noopener" class="card-read-more" style="opacity:1;transform:none;margin-left:auto">ESPN에서 읽기 →</a>' +
+        '</div>' +
+      '</div>' +
+    '</article>';
 
     /* 사이드 카드들 */
     var sideHtml = sideArts.map(function(a) {
       var sImg = safeImg(a);
-      return '<article class="card card-sm reveal"><a href="' + safeLink(a) + '" target="_blank" rel="noopener" style="display:contents;text-decoration:none;color:inherit">' +
+      var sLink = safeLink(a);
+      return '<article class="card card-sm reveal" onclick="window.open(\'' + sLink + '\',\'_blank\')" style="cursor:pointer">' +
         '<div class="card-bg">' + (sImg ? '<img class="card-photo" src="' + sImg + '" alt="" loading="lazy" onerror="this.style.display=\'none\'">' : '') + '</div>' +
         '<div class="card-body">' +
           '<div style="display:flex;align-items:center;gap:6px;margin-bottom:7px">' +
             '<span class="art-badge badge-breaking">ESPN</span>' +
             '<span class="tag" style="margin:0">' + (a._tag || '') + '</span>' +
           '</div>' +
-          '<h3 class="card-title card-title-sm">' + (a.headline || '') + '</h3>' +
+          '<h3 class="card-title card-title-sm"><a href="' + sLink + '" target="_blank" rel="noopener" style="color:inherit;text-decoration:none">' + (a.headline || '') + '</a></h3>' +
           '<div class="card-engage" style="margin-top:8px"><span class="card-date" style="margin-left:auto;font-family:\'Space Mono\',monospace;font-size:9px;color:var(--muted)">' + fmtDate(a.published) + '</span></div>' +
-        '</div></a></article>';
+        '</div>' +
+      '</article>';
     }).join('');
 
     zone.innerHTML = featHtml + '<div class="news-sidebar">' + sideHtml + '</div>';
