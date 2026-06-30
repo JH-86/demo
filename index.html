@@ -1,0 +1,1783 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#0A0906">
+  <title>SURGE — 익스트림 스포츠 뉴스</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=Inter:wght@300;400;500;600&family=Space+Mono&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg:        #0A0906;
+      --surface:   #141210;
+      --surface-2: #1E1C18;
+      --accent:    #D4FF00;
+      --live:      #FF3800;
+      --text:      #F4F2EC;
+      --muted:     #7A7870;
+      --border:    #2A2820;
+      --gold:      #FFB800;
+      --silver:    #A8A8B0;
+      --bronze:    #C87D4A;
+      --safe-top:    env(safe-area-inset-top, 0px);
+      --safe-bottom: env(safe-area-inset-bottom, 0px);
+      --safe-left:   env(safe-area-inset-left,  0px);
+      --safe-right:  env(safe-area-inset-right, 0px);
+    }
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      font-size: 16px;
+      line-height: 1.5;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+    body.nav-open { overflow: hidden; }
+
+    /* ══════════════════════════════
+       NAVBAR
+    ══════════════════════════════ */
+    .navbar {
+      position: sticky;
+      top: 0;
+      z-index: 300;
+      height: 60px;
+      background: rgba(10,9,6,.97);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: stretch;
+      padding-left: 28px;
+      padding-left: calc(28px + var(--safe-left));
+    }
+
+    .nav-logo {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 26px;
+      font-weight: 800;
+      letter-spacing: .04em;
+      color: var(--text);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      margin-right: 40px;
+      flex-shrink: 0;
+    }
+    .nav-logo span {
+      color: var(--accent);
+      text-shadow: 0 0 24px rgba(212,255,0,.25);
+    }
+
+    /* Desktop nav links */
+    .nav-links {
+      display: flex;
+      list-style: none;
+      height: 100%;
+      flex: 1;
+    }
+    .nav-links li { height: 100%; }
+    .nav-links a {
+      height: 100%;
+      display: flex;
+      align-items: center;
+      padding: 0 16px;
+      font-size: 11.5px;
+      font-weight: 500;
+      letter-spacing: .09em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-decoration: none;
+      position: relative;
+      transition: color .2s;
+      white-space: nowrap;
+    }
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 16px; right: 16px;
+      height: 2px;
+      background: var(--accent);
+      transform: scaleX(0);
+      transform-origin: left center;
+      transition: transform .25s cubic-bezier(.4,0,.2,1);
+    }
+    .nav-links a:hover { color: var(--text); }
+    .nav-links a:hover::after { transform: scaleX(1); }
+    .nav-links a.active { color: var(--accent); }
+    .nav-links a.active::after { transform: scaleX(1); }
+
+    /* Nav right area */
+    .nav-right {
+      display: flex;
+      align-items: center;
+      margin-left: auto;
+      border-left: 1px solid var(--border);
+    }
+    .nav-icon-btn {
+      background: none;
+      border: none;
+      color: var(--muted);
+      cursor: pointer;
+      height: 60px;
+      min-width: 52px;
+      padding: 0 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: color .15s, background .15s;
+      border-right: 1px solid var(--border);
+    }
+    .nav-icon-btn:hover { color: var(--text); background: var(--surface); }
+
+    .live-pill {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      height: 60px;
+      padding: 0 22px;
+      font-family: 'Space Mono', monospace;
+      font-size: 11px;
+      letter-spacing: .1em;
+      color: var(--live);
+      border-right: 1px solid var(--border);
+      white-space: nowrap;
+    }
+    .live-dot {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: var(--live);
+      box-shadow: 0 0 8px var(--live);
+      animation: pulse 1.6s ease-in-out infinite;
+      flex-shrink: 0;
+    }
+    @keyframes pulse {
+      0%,100% { opacity: 1; transform: scale(1); }
+      50%      { opacity: .35; transform: scale(.7); }
+    }
+
+    /* Hamburger — mobile only */
+    .nav-hamburger {
+      display: none;
+      background: none;
+      border: none;
+      color: var(--text);
+      cursor: pointer;
+      height: 60px;
+      width: 60px;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 5px;
+      flex-shrink: 0;
+      padding-right: calc(16px + var(--safe-right));
+    }
+    .ham-bar {
+      display: block;
+      width: 22px;
+      height: 2px;
+      background: var(--text);
+      transition: transform .25s ease, opacity .2s ease, width .2s ease;
+      transform-origin: center;
+    }
+    .nav-hamburger.open .ham-bar:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .nav-hamburger.open .ham-bar:nth-child(2) { opacity: 0; width: 0; }
+    .nav-hamburger.open .ham-bar:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    /* ══════════════════════════════
+       MOBILE NAV OVERLAY
+    ══════════════════════════════ */
+    .mobile-nav {
+      position: fixed;
+      inset: 0;
+      z-index: 500;
+      display: flex;
+      flex-direction: column;
+      background: var(--bg);
+      transform: translateX(100%);
+      transition: transform .32s cubic-bezier(.4,0,.2,1);
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      padding: calc(24px + var(--safe-top)) 28px calc(24px + var(--safe-bottom));
+      padding-left:  calc(28px + var(--safe-left));
+      padding-right: calc(28px + var(--safe-right));
+    }
+    .mobile-nav.open { transform: translateX(0); }
+
+    .mobile-nav-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 48px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 20px;
+    }
+    .mobile-nav-logo {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 28px;
+      font-weight: 800;
+      color: var(--text);
+      text-decoration: none;
+    }
+    .mobile-nav-logo span { color: var(--accent); }
+    .mobile-nav-close {
+      background: none;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      cursor: pointer;
+      width: 44px; height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: border-color .15s, color .15s;
+    }
+    .mobile-nav-close:hover { border-color: var(--accent); color: var(--accent); }
+
+    .mobile-nav-links {
+      list-style: none;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .mobile-nav-links a {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 52px;
+      font-weight: 800;
+      letter-spacing: .01em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-decoration: none;
+      line-height: 1;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: color .15s, padding-left .15s;
+    }
+    .mobile-nav-links a:hover,
+    .mobile-nav-links a.active { color: var(--accent); padding-left: 8px; }
+    .mobile-nav-links a .arrow {
+      font-family: 'Space Mono', monospace;
+      font-size: 14px;
+      opacity: .4;
+      flex-shrink: 0;
+    }
+
+    .mobile-nav-cats {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 36px;
+    }
+    .mobile-cat-pill {
+      font-family: 'Space Mono', monospace;
+      font-size: 10px;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      border: 1px solid var(--border);
+      padding: 8px 14px;
+      text-decoration: none;
+      transition: border-color .15s, color .15s;
+    }
+    .mobile-cat-pill:hover { border-color: var(--accent); color: var(--accent); }
+
+    .mobile-nav-footer {
+      margin-top: 40px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .mobile-live {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-family: 'Space Mono', monospace;
+      font-size: 11px;
+      color: var(--live);
+      letter-spacing: .1em;
+    }
+
+    /* ══════════════════════════════
+       TICKER
+    ══════════════════════════════ */
+    .ticker {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      height: 36px;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+    }
+    .ticker-label {
+      flex-shrink: 0;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      padding: 0 14px;
+      background: var(--live);
+      font-family: 'Space Mono', monospace;
+      font-size: 9px;
+      font-weight: bold;
+      letter-spacing: .12em;
+      color: #fff;
+      margin-right: 16px;
+    }
+    .ticker-track {
+      overflow: hidden;
+      flex: 1;
+      mask-image: linear-gradient(to right, transparent 0%, black 3%, black 97%, transparent 100%);
+      -webkit-mask-image: linear-gradient(to right, transparent 0%, black 3%, black 97%, transparent 100%);
+    }
+    .ticker-inner {
+      display: flex;
+      gap: 60px;
+      white-space: nowrap;
+      animation: scroll-ticker 44s linear infinite;
+    }
+    .ticker-inner:hover { animation-play-state: paused; }
+    .ticker-item { font-size: 12px; color: var(--muted); flex-shrink: 0; }
+    .ticker-item strong { color: var(--text); font-weight: 500; }
+    @keyframes scroll-ticker {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+
+    /* ══════════════════════════════
+       HERO
+    ══════════════════════════════ */
+    .hero {
+      position: relative;
+      width: 100%;
+      height: calc(100svh - 96px);
+      min-height: 480px;
+      max-height: 880px;
+      overflow: hidden;
+      background: #000;
+    }
+    .hero-frame {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%;
+    }
+    .hero-frame video {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      pointer-events: none;
+    }
+    .hero-grain {
+      position: absolute; inset: 0;
+      background-image: repeating-linear-gradient(
+        95deg,
+        transparent 0px, transparent 38px,
+        rgba(212,255,0,.03) 38px, rgba(212,255,0,.03) 39px
+      );
+      animation: grain-move 1.4s linear infinite;
+    }
+    @keyframes grain-move {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-39px); }
+    }
+    .hero-overlay {
+      position: absolute; inset: 0;
+      background:
+        linear-gradient(90deg, rgba(10,9,6,.93) 0%, rgba(10,9,6,.6) 48%, rgba(10,9,6,.1) 100%),
+        linear-gradient(0deg, rgba(10,9,6,.92) 0%, transparent 50%),
+        linear-gradient(180deg, rgba(10,9,6,.4) 0%, transparent 22%);
+    }
+
+    .hero-content {
+      position: absolute;
+      bottom: 0; left: 0;
+      padding: 0 52px 60px;
+      padding-left:  calc(52px + var(--safe-left));
+      padding-right: calc(52px + var(--safe-right));
+      max-width: 760px;
+    }
+    .hero-eyebrow {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+    .hero-tag {
+      font-family: 'Space Mono', monospace;
+      font-size: 10px;
+      letter-spacing: .16em;
+      color: var(--accent);
+      border: 1px solid rgba(212,255,0,.4);
+      padding: 4px 12px;
+      text-transform: uppercase;
+      background: rgba(212,255,0,.05);
+    }
+    .hero-sport-label {
+      font-family: 'Space Mono', monospace;
+      font-size: 10px;
+      letter-spacing: .08em;
+      color: var(--muted);
+      text-transform: uppercase;
+    }
+    .hero-headline {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: clamp(52px, 9vw, 112px);
+      font-weight: 800;
+      line-height: .88;
+      letter-spacing: -.015em;
+      text-transform: uppercase;
+      text-wrap: balance;
+      margin-bottom: 20px;
+    }
+    .hero-headline em { font-style: normal; color: var(--accent); }
+    .hero-desc {
+      font-size: 14px;
+      color: var(--muted);
+      line-height: 1.75;
+      max-width: 460px;
+      margin-bottom: 28px;
+    }
+    .hero-desc strong { color: var(--text); font-weight: 600; }
+    .hero-actions { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+    .btn-primary {
+      background: var(--accent);
+      color: #0a0906;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      padding: 13px 26px;
+      text-decoration: none;
+      display: inline-block;
+      min-height: 44px;
+      display: flex;
+      align-items: center;
+      transition: background .15s, transform .15s;
+    }
+    .btn-primary:hover { background: #c8f500; transform: translateY(-1px); }
+    .hero-date {
+      font-family: 'Space Mono', monospace;
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    /* Scroll indicator */
+    .hero-scroll {
+      position: absolute;
+      bottom: 32px; right: 52px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      opacity: .5;
+      animation: float-ud 2.4s ease-in-out infinite;
+    }
+    .hero-scroll-label {
+      font-family: 'Space Mono', monospace;
+      font-size: 9px;
+      letter-spacing: .18em;
+      color: var(--text);
+      text-transform: uppercase;
+      writing-mode: vertical-rl;
+    }
+    .hero-scroll-line { width: 1px; height: 40px; background: linear-gradient(to bottom, var(--text), transparent); }
+    @keyframes float-ud {
+      0%,100% { transform: translateY(0); }
+      50%      { transform: translateY(6px); }
+    }
+
+    /* Stats panel */
+    .hero-stat-panel {
+      position: absolute;
+      top: 32px; right: 52px;
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+      min-width: 220px;
+    }
+    .hstat-row {
+      background: rgba(10,9,6,.75);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,.07);
+      padding: 10px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 24px;
+    }
+    .hstat-row:first-child { border-top: 2px solid var(--accent); }
+    .hstat-label {
+      font-family: 'Space Mono', monospace;
+      font-size: 9px;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      white-space: nowrap;
+    }
+    .hstat-val {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text);
+      white-space: nowrap;
+    }
+    .hstat-val.accent { color: var(--accent); }
+
+    /* ══════════════════════════════
+       CATEGORIES
+    ══════════════════════════════ */
+    .categories {
+      border-bottom: 1px solid var(--border);
+      overflow-x: auto;
+      scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
+    }
+    .categories::-webkit-scrollbar { display: none; }
+    .cat-track {
+      display: flex;
+      padding-left: 28px;
+      padding-left: calc(28px + var(--safe-left));
+      white-space: nowrap;
+    }
+    .cat-link {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-decoration: none;
+      padding: 0 16px;
+      height: 44px;
+      display: flex;
+      align-items: center;
+      border-right: 1px solid var(--border);
+      position: relative;
+      transition: color .15s;
+      flex-shrink: 0;
+    }
+    .cat-link::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 2px;
+      background: var(--accent);
+      transform: scaleX(0);
+      transition: transform .2s ease;
+    }
+    .cat-link:hover { color: var(--text); }
+    .cat-link:hover::after { transform: scaleX(1); }
+    .cat-link.active {
+      color: #0a0906;
+      background: var(--accent);
+      font-weight: 600;
+      border-color: var(--accent);
+    }
+    .cat-link.active::after { display: none; }
+
+    /* ══════════════════════════════
+       LAYOUT
+    ══════════════════════════════ */
+    .wrap {
+      max-width: 1440px;
+      margin: 0 auto;
+      padding: 0 28px;
+      padding-left:  calc(28px + var(--safe-left));
+      padding-right: calc(28px + var(--safe-right));
+    }
+
+    /* Section header */
+    .sec-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 40px 0 18px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 2px;
+      gap: 12px;
+    }
+    .sec-title-wrap { display: flex; align-items: center; gap: 14px; flex-shrink: 0; }
+    .sec-accent-bar { width: 3px; height: 28px; background: var(--accent); flex-shrink: 0; }
+    .sec-title {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 28px;
+      font-weight: 800;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+    .sec-title span { color: var(--accent); }
+    .sec-count {
+      font-family: 'Space Mono', monospace;
+      font-size: 10px;
+      color: var(--muted);
+      border: 1px solid var(--border);
+      padding: 3px 9px;
+      letter-spacing: .06em;
+      white-space: nowrap;
+    }
+    .sec-more {
+      font-family: 'Space Mono', monospace;
+      font-size: 10px;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: color .15s;
+      white-space: nowrap;
+      padding: 8px 0;
+    }
+    .sec-more:hover { color: var(--accent); }
+
+    /* ══════════════════════════════
+       NEWS GRID
+    ══════════════════════════════ */
+    .news-primary {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 2px;
+      background: var(--border);
+    }
+    .news-sidebar { display: flex; flex-direction: column; gap: 2px; background: var(--border); }
+
+    .card {
+      background: var(--surface);
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+    }
+    .card-bg {
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, #111008, #1a1810);
+      transition: transform .5s cubic-bezier(.4,0,.2,1);
+    }
+    .card:hover .card-bg { transform: scale(1.04); }
+    .card-bg.sk  { background: linear-gradient(135deg, #0e0a14, #15102a); }
+    .card-bg.mx  { background: linear-gradient(135deg, #140806, #220e06); }
+    .card-bg.wsl { background: linear-gradient(135deg, #060e14, #07182c); }
+    .card-bg.sb  { background: linear-gradient(135deg, #08090f, #0e1022); }
+    .card-bg.bmx { background: linear-gradient(135deg, #100608, #1c0812); }
+    .card-bg::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(10,9,6,.97) 0%, rgba(10,9,6,.45) 55%, transparent 100%);
+    }
+    .card-body { position: relative; z-index: 1; padding: 24px; }
+    .tag {
+      font-family: 'Space Mono', monospace;
+      font-size: 9px;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+      color: var(--accent);
+      display: block;
+      margin-bottom: 10px;
+    }
+    .card-title {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .01em;
+      line-height: 1.05;
+      transition: color .15s;
+    }
+    .card:hover .card-title { color: var(--accent); }
+    .card-title-lg { font-size: 38px; margin-bottom: 12px; }
+    .card-title-md { font-size: 20px; margin-bottom: 8px; }
+    .card-title-sm { font-size: 17px; }
+
+    .card-excerpt {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.65;
+      margin-bottom: 16px;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .card-foot { display: flex; align-items: center; gap: 8px; }
+    .card-date, .card-byline {
+      font-family: 'Space Mono', monospace;
+      font-size: 10px;
+      color: var(--muted);
+    }
+    .card-sep { font-size: 10px; color: var(--border); }
+
+    .card-featured {
+      min-height: 500px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+    }
+    .card-read-more {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: 'Space Mono', monospace;
+      font-size: 10px;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-top: 14px;
+      opacity: 0;
+      transform: translateX(-8px);
+      transition: opacity .25s, transform .25s;
+    }
+    .card-featured:hover .card-read-more { opacity: 1; transform: translateX(0); }
+
+    .card-sm {
+      flex: 1;
+      min-height: 158px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+    }
+    .card-sm .card-body { padding: 16px 20px; }
+    .card-sm::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 3px;
+      background: var(--accent);
+      transform: scaleY(0);
+      transform-origin: bottom;
+      transition: transform .25s ease;
+      z-index: 2;
+    }
+    .card-sm:hover::before { transform: scaleY(1); }
+
+    .news-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+      background: var(--border);
+      margin-top: 2px;
+    }
+    .card-row {
+      background: var(--surface);
+      padding: 22px;
+      min-height: 195px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      cursor: pointer;
+      border-top: 2px solid transparent;
+      transition: border-top-color .2s, background .15s;
+    }
+    .card-row:hover { border-top-color: var(--accent); background: var(--surface-2); }
+    .card-row:hover .card-title { color: var(--accent); }
+
+    /* ══════════════════════════════
+       RESULTS
+    ══════════════════════════════ */
+    .results-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(min(100%, 360px), 1fr));
+      gap: 2px;
+      background: var(--border);
+    }
+    .result-card {
+      background: var(--surface);
+      padding: 22px;
+      border-top: 2px solid var(--border);
+      transition: border-top-color .2s, background .15s;
+    }
+    .result-card:hover { border-top-color: var(--accent); background: var(--surface-2); }
+    .result-title {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 20px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .02em;
+      margin-bottom: 6px;
+      transition: color .15s;
+      line-height: 1.15;
+    }
+    .result-card:hover .result-title { color: var(--accent); }
+    .result-meta {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+    .result-sport {
+      font-family: 'Space Mono', monospace;
+      font-size: 9px;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+    .result-loc, .result-date {
+      font-family: 'Space Mono', monospace;
+      font-size: 10px;
+      color: var(--muted);
+    }
+
+    .podium { display: flex; flex-direction: column; gap: 5px; }
+    .podium-row {
+      display: grid;
+      grid-template-columns: 26px 1fr auto;
+      align-items: center;
+      gap: 12px;
+      padding: 9px 12px;
+      background: var(--surface-2);
+      transition: background .15s;
+    }
+    .result-card:hover .podium-row { background: rgba(30,28,24,.8); }
+    .podium-row.p1 { border-left: 3px solid var(--gold); }
+    .podium-row.p2 { border-left: 3px solid var(--silver); }
+    .podium-row.p3 { border-left: 3px solid var(--bronze); }
+    .pos {
+      font-family: 'Space Mono', monospace;
+      font-size: 15px;
+      font-weight: bold;
+      text-align: center;
+      color: var(--muted);
+    }
+    .p1 .pos { color: var(--gold); }
+    .p2 .pos { color: var(--silver); }
+    .p3 .pos { color: var(--bronze); }
+    .athlete-name {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 17px;
+      font-weight: 700;
+      text-transform: uppercase;
+      line-height: 1.1;
+    }
+    .athlete-nat {
+      font-family: 'Space Mono', monospace;
+      font-size: 10px;
+      color: var(--muted);
+    }
+    .score-val {
+      font-family: 'Space Mono', monospace;
+      font-size: 15px;
+      color: var(--text);
+      text-align: right;
+      font-variant-numeric: tabular-nums;
+    }
+    .score-lbl {
+      font-family: 'Space Mono', monospace;
+      font-size: 9px;
+      color: var(--muted);
+      text-align: right;
+    }
+
+    /* ══════════════════════════════
+       SCHEDULE
+    ══════════════════════════════ */
+    .schedule-list { display: flex; flex-direction: column; gap: 2px; background: var(--border); }
+    .sched-item {
+      background: var(--surface);
+      display: grid;
+      grid-template-columns: 76px 1fr 130px;
+      align-items: stretch;
+      border-left: 3px solid transparent;
+      transition: background .15s, border-left-color .2s;
+    }
+    .sched-item:hover { background: var(--surface-2); border-left-color: var(--accent); }
+    .sched-date {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 16px 10px;
+      background: var(--surface-2);
+      border-right: 1px solid var(--border);
+      flex-shrink: 0;
+      transition: background .15s;
+    }
+    .sched-item:hover .sched-date { background: rgba(30,28,24,.7); }
+    .sched-mon {
+      font-family: 'Space Mono', monospace;
+      font-size: 9px;
+      letter-spacing: .14em;
+      color: var(--muted);
+      text-transform: uppercase;
+    }
+    .sched-day {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 34px;
+      font-weight: 800;
+      color: var(--text);
+      line-height: 1;
+      transition: color .15s;
+    }
+    .sched-item:hover .sched-day { color: var(--accent); }
+    .sched-info {
+      padding: 14px 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 5px;
+      min-width: 0;
+    }
+    .sched-name {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 19px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .02em;
+      line-height: 1.1;
+      transition: color .15s, transform .2s;
+    }
+    .sched-item:hover .sched-name { color: var(--accent); transform: translateX(4px); }
+    .sched-meta { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+    .sched-sport {
+      font-family: 'Space Mono', monospace;
+      font-size: 9px;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+    .sched-loc {
+      font-family: 'Space Mono', monospace;
+      font-size: 10px;
+      color: var(--muted);
+    }
+    .sched-action {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 0 16px;
+      border-left: 1px solid var(--border);
+    }
+    .badge {
+      font-family: 'Space Mono', monospace;
+      font-size: 9px;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border: 1px solid;
+      white-space: nowrap;
+    }
+    .badge-soon {
+      color: var(--accent);
+      border-color: rgba(212,255,0,.4);
+      background: rgba(212,255,0,.05);
+      animation: badge-glow 2s ease-in-out infinite;
+    }
+    @keyframes badge-glow {
+      0%,100% { box-shadow: none; }
+      50%      { box-shadow: 0 0 8px rgba(212,255,0,.2); }
+    }
+    .badge-open    { color: #FF9500; border-color: rgba(255,149,0,.4); background: rgba(255,149,0,.05); }
+    .badge-default { color: var(--muted); border-color: var(--border); }
+    .sched-btn {
+      font-family: 'Space Mono', monospace;
+      font-size: 10px;
+      letter-spacing: .07em;
+      text-transform: uppercase;
+      color: var(--muted);
+      border: 1px solid var(--border);
+      padding: 9px 14px;
+      text-decoration: none;
+      white-space: nowrap;
+      min-height: 36px;
+      display: flex;
+      align-items: center;
+      transition: border-color .15s, color .15s, background .15s;
+    }
+    .sched-btn:hover { border-color: var(--accent); color: var(--accent); background: rgba(212,255,0,.04); }
+
+    /* ══════════════════════════════
+       FOOTER
+    ══════════════════════════════ */
+    footer {
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      margin-top: 64px;
+    }
+    .footer-accent-bar {
+      height: 3px;
+      background: linear-gradient(90deg, var(--accent) 0%, rgba(212,255,0,.2) 60%, transparent 100%);
+    }
+    .footer-inner-wrap {
+      padding: 52px 28px calc(32px + var(--safe-bottom));
+      padding-left:  calc(28px + var(--safe-left));
+      padding-right: calc(28px + var(--safe-right));
+    }
+    .footer-grid {
+      max-width: 1440px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1.4fr 1fr 1fr 1fr;
+      gap: 48px;
+    }
+    .footer-logo {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 38px;
+      font-weight: 800;
+      margin-bottom: 14px;
+    }
+    .footer-logo span { color: var(--accent); }
+    .footer-tagline { font-size: 13px; color: var(--muted); line-height: 1.75; margin-bottom: 20px; }
+    .footer-social { display: flex; gap: 8px; }
+    .footer-social-link {
+      width: 40px; height: 40px;
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--muted);
+      text-decoration: none;
+      font-family: 'Space Mono', monospace;
+      font-size: 10px;
+      transition: border-color .15s, color .15s;
+    }
+    .footer-social-link:hover { border-color: var(--accent); color: var(--accent); }
+    .footer-heading {
+      font-family: 'Space Mono', monospace;
+      font-size: 9px;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 16px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--border);
+    }
+    .footer-links { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .footer-links a {
+      font-size: 13px;
+      color: var(--muted);
+      text-decoration: none;
+      display: block;
+      padding: 3px 0;
+      transition: color .12s, padding-left .12s;
+    }
+    .footer-links a:hover { color: var(--text); padding-left: 6px; }
+    .footer-bottom {
+      max-width: 1440px;
+      margin: 40px auto 0;
+      padding-top: 22px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .footer-copy {
+      font-family: 'Space Mono', monospace;
+      font-size: 10px;
+      color: var(--muted);
+    }
+
+    /* ══════════════════════════════
+       SCROLL REVEAL
+    ══════════════════════════════ */
+    .reveal {
+      opacity: 0;
+      transform: translateY(18px);
+      transition: opacity .5s ease, transform .5s ease;
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* ══════════════════════════════
+       RESPONSIVE — TABLET 769–1024
+    ══════════════════════════════ */
+    @media (max-width: 1024px) {
+      .news-primary { grid-template-columns: 1fr; }
+      .card-featured { min-height: 400px; }
+      .footer-grid { grid-template-columns: 1fr 1fr; gap: 32px; }
+      .hero-stat-panel { display: none; }
+    }
+
+    /* ══════════════════════════════
+       RESPONSIVE — MOBILE ≤ 768px
+    ══════════════════════════════ */
+    @media (max-width: 768px) {
+
+      /* Navbar */
+      .nav-links  { display: none; }
+      .nav-icon-btn { display: none; }
+      .nav-logo   { margin-right: 0; font-size: 24px; }
+      .live-pill  { padding: 0 16px; }
+      .nav-hamburger {
+        display: flex;
+        padding-right: calc(16px + var(--safe-right));
+      }
+
+      /* Ticker */
+      .ticker { height: 32px; }
+      .ticker-label { padding: 0 12px; font-size: 8px; }
+      .ticker-item { font-size: 11px; }
+
+      /* Hero */
+      .hero { height: calc(100svh - 68px); min-height: 420px; }
+      .hero-content {
+        padding: 0 20px calc(36px + var(--safe-bottom));
+        padding-left:  calc(20px + var(--safe-left));
+        padding-right: calc(20px + var(--safe-right));
+        max-width: 100%;
+      }
+      .hero-headline { font-size: clamp(44px, 12vw, 72px); margin-bottom: 14px; }
+      .hero-sport-label { display: none; }
+      .hero-desc { font-size: 13.5px; max-width: 100%; margin-bottom: 22px; }
+      .hero-scroll { display: none; }
+      .hero-overlay {
+        background:
+          linear-gradient(0deg, rgba(10,9,6,.95) 0%, rgba(10,9,6,.5) 50%, rgba(10,9,6,.3) 100%),
+          linear-gradient(90deg, rgba(10,9,6,.6) 0%, transparent 100%);
+      }
+
+      /* Categories — larger touch targets on mobile */
+      .cat-link { height: 48px; padding: 0 14px; font-size: 10.5px; }
+
+      /* Section headers */
+      .sec-header { padding: 28px 0 14px; }
+      .sec-title  { font-size: 22px; }
+      .sec-count  { display: none; }
+
+      /* News */
+      .news-row   { grid-template-columns: 1fr; }
+      .card-row   { min-height: auto; padding: 18px; }
+      .card-featured { min-height: 340px; }
+      .card-title-lg  { font-size: 28px; }
+      .card-body  { padding: 18px; }
+      .card-read-more { display: none; }
+
+      /* Results */
+      .results-grid { grid-template-columns: 1fr; }
+      .result-title { font-size: 17px; }
+      .athlete-name { font-size: 15px; }
+
+      /* Schedule — show badge inline, hide detail button */
+      .sched-item   { grid-template-columns: 62px 1fr auto; }
+      .sched-action {
+        flex-direction: column;
+        gap: 0;
+        padding: 0 12px;
+      }
+      .sched-btn  { display: none; }
+      .badge { font-size: 8px; padding: 3px 8px; }
+      .sched-name { font-size: 15px; }
+      .sched-day  { font-size: 28px; }
+      .sched-loc  { display: none; }
+      .sched-info { padding: 12px 16px; }
+
+      /* Footer */
+      .footer-grid  { grid-template-columns: 1fr; gap: 28px; }
+      .footer-bottom { flex-direction: column; gap: 8px; text-align: center; }
+      .footer-inner-wrap { padding: 36px 20px calc(24px + var(--safe-bottom)); }
+    }
+
+    /* ══════════════════════════════
+       RESPONSIVE — SMALL PHONE ≤ 480px
+    ══════════════════════════════ */
+    @media (max-width: 480px) {
+      .navbar { padding-left: calc(16px + var(--safe-left)); }
+      .nav-logo { font-size: 22px; }
+      .wrap {
+        padding-left:  calc(16px + var(--safe-left));
+        padding-right: calc(16px + var(--safe-right));
+      }
+      .hero-content {
+        padding-left:  calc(16px + var(--safe-left));
+        padding-right: calc(16px + var(--safe-right));
+      }
+      .cat-track { padding-left: calc(16px + var(--safe-left)); }
+      .hero-headline { font-size: clamp(40px, 13vw, 64px); }
+      .hero-eyebrow  { gap: 8px; }
+      .hero-tag      { font-size: 9px; padding: 3px 9px; }
+      .btn-primary   { font-size: 11px; padding: 12px 20px; }
+      .card-title-lg { font-size: 24px; }
+      .mobile-nav-links a { font-size: 42px; padding: 10px 0; }
+      .result-title  { font-size: 15px; }
+      .athlete-name  { font-size: 14px; }
+      .score-val     { font-size: 13px; }
+    }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar { width: 5px; height: 5px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--border); }
+    ::-webkit-scrollbar-thumb:hover { background: var(--muted); }
+
+    :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+    @media (prefers-reduced-motion: reduce) {
+      .ticker-inner, .hero-grain, .live-dot, .hero-scroll,
+      .badge-soon, .reveal, .mobile-nav,
+      .card-bg, .sched-name, .sched-day, .ham-bar {
+        animation: none !important;
+        transition: none !important;
+      }
+      .reveal { opacity: 1; transform: none; }
+      .mobile-nav { transition: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══ MOBILE NAV OVERLAY ══ -->
+<div class="mobile-nav" id="mobileNav" role="dialog" aria-modal="true" aria-label="내비게이션 메뉴">
+  <div class="mobile-nav-header">
+    <a href="#" class="mobile-nav-logo" id="mobileNavLogoLink">SUR<span>GE</span></a>
+    <button class="mobile-nav-close" id="mobileNavClose" aria-label="메뉴 닫기">
+      <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" viewBox="0 0 24 24">
+        <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+      </svg>
+    </button>
+  </div>
+
+  <ul class="mobile-nav-links">
+    <li><a href="#news"     class="active" id="mnav-news"    >뉴스<span class="arrow">→</span></a></li>
+    <li><a href="#results"              id="mnav-results"  >경기 결과<span class="arrow">→</span></a></li>
+    <li><a href="#schedule"             id="mnav-schedule" >경기 일정<span class="arrow">→</span></a></li>
+    <li><a href="#"                                        >종목<span class="arrow">→</span></a></li>
+    <li><a href="#"                                        >선수<span class="arrow">→</span></a></li>
+  </ul>
+
+  <div class="mobile-nav-cats">
+    <a href="#" class="mobile-cat-pill">스케이트보드</a>
+    <a href="#" class="mobile-cat-pill">BMX</a>
+    <a href="#" class="mobile-cat-pill">모토크로스</a>
+    <a href="#" class="mobile-cat-pill">마운틴바이크</a>
+    <a href="#" class="mobile-cat-pill">서핑</a>
+    <a href="#" class="mobile-cat-pill">스노보드</a>
+    <a href="#" class="mobile-cat-pill">클리프다이빙</a>
+  </div>
+
+  <div class="mobile-nav-footer">
+    <div class="mobile-live">
+      <span class="live-dot" aria-hidden="true"></span>
+      LIVE NOW
+    </div>
+    <div class="footer-social" style="margin-top:0">
+      <a href="#" class="footer-social-link" aria-label="인스타그램">IG</a>
+      <a href="#" class="footer-social-link" aria-label="유튜브">YT</a>
+      <a href="#" class="footer-social-link" aria-label="X">X</a>
+    </div>
+  </div>
+</div>
+
+<!-- ══ NAVBAR ══ -->
+<nav class="navbar" role="navigation" aria-label="메인 내비게이션">
+  <a href="#" class="nav-logo">SUR<span>GE</span></a>
+
+  <ul class="nav-links">
+    <li><a href="#news"     id="nav-news"     class="active">뉴스</a></li>
+    <li><a href="#results"  id="nav-results"               >경기 결과</a></li>
+    <li><a href="#schedule" id="nav-schedule"              >경기 일정</a></li>
+    <li><a href="#"                                        >종목</a></li>
+    <li><a href="#"                                        >선수</a></li>
+  </ul>
+
+  <div class="nav-right">
+    <button class="nav-icon-btn" aria-label="검색">
+      <svg width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" viewBox="0 0 24 24">
+        <circle cx="11" cy="11" r="7.5"/>
+        <line x1="16.5" y1="16.5" x2="22" y2="22"/>
+      </svg>
+    </button>
+    <div class="live-pill" aria-label="라이브 진행 중">
+      <span class="live-dot" aria-hidden="true"></span>
+      LIVE
+    </div>
+    <button class="nav-hamburger" id="navHamburger" aria-label="메뉴 열기" aria-expanded="false" aria-controls="mobileNav">
+      <span class="ham-bar"></span>
+      <span class="ham-bar"></span>
+      <span class="ham-bar"></span>
+    </button>
+  </div>
+</nav>
+
+<!-- ══ TICKER ══ -->
+<div class="ticker" aria-label="속보">
+  <div class="ticker-label" aria-hidden="true">속보</div>
+  <div class="ticker-track" aria-live="off">
+    <div class="ticker-inner">
+      <span class="ticker-item"><strong>Red Bull Rampage 2026</strong> — Cam Zink, 역대 최고 97.2점으로 우승</span>
+      <span class="ticker-item"><strong>X Games Ventura</strong> — 세계 톱 100 선수 참가 확정, 등록 마감 D-15</span>
+      <span class="ticker-item"><strong>WSL 파이프라인</strong> — Gabriel Medina, 퍼펙트 10점 획득</span>
+      <span class="ticker-item"><strong>UCI MTB 월드컵</strong> — Les Gets 라운드 결과 오후 6시 발표 예정</span>
+      <span class="ticker-item"><strong>AMA 수퍼크로스</strong> — Chase Sexton, 시즌 5승으로 랭킹 1위 등극</span>
+      <span class="ticker-item"><strong>Red Bull X-Fighters 서울</strong> — 9월 20일 잠실 개최 공식 확정</span>
+      <span class="ticker-item"><strong>Red Bull Rampage 2026</strong> — Cam Zink, 역대 최고 97.2점으로 우승</span>
+      <span class="ticker-item"><strong>X Games Ventura</strong> — 세계 톱 100 선수 참가 확정, 등록 마감 D-15</span>
+      <span class="ticker-item"><strong>WSL 파이프라인</strong> — Gabriel Medina, 퍼펙트 10점 획득</span>
+      <span class="ticker-item"><strong>UCI MTB 월드컵</strong> — Les Gets 라운드 결과 오후 6시 발표 예정</span>
+      <span class="ticker-item"><strong>AMA 수퍼크로스</strong> — Chase Sexton, 시즌 5승으로 랭킹 1위 등극</span>
+      <span class="ticker-item"><strong>Red Bull X-Fighters 서울</strong> — 9월 20일 잠실 개최 공식 확정</span>
+    </div>
+  </div>
+</div>
+
+<!-- ══ HERO ══ -->
+<section class="hero" aria-label="주요 뉴스 및 영상">
+  <div class="hero-frame">
+    <video autoplay muted loop playsinline>
+      <source src="../제목 없는 동영상.mp4" type="video/mp4">
+    </video>
+  </div>
+  <div class="hero-grain"   aria-hidden="true"></div>
+  <div class="hero-overlay" aria-hidden="true"></div>
+
+  <aside class="hero-stat-panel" aria-label="실시간 스탯">
+    <div class="hstat-row">
+      <span class="hstat-label">수퍼크로스 1위</span>
+      <span class="hstat-val accent">C. SEXTON</span>
+    </div>
+    <div class="hstat-row">
+      <span class="hstat-label">Rampage 최고점</span>
+      <span class="hstat-val">97.20 pts</span>
+    </div>
+    <div class="hstat-row">
+      <span class="hstat-label">다음 이벤트</span>
+      <span class="hstat-val">D-15</span>
+    </div>
+  </aside>
+
+  <div class="hero-content">
+    <div class="hero-eyebrow">
+      <span class="hero-tag">BREAKING</span>
+      <span class="hero-sport-label">마운틴바이크 / Red Bull Rampage</span>
+    </div>
+    <h1 class="hero-headline">한계를<br>넘어서<em>라</em></h1>
+    <p class="hero-desc">
+      Cam Zink이 유타주 버진 사막의 수직 절벽에서 21m 드롭 직후 더블 백플립을 성공시키며
+      2026 Red Bull Rampage 역사상 최고 점수 <strong>97.2점</strong>으로 정상에 올랐다.
+    </p>
+    <div class="hero-actions">
+      <a href="#" class="btn-primary">전체 기사 보기</a>
+      <span class="hero-date">2026.06.28</span>
+    </div>
+  </div>
+
+  <div class="hero-scroll" aria-hidden="true">
+    <span class="hero-scroll-label">SCROLL</span>
+    <div class="hero-scroll-line"></div>
+  </div>
+</section>
+
+<!-- ══ CATEGORIES ══ -->
+<nav class="categories" aria-label="스포츠 종목 필터">
+  <div class="cat-track">
+    <a href="#" class="cat-link active">전체</a>
+    <a href="#" class="cat-link">스케이트보드</a>
+    <a href="#" class="cat-link">BMX</a>
+    <a href="#" class="cat-link">모토크로스</a>
+    <a href="#" class="cat-link">마운틴바이크</a>
+    <a href="#" class="cat-link">서핑</a>
+    <a href="#" class="cat-link">스노보드</a>
+    <a href="#" class="cat-link">클리프다이빙</a>
+    <a href="#" class="cat-link">파쿠르</a>
+    <a href="#" class="cat-link">윙슈트</a>
+  </div>
+</nav>
+
+<!-- ══ NEWS ══ -->
+<main id="news">
+  <div class="wrap">
+    <div class="sec-header">
+      <div class="sec-title-wrap">
+        <div class="sec-accent-bar"></div>
+        <h2 class="sec-title">최신 <span>뉴스</span></h2>
+        <span class="sec-count">6건</span>
+      </div>
+      <a href="#" class="sec-more">모든 뉴스 →</a>
+    </div>
+
+    <div class="news-primary">
+      <article class="card card-featured reveal" tabindex="0">
+        <div class="card-bg"></div>
+        <div class="card-body">
+          <span class="tag">마운틴바이크</span>
+          <h3 class="card-title card-title-lg">Cam Zink, 21m 드롭 후 더블 플립으로 Rampage 역사 새로 써</h3>
+          <p class="card-excerpt">
+            유타주 버진 사막에서 열린 2026 Red Bull Rampage에서 Cam Zink가 전인미답의 라인을 개척하며
+            97.2점의 역대 최고 점수를 기록했다. 21m 드롭 직후 더블 백플립을 연속 성공시키는 장면에
+            현장 6,000명 관중이 일제히 경악했다.
+          </p>
+          <div class="card-foot">
+            <span class="card-date">2026.06.28</span>
+            <span class="card-sep">·</span>
+            <span class="card-byline">이재훈 기자</span>
+          </div>
+          <div class="card-read-more" aria-hidden="true">전체 기사 읽기 →</div>
+        </div>
+      </article>
+
+      <div class="news-sidebar">
+        <article class="card card-sm reveal">
+          <div class="card-bg sk">
+            <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(10,9,6,.96) 0%,rgba(10,9,6,.12) 100%)"></div>
+          </div>
+          <div class="card-body">
+            <span class="tag">스케이트보드</span>
+            <h3 class="card-title card-title-sm">Nyjah Huston, X Games 스트리트 9연속 금메달 도전</h3>
+            <div class="card-foot" style="margin-top:8px"><span class="card-date">2026.06.27</span></div>
+          </div>
+        </article>
+        <article class="card card-sm reveal">
+          <div class="card-bg wsl">
+            <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(10,9,6,.96) 0%,rgba(10,9,6,.12) 100%)"></div>
+          </div>
+          <div class="card-body">
+            <span class="tag">서핑</span>
+            <h3 class="card-title card-title-sm">파이프라인 마스터스, Medina 퍼펙트 10점 획득</h3>
+            <div class="card-foot" style="margin-top:8px"><span class="card-date">2026.06.26</span></div>
+          </div>
+        </article>
+        <article class="card card-sm reveal">
+          <div class="card-bg mx">
+            <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(10,9,6,.96) 0%,rgba(10,9,6,.12) 100%)"></div>
+          </div>
+          <div class="card-body">
+            <span class="tag">수퍼크로스</span>
+            <h3 class="card-title card-title-sm">Chase Sexton, 시즌 5번째 우승 랭킹 1위 굳히기</h3>
+            <div class="card-foot" style="margin-top:8px"><span class="card-date">2026.06.25</span></div>
+          </div>
+        </article>
+      </div>
+    </div>
+
+    <div class="news-row">
+      <article class="card-row reveal">
+        <span class="tag">BMX 프리스타일</span>
+        <div>
+          <h3 class="card-title card-title-md">Logan Martin, 세계 최초 트리플 테일위핑 성공</h3>
+          <p style="font-size:13px;color:var(--muted);line-height:1.65;margin-top:8px">
+            호주 퀸즐랜드 출신 BMX 마에스트로 Logan Martin이 연습 중 트리플 테일위핑 영상을 공개했다.
+          </p>
+        </div>
+        <div class="card-foot">
+          <span class="card-date">2026.06.25</span><span class="card-sep">·</span><span class="card-byline">김민준 기자</span>
+        </div>
+      </article>
+      <article class="card-row reveal">
+        <span class="tag">스노보드</span>
+        <div>
+          <h3 class="card-title card-title-md">Shaun White 재단, 차세대 라이더 장학 프로그램 런칭</h3>
+          <p style="font-size:13px;color:var(--muted);line-height:1.65;margin-top:8px">
+            3회 올림픽 금메달리스트 Shaun White 재단이 전 세계 14세 이하 선수 육성 프로그램을 시작했다.
+          </p>
+        </div>
+        <div class="card-foot">
+          <span class="card-date">2026.06.24</span><span class="card-sep">·</span><span class="card-byline">박수진 기자</span>
+        </div>
+      </article>
+      <article class="card-row reveal">
+        <span class="tag">클리프다이빙</span>
+        <div>
+          <h3 class="card-title card-title-md">Red Bull Cliff Diving, 오슬로 피요르드를 새 무대로</h3>
+          <p style="font-size:13px;color:var(--muted);line-height:1.65;margin-top:8px">
+            27m 오슬로 피요르드 절벽이 2026 Red Bull Cliff Diving World Series 새 스테이지로 선정됐다.
+          </p>
+        </div>
+        <div class="card-foot">
+          <span class="card-date">2026.06.23</span><span class="card-sep">·</span><span class="card-byline">최한솔 기자</span>
+        </div>
+      </article>
+    </div>
+  </div>
+</main>
+
+<!-- ══ RESULTS ══ -->
+<section id="results" style="margin-top:60px">
+  <div class="wrap">
+    <div class="sec-header">
+      <div class="sec-title-wrap">
+        <div class="sec-accent-bar"></div>
+        <h2 class="sec-title">최근 <span>경기 결과</span></h2>
+        <span class="sec-count">4건</span>
+      </div>
+      <a href="#" class="sec-more">전체 결과 →</a>
+    </div>
+    <div class="results-grid">
+
+      <div class="result-card reveal">
+        <div class="result-title">Red Bull Rampage 2026</div>
+        <div class="result-meta">
+          <span class="result-sport">마운틴바이크</span>
+          <span class="result-loc">버진, 유타, 미국</span>
+          <span class="result-date">2026.06.28</span>
+        </div>
+        <div class="podium" role="list" aria-label="시상대 결과">
+          <div class="podium-row p1" role="listitem"><span class="pos">1</span><div><div class="athlete-name">Cam Zink</div><div class="athlete-nat">미국</div></div><div><div class="score-val">97.20</div><div class="score-lbl">점수</div></div></div>
+          <div class="podium-row p2" role="listitem"><span class="pos">2</span><div><div class="athlete-name">Brendan Fairclough</div><div class="athlete-nat">영국</div></div><div><div class="score-val">94.40</div><div class="score-lbl">점수</div></div></div>
+          <div class="podium-row p3" role="listitem"><span class="pos">3</span><div><div class="athlete-name">Kyle Strait</div><div class="athlete-nat">미국</div></div><div><div class="score-val">91.80</div><div class="score-lbl">점수</div></div></div>
+        </div>
+      </div>
+
+      <div class="result-card reveal">
+        <div class="result-title">X Games Aspen 2026 — 스케이트 스트리트</div>
+        <div class="result-meta">
+          <span class="result-sport">스케이트보드</span>
+          <span class="result-loc">애스펀, 콜로라도, 미국</span>
+          <span class="result-date">2026.06.20</span>
+        </div>
+        <div class="podium" role="list" aria-label="시상대 결과">
+          <div class="podium-row p1" role="listitem"><span class="pos">1</span><div><div class="athlete-name">Nyjah Huston</div><div class="athlete-nat">미국</div></div><div><div class="score-val">95.00</div><div class="score-lbl">점수</div></div></div>
+          <div class="podium-row p2" role="listitem"><span class="pos">2</span><div><div class="athlete-name">Yuto Horigome</div><div class="athlete-nat">일본</div></div><div><div class="score-val">93.60</div><div class="score-lbl">점수</div></div></div>
+          <div class="podium-row p3" role="listitem"><span class="pos">3</span><div><div class="athlete-name">Kelvin Hoefler</div><div class="athlete-nat">브라질</div></div><div><div class="score-val">90.20</div><div class="score-lbl">점수</div></div></div>
+        </div>
+      </div>
+
+      <div class="result-card reveal">
+        <div class="result-title">WSL 챔피언십 투어 — 파이프라인</div>
+        <div class="result-meta">
+          <span class="result-sport">서핑</span>
+          <span class="result-loc">파이프라인, 하와이, 미국</span>
+          <span class="result-date">2026.06.15</span>
+        </div>
+        <div class="podium" role="list" aria-label="시상대 결과">
+          <div class="podium-row p1" role="listitem"><span class="pos">1</span><div><div class="athlete-name">Gabriel Medina</div><div class="athlete-nat">브라질</div></div><div><div class="score-val">19.97</div><div class="score-lbl">합산</div></div></div>
+          <div class="podium-row p2" role="listitem"><span class="pos">2</span><div><div class="athlete-name">Jack Robinson</div><div class="athlete-nat">호주</div></div><div><div class="score-val">18.43</div><div class="score-lbl">합산</div></div></div>
+          <div class="podium-row p3" role="listitem"><span class="pos">3</span><div><div class="athlete-name">John John Florence</div><div class="athlete-nat">미국</div></div><div><div class="score-val">17.80</div><div class="score-lbl">합산</div></div></div>
+        </div>
+      </div>
+
+      <div class="result-card reveal">
+        <div class="result-title">AMA 수퍼크로스 Round 16</div>
+        <div class="result-meta">
+          <span class="result-sport">모토크로스</span>
+          <span class="result-loc">라스베이거스, 네바다, 미국</span>
+          <span class="result-date">2026.06.08</span>
+        </div>
+        <div class="podium" role="list" aria-label="시상대 결과">
+          <div class="podium-row p1" role="listitem"><span class="pos">1</span><div><div class="athlete-name">Chase Sexton</div><div class="athlete-nat">미국</div></div><div><div class="score-val">+0.0s</div><div class="score-lbl">기준</div></div></div>
+          <div class="podium-row p2" role="listitem"><span class="pos">2</span><div><div class="athlete-name">Eli Tomac</div><div class="athlete-nat">미국</div></div><div><div class="score-val">+1.2s</div><div class="score-lbl">차이</div></div></div>
+          <div class="podium-row p3" role="listitem"><span class="pos">3</span><div><div class="athlete-name">Ken Roczen</div><div class="athlete-nat">독일</div></div><div><div class="score-val">+3.7s</div><div class="score-lbl">차이</div></div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══ SCHEDULE ══ -->
+<section id="schedule" style="margin-top:60px">
+  <div class="wrap">
+    <div class="sec-header">
+      <div class="sec-title-wrap">
+        <div class="sec-accent-bar"></div>
+        <h2 class="sec-title">경기 <span>일정</span></h2>
+        <span class="sec-count">7경기</span>
+      </div>
+      <a href="#" class="sec-more">전체 일정 →</a>
+    </div>
+    <div class="schedule-list" role="list" aria-label="다가오는 경기 일정">
+
+      <div class="sched-item reveal" role="listitem">
+        <div class="sched-date"><span class="sched-mon">JUL</span><span class="sched-day">15</span></div>
+        <div class="sched-info">
+          <div class="sched-name">X Games Ventura 2026</div>
+          <div class="sched-meta"><span class="sched-sport">스케이트보드 · BMX · MX</span><span class="sched-loc">벤추라, 캘리포니아, 미국</span></div>
+        </div>
+        <div class="sched-action"><span class="badge badge-soon">D-15</span><a href="#" class="sched-btn">상세 보기</a></div>
+      </div>
+
+      <div class="sched-item reveal" role="listitem">
+        <div class="sched-date"><span class="sched-mon">JUL</span><span class="sched-day">22</span></div>
+        <div class="sched-info">
+          <div class="sched-name">Red Bull Cliff Diving — 오슬로</div>
+          <div class="sched-meta"><span class="sched-sport">클리프다이빙</span><span class="sched-loc">오슬로 피요르드, 노르웨이</span></div>
+        </div>
+        <div class="sched-action"><span class="badge badge-soon">D-22</span><a href="#" class="sched-btn">상세 보기</a></div>
+      </div>
+
+      <div class="sched-item reveal" role="listitem">
+        <div class="sched-date"><span class="sched-mon">AUG</span><span class="sched-day">03</span></div>
+        <div class="sched-info">
+          <div class="sched-name">UCI 마운틴바이크 월드컵 — Les Gets</div>
+          <div class="sched-meta"><span class="sched-sport">마운틴바이크 DH · XCO</span><span class="sched-loc">레 제, 프랑스</span></div>
+        </div>
+        <div class="sched-action"><span class="badge badge-default">예정</span><a href="#" class="sched-btn">상세 보기</a></div>
+      </div>
+
+      <div class="sched-item reveal" role="listitem">
+        <div class="sched-date"><span class="sched-mon">AUG</span><span class="sched-day">18</span></div>
+        <div class="sched-info">
+          <div class="sched-name">Nitro World Games 2026</div>
+          <div class="sched-meta"><span class="sched-sport">FMX · BMX · 스케이트 · 스쿠터</span><span class="sched-loc">솔트레이크시티, 유타, 미국</span></div>
+        </div>
+        <div class="sched-action"><span class="badge badge-open">등록 중</span><a href="#" class="sched-btn">상세 보기</a></div>
+      </div>
+
+      <div class="sched-item reveal" role="listitem">
+        <div class="sched-date"><span class="sched-mon">SEP</span><span class="sched-day">05</span></div>
+        <div class="sched-info">
+          <div class="sched-name">WSL 챔피언십 투어 — 파이프라인 파이널</div>
+          <div class="sched-meta"><span class="sched-sport">서핑</span><span class="sched-loc">파이프라인, 하와이, 미국</span></div>
+        </div>
+        <div class="sched-action"><span class="badge badge-default">예정</span><a href="#" class="sched-btn">상세 보기</a></div>
+      </div>
+
+      <div class="sched-item reveal" role="listitem">
+        <div class="sched-date"><span class="sched-mon">SEP</span><span class="sched-day">20</span></div>
+        <div class="sched-info">
+          <div class="sched-name">Red Bull X-Fighters — 서울</div>
+          <div class="sched-meta"><span class="sched-sport">FMX 프리스타일</span><span class="sched-loc">잠실 종합운동장, 서울</span></div>
+        </div>
+        <div class="sched-action"><span class="badge badge-default">예정</span><a href="#" class="sched-btn">상세 보기</a></div>
+      </div>
+
+      <div class="sched-item reveal" role="listitem">
+        <div class="sched-date"><span class="sched-mon">OCT</span><span class="sched-day">12</span></div>
+        <div class="sched-info">
+          <div class="sched-name">Red Bull Rampage 2026 — 엘리트 인비테이셔널</div>
+          <div class="sched-meta"><span class="sched-sport">마운틴바이크 프리라이드</span><span class="sched-loc">버진, 유타, 미국</span></div>
+        </div>
+        <div class="sched-action"><span class="badge badge-default">예정</span><a href="#" class="sched-btn">상세 보기</a></div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══ FOOTER ══ -->
+<footer role="contentinfo">
+  <div class="footer-accent-bar"></div>
+  <div class="footer-inner-wrap">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-logo">SUR<span>GE</span></div>
+        <p class="footer-tagline">익스트림 스포츠 전문 뉴스 미디어.<br>한계를 초월하는 인간의 도전을 기록합니다.</p>
+        <div class="footer-social">
+          <a href="#" class="footer-social-link" aria-label="인스타그램">IG</a>
+          <a href="#" class="footer-social-link" aria-label="유튜브">YT</a>
+          <a href="#" class="footer-social-link" aria-label="X(트위터)">X</a>
+        </div>
+      </div>
+      <div>
+        <div class="footer-heading">종목</div>
+        <ul class="footer-links">
+          <li><a href="#">스케이트보드</a></li>
+          <li><a href="#">BMX</a></li>
+          <li><a href="#">모토크로스 / FMX</a></li>
+          <li><a href="#">마운틴바이크</a></li>
+          <li><a href="#">서핑</a></li>
+          <li><a href="#">스노보드</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-heading">미디어</div>
+        <ul class="footer-links">
+          <li><a href="#">최신 뉴스</a></li>
+          <li><a href="#">영상</a></li>
+          <li><a href="#">포토</a></li>
+          <li><a href="#">인터뷰</a></li>
+          <li><a href="#">칼럼</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-heading">SURGE</div>
+        <ul class="footer-links">
+          <li><a href="#">소개</a></li>
+          <li><a href="#">광고 문의</a></li>
+          <li><a href="#">제보하기</a></li>
+          <li><a href="#">개인정보처리방침</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span class="footer-copy">© 2026 SURGE. All rights reserved.</span>
+      <span class="footer-copy">서울특별시 마포구 상암동 — contact@surgesports.kr</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  /* ── Mobile nav ── */
+  const hamburger  = document.getElementById('navHamburger');
+  const mobileNav  = document.getElementById('mobileNav');
+  const navClose   = document.getElementById('mobileNavClose');
+
+  function openNav() {
+    mobileNav.classList.add('open');
+    hamburger.classList.add('open');
+    hamburger.setAttribute('aria-expanded', 'true');
+    document.body.classList.add('nav-open');
+    navClose.focus();
+  }
+  function closeNav() {
+    mobileNav.classList.remove('open');
+    hamburger.classList.remove('open');
+    hamburger.setAttribute('aria-expanded', 'false');
+    document.body.classList.remove('nav-open');
+    hamburger.focus();
+  }
+
+  hamburger.addEventListener('click', openNav);
+  navClose.addEventListener('click', closeNav);
+
+  // Close on nav link click
+  mobileNav.querySelectorAll('a[href^="#"]').forEach(link => {
+    link.addEventListener('click', () => {
+      if (link.id !== 'mobileNavLogoLink') closeNav();
+    });
+  });
+
+  // Swipe-right to close
+  let touchStartX = 0;
+  mobileNav.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; }, { passive: true });
+  mobileNav.addEventListener('touchend',   e => {
+    if (e.changedTouches[0].clientX - touchStartX > 72) closeNav();
+  }, { passive: true });
+
+  // ESC key
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeNav(); });
+
+  /* ── Scroll reveal ── */
+  const revealEls = document.querySelectorAll('.reveal');
+  const revealObs = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      const siblings = [...entry.target.parentElement.querySelectorAll('.reveal:not(.visible)')];
+      const idx = siblings.indexOf(entry.target);
+      setTimeout(() => entry.target.classList.add('visible'), idx * 55);
+      revealObs.unobserve(entry.target);
+    });
+  }, { threshold: 0.06, rootMargin: '0px 0px -24px 0px' });
+  revealEls.forEach(el => revealObs.observe(el));
+
+  /* ── Active nav on scroll ── */
+  const sections = [
+    { id: 'news',     el: document.getElementById('news') },
+    { id: 'results',  el: document.getElementById('results') },
+    { id: 'schedule', el: document.getElementById('schedule') },
+  ];
+  const navIds = { news: 'nav-news', results: 'nav-results', schedule: 'nav-schedule' };
+  const mnavIds = { news: 'mnav-news', results: 'mnav-results', schedule: 'mnav-schedule' };
+
+  function updateActiveNav() {
+    let current = 'news';
+    sections.forEach(s => {
+      if (s.el && window.scrollY >= s.el.offsetTop - 110) current = s.id;
+    });
+    Object.keys(navIds).forEach(id => {
+      const el   = document.getElementById(navIds[id]);
+      const mel  = document.getElementById(mnavIds[id]);
+      const active = id === current;
+      if (el)  el.classList.toggle('active', active);
+      if (mel) mel.classList.toggle('active', active);
+    });
+  }
+  window.addEventListener('scroll', updateActiveNav, { passive: true });
+
+  /* ── Category filter ── */
+  document.querySelectorAll('.cat-link').forEach(link => {
+    link.addEventListener('click', e => {
+      e.preventDefault();
+      document.querySelectorAll('.cat-link').forEach(l => l.classList.remove('active'));
+      link.classList.add('active');
+    });
+  });
+</script>
+
+</body>
+</html>
