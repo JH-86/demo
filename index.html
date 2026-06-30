@@ -1200,6 +1200,228 @@
       .score-val     { font-size: 13px; }
     }
 
+    /* ══════════════════════════════
+       CARD PHOTOS
+    ══════════════════════════════ */
+    .card-photo {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: brightness(.42) saturate(.55);
+      transition: filter .6s cubic-bezier(.4,0,.2,1);
+      pointer-events: none;
+      z-index: 0;
+    }
+    .card:hover .card-photo { filter: brightness(.54) saturate(.75); }
+    .card-bg::after { z-index: 1; }
+    .card-row { position: relative; overflow: hidden; }
+    .card-row-photo {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: brightness(.28) saturate(.45);
+      transition: filter .4s ease;
+      pointer-events: none;
+    }
+    .card-row:hover .card-row-photo { filter: brightness(.38) saturate(.6); }
+
+    /* ══════════════════════════════
+       WORLD CUP 2026
+    ══════════════════════════════ */
+    .worldcup-section {
+      border-bottom: 2px solid var(--accent);
+      background: var(--surface);
+    }
+    .wc-banner {
+      position: relative;
+      overflow: hidden;
+      padding: 28px 28px 24px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
+      padding-left:  calc(28px + var(--safe-left));
+      padding-right: calc(28px + var(--safe-right));
+    }
+    .wc-banner::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(100deg, rgba(212,255,0,.05) 0%, transparent 55%);
+      pointer-events: none;
+    }
+    .wc-event-badge {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: #0a0906;
+      background: var(--accent);
+      padding: 4px 12px;
+      flex-shrink: 0;
+      animation: badge-glow 2s ease-in-out infinite;
+    }
+    .wc-title-block { flex: 1; min-width: 200px; }
+    .wc-title {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 34px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: .02em;
+      line-height: 1;
+    }
+    .wc-title span { color: var(--accent); }
+    .wc-subtitle {
+      font-family: 'Space Mono', monospace;
+      font-size: 10px;
+      letter-spacing: .1em;
+      color: var(--muted);
+      text-transform: uppercase;
+      margin-top: 5px;
+    }
+    .wc-status-pill {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-family: 'Space Mono', monospace;
+      font-size: 10px;
+      color: var(--accent);
+      border: 1px solid rgba(212,255,0,.3);
+      padding: 6px 14px;
+      white-space: nowrap;
+    }
+    .wc-groups-scroll {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: thin;
+      scrollbar-color: var(--border) transparent;
+    }
+    .wc-groups {
+      display: grid;
+      grid-template-columns: repeat(6, minmax(198px, 1fr));
+      gap: 1px;
+      background: var(--border);
+      min-width: 0;
+    }
+    .wc-group { background: var(--bg); }
+    .wc-group-hd {
+      background: var(--surface-2);
+      padding: 7px 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--border);
+    }
+    .wc-group-label {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 16px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+    }
+    .wc-group-label em { font-style: normal; color: var(--accent); }
+    .wc-group-done {
+      font-family: 'Space Mono', monospace;
+      font-size: 8px;
+      letter-spacing: .08em;
+      color: var(--muted);
+      text-transform: uppercase;
+    }
+    .wc-col-row {
+      display: grid;
+      grid-template-columns: 1fr 18px 18px 18px 18px 22px 22px 26px;
+      padding: 4px 10px;
+      gap: 1px;
+      background: rgba(255,255,255,.02);
+      border-bottom: 1px solid var(--border);
+    }
+    .wc-col-h {
+      font-family: 'Space Mono', monospace;
+      font-size: 8px;
+      color: var(--muted);
+      text-align: right;
+    }
+    .wc-col-h:first-child { text-align: left; }
+    .wc-row {
+      display: grid;
+      grid-template-columns: 1fr 18px 18px 18px 18px 22px 22px 26px;
+      padding: 7px 10px;
+      gap: 1px;
+      align-items: center;
+      border-bottom: 1px solid rgba(42,40,32,.5);
+      transition: background .12s;
+      cursor: default;
+    }
+    .wc-row:last-child { border-bottom: none; }
+    .wc-row:hover { background: var(--surface-2); }
+    .wc-row.q1 { border-left: 3px solid var(--accent); }
+    .wc-row.q2 { border-left: 3px solid rgba(212,255,0,.35); }
+    .wc-row.out { opacity: .4; }
+    .wc-team {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      min-width: 0;
+    }
+    .wc-flag { font-size: 13px; flex-shrink: 0; line-height: 1; }
+    .wc-name {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: .04em;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .wc-n {
+      font-family: 'Space Mono', monospace;
+      font-size: 11px;
+      text-align: right;
+      font-variant-numeric: tabular-nums;
+      color: var(--muted);
+    }
+    .wc-n.pts { color: var(--text); font-size: 12px; }
+    .wc-n.hi  { color: var(--accent); }
+    .wc-legend {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 10px 12px;
+      border-top: 1px solid var(--border);
+      background: rgba(255,255,255,.015);
+      padding-left: calc(12px + var(--safe-left));
+    }
+    .wc-legend-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-family: 'Space Mono', monospace;
+      font-size: 9px;
+      color: var(--muted);
+      letter-spacing: .06em;
+    }
+    .wc-legend-dot {
+      width: 3px; height: 14px;
+      flex-shrink: 0;
+    }
+    @media (max-width: 1300px) { .wc-groups { grid-template-columns: repeat(3, minmax(195px,1fr)); } }
+    @media (max-width: 768px) {
+      .wc-groups { grid-template-columns: repeat(2, minmax(188px,1fr)); }
+      .wc-banner { padding: 20px 16px; }
+      .wc-title { font-size: 26px; }
+      .wc-status-pill { display: none; }
+    }
+    @media (max-width: 480px) {
+      .wc-groups { grid-template-columns: repeat(1, minmax(188px,1fr)); }
+    }
+
     /* Scrollbar */
     ::-webkit-scrollbar { width: 5px; height: 5px; }
     ::-webkit-scrollbar-track { background: var(--bg); }
@@ -1235,6 +1457,7 @@
 
   <ul class="mobile-nav-links">
     <li><a href="#news"     class="active" id="mnav-news"    >뉴스<span class="arrow">→</span></a></li>
+    <li><a href="#worldcup"             id="mnav-worldcup" >월드컵 2026<span class="arrow">→</span></a></li>
     <li><a href="#results"              id="mnav-results"  >경기 결과<span class="arrow">→</span></a></li>
     <li><a href="#schedule"             id="mnav-schedule" >경기 일정<span class="arrow">→</span></a></li>
     <li><a href="#"                                        >종목<span class="arrow">→</span></a></li>
@@ -1270,6 +1493,7 @@
 
   <ul class="nav-links">
     <li><a href="#news"     id="nav-news"     class="active">뉴스</a></li>
+    <li><a href="#worldcup" id="nav-worldcup"              >월드컵 2026</a></li>
     <li><a href="#results"  id="nav-results"               >경기 결과</a></li>
     <li><a href="#schedule" id="nav-schedule"              >경기 일정</a></li>
     <li><a href="#"                                        >종목</a></li>
@@ -1367,6 +1591,7 @@
 <nav class="categories" aria-label="스포츠 종목 필터">
   <div class="cat-track">
     <a href="#" class="cat-link active">전체</a>
+    <a href="#worldcup" class="cat-link" style="color:var(--accent);border-bottom:2px solid var(--accent)">⚽ 월드컵 2026</a>
     <a href="#" class="cat-link">스케이트보드</a>
     <a href="#" class="cat-link">BMX</a>
     <a href="#" class="cat-link">모토크로스</a>
@@ -1378,6 +1603,123 @@
     <a href="#" class="cat-link">윙슈트</a>
   </div>
 </nav>
+
+<!-- ══ WORLD CUP 2026 ══ -->
+<section id="worldcup" class="worldcup-section">
+  <div class="wc-banner">
+    <span class="wc-event-badge">진행중</span>
+    <div class="wc-title-block">
+      <div class="wc-title">FIFA 월드컵 <span>2026</span></div>
+      <div class="wc-subtitle">조별리그 최종 현황 · 미국 · 캐나다 · 멕시코 공동 개최</div>
+    </div>
+    <div class="wc-status-pill">
+      <span class="live-dot"></span>
+      조별리그 완료 · 16강 진출팀 확정
+    </div>
+  </div>
+
+  <div class="wc-groups-scroll">
+    <div class="wc-groups">
+
+      <!-- A조 -->
+      <div class="wc-group">
+        <div class="wc-group-hd">
+          <span class="wc-group-label"><em>A</em>조</span>
+          <span class="wc-group-done">3경기 완료</span>
+        </div>
+        <div class="wc-col-row">
+          <span class="wc-col-h">팀</span><span class="wc-col-h">P</span><span class="wc-col-h">W</span><span class="wc-col-h">D</span><span class="wc-col-h">L</span><span class="wc-col-h">득</span><span class="wc-col-h">실</span><span class="wc-col-h">승점</span>
+        </div>
+        <div class="wc-row q1"><div class="wc-team"><span class="wc-flag">🇧🇷</span><span class="wc-name">브라질</span></div><span class="wc-n">3</span><span class="wc-n">2</span><span class="wc-n">1</span><span class="wc-n">0</span><span class="wc-n">5</span><span class="wc-n">1</span><span class="wc-n pts hi">7</span></div>
+        <div class="wc-row q2"><div class="wc-team"><span class="wc-flag">🇩🇪</span><span class="wc-name">독일</span></div><span class="wc-n">3</span><span class="wc-n">2</span><span class="wc-n">0</span><span class="wc-n">1</span><span class="wc-n">4</span><span class="wc-n">3</span><span class="wc-n pts">6</span></div>
+        <div class="wc-row out"><div class="wc-team"><span class="wc-flag">🇨🇴</span><span class="wc-name">콜롬비아</span></div><span class="wc-n">3</span><span class="wc-n">1</span><span class="wc-n">1</span><span class="wc-n">1</span><span class="wc-n">3</span><span class="wc-n">4</span><span class="wc-n pts">4</span></div>
+        <div class="wc-row out"><div class="wc-team"><span class="wc-flag">🇩🇿</span><span class="wc-name">알제리</span></div><span class="wc-n">3</span><span class="wc-n">0</span><span class="wc-n">0</span><span class="wc-n">3</span><span class="wc-n">1</span><span class="wc-n">5</span><span class="wc-n pts">0</span></div>
+      </div>
+
+      <!-- B조 -->
+      <div class="wc-group">
+        <div class="wc-group-hd">
+          <span class="wc-group-label"><em>B</em>조</span>
+          <span class="wc-group-done">3경기 완료</span>
+        </div>
+        <div class="wc-col-row">
+          <span class="wc-col-h">팀</span><span class="wc-col-h">P</span><span class="wc-col-h">W</span><span class="wc-col-h">D</span><span class="wc-col-h">L</span><span class="wc-col-h">득</span><span class="wc-col-h">실</span><span class="wc-col-h">승점</span>
+        </div>
+        <div class="wc-row q1"><div class="wc-team"><span class="wc-flag">🏴󠁧󠁢󠁥󠁮󠁧󠁿</span><span class="wc-name">잉글랜드</span></div><span class="wc-n">3</span><span class="wc-n">3</span><span class="wc-n">0</span><span class="wc-n">0</span><span class="wc-n">6</span><span class="wc-n">2</span><span class="wc-n pts hi">9</span></div>
+        <div class="wc-row q2"><div class="wc-team"><span class="wc-flag">🇸🇳</span><span class="wc-name">세네갈</span></div><span class="wc-n">3</span><span class="wc-n">1</span><span class="wc-n">1</span><span class="wc-n">1</span><span class="wc-n">3</span><span class="wc-n">4</span><span class="wc-n pts">4</span></div>
+        <div class="wc-row out"><div class="wc-team"><span class="wc-flag">🇫🇷</span><span class="wc-name">프랑스</span></div><span class="wc-n">3</span><span class="wc-n">1</span><span class="wc-n">1</span><span class="wc-n">1</span><span class="wc-n">5</span><span class="wc-n">4</span><span class="wc-n pts">4</span></div>
+        <div class="wc-row out"><div class="wc-team"><span class="wc-flag">🇹🇳</span><span class="wc-name">튀니지</span></div><span class="wc-n">3</span><span class="wc-n">0</span><span class="wc-n">0</span><span class="wc-n">3</span><span class="wc-n">1</span><span class="wc-n">5</span><span class="wc-n pts">0</span></div>
+      </div>
+
+      <!-- C조 -->
+      <div class="wc-group">
+        <div class="wc-group-hd">
+          <span class="wc-group-label"><em>C</em>조</span>
+          <span class="wc-group-done">3경기 완료</span>
+        </div>
+        <div class="wc-col-row">
+          <span class="wc-col-h">팀</span><span class="wc-col-h">P</span><span class="wc-col-h">W</span><span class="wc-col-h">D</span><span class="wc-col-h">L</span><span class="wc-col-h">득</span><span class="wc-col-h">실</span><span class="wc-col-h">승점</span>
+        </div>
+        <div class="wc-row q1"><div class="wc-team"><span class="wc-flag">🇪🇸</span><span class="wc-name">스페인</span></div><span class="wc-n">3</span><span class="wc-n">2</span><span class="wc-n">1</span><span class="wc-n">0</span><span class="wc-n">5</span><span class="wc-n">2</span><span class="wc-n pts hi">7</span></div>
+        <div class="wc-row q2"><div class="wc-team"><span class="wc-flag">🇦🇷</span><span class="wc-name">아르헨티나</span></div><span class="wc-n">3</span><span class="wc-n">2</span><span class="wc-n">0</span><span class="wc-n">1</span><span class="wc-n">6</span><span class="wc-n">3</span><span class="wc-n pts">6</span></div>
+        <div class="wc-row out"><div class="wc-team"><span class="wc-flag">🇪🇨</span><span class="wc-name">에콰도르</span></div><span class="wc-n">3</span><span class="wc-n">0</span><span class="wc-n">2</span><span class="wc-n">1</span><span class="wc-n">2</span><span class="wc-n">4</span><span class="wc-n pts">2</span></div>
+        <div class="wc-row out"><div class="wc-team"><span class="wc-flag">🇸🇦</span><span class="wc-name">사우디</span></div><span class="wc-n">3</span><span class="wc-n">0</span><span class="wc-n">1</span><span class="wc-n">2</span><span class="wc-n">2</span><span class="wc-n">6</span><span class="wc-n pts">1</span></div>
+      </div>
+
+      <!-- D조 -->
+      <div class="wc-group">
+        <div class="wc-group-hd">
+          <span class="wc-group-label"><em>D</em>조</span>
+          <span class="wc-group-done">3경기 완료</span>
+        </div>
+        <div class="wc-col-row">
+          <span class="wc-col-h">팀</span><span class="wc-col-h">P</span><span class="wc-col-h">W</span><span class="wc-col-h">D</span><span class="wc-col-h">L</span><span class="wc-col-h">득</span><span class="wc-col-h">실</span><span class="wc-col-h">승점</span>
+        </div>
+        <div class="wc-row q1"><div class="wc-team"><span class="wc-flag">🇵🇹</span><span class="wc-name">포르투갈</span></div><span class="wc-n">3</span><span class="wc-n">3</span><span class="wc-n">0</span><span class="wc-n">0</span><span class="wc-n">8</span><span class="wc-n">2</span><span class="wc-n pts hi">9</span></div>
+        <div class="wc-row q2"><div class="wc-team"><span class="wc-flag">🇲🇽</span><span class="wc-name">멕시코</span></div><span class="wc-n">3</span><span class="wc-n">1</span><span class="wc-n">1</span><span class="wc-n">1</span><span class="wc-n">3</span><span class="wc-n">5</span><span class="wc-n pts">4</span></div>
+        <div class="wc-row out"><div class="wc-team"><span class="wc-flag">🇳🇱</span><span class="wc-name">네덜란드</span></div><span class="wc-n">3</span><span class="wc-n">1</span><span class="wc-n">1</span><span class="wc-n">1</span><span class="wc-n">5</span><span class="wc-n">4</span><span class="wc-n pts">4</span></div>
+        <div class="wc-row out"><div class="wc-team"><span class="wc-flag">🇵🇱</span><span class="wc-name">폴란드</span></div><span class="wc-n">3</span><span class="wc-n">0</span><span class="wc-n">0</span><span class="wc-n">3</span><span class="wc-n">2</span><span class="wc-n">7</span><span class="wc-n pts">0</span></div>
+      </div>
+
+      <!-- E조 -->
+      <div class="wc-group">
+        <div class="wc-group-hd">
+          <span class="wc-group-label"><em>E</em>조</span>
+          <span class="wc-group-done">3경기 완료</span>
+        </div>
+        <div class="wc-col-row">
+          <span class="wc-col-h">팀</span><span class="wc-col-h">P</span><span class="wc-col-h">W</span><span class="wc-col-h">D</span><span class="wc-col-h">L</span><span class="wc-col-h">득</span><span class="wc-col-h">실</span><span class="wc-col-h">승점</span>
+        </div>
+        <div class="wc-row q1"><div class="wc-team"><span class="wc-flag">🇰🇷</span><span class="wc-name">대한민국</span></div><span class="wc-n">3</span><span class="wc-n">2</span><span class="wc-n">1</span><span class="wc-n">0</span><span class="wc-n">4</span><span class="wc-n">2</span><span class="wc-n pts hi">7</span></div>
+        <div class="wc-row q2"><div class="wc-team"><span class="wc-flag">🇺🇸</span><span class="wc-name">미국</span></div><span class="wc-n">3</span><span class="wc-n">1</span><span class="wc-n">2</span><span class="wc-n">0</span><span class="wc-n">3</span><span class="wc-n">2</span><span class="wc-n pts">5</span></div>
+        <div class="wc-row out"><div class="wc-team"><span class="wc-flag">🇯🇵</span><span class="wc-name">일본</span></div><span class="wc-n">3</span><span class="wc-n">1</span><span class="wc-n">1</span><span class="wc-n">1</span><span class="wc-n">4</span><span class="wc-n">3</span><span class="wc-n pts">4</span></div>
+        <div class="wc-row out"><div class="wc-team"><span class="wc-flag">🇨🇦</span><span class="wc-name">캐나다</span></div><span class="wc-n">3</span><span class="wc-n">0</span><span class="wc-n">0</span><span class="wc-n">3</span><span class="wc-n">1</span><span class="wc-n">5</span><span class="wc-n pts">0</span></div>
+      </div>
+
+      <!-- F조 -->
+      <div class="wc-group">
+        <div class="wc-group-hd">
+          <span class="wc-group-label"><em>F</em>조</span>
+          <span class="wc-group-done">3경기 완료</span>
+        </div>
+        <div class="wc-col-row">
+          <span class="wc-col-h">팀</span><span class="wc-col-h">P</span><span class="wc-col-h">W</span><span class="wc-col-h">D</span><span class="wc-col-h">L</span><span class="wc-col-h">득</span><span class="wc-col-h">실</span><span class="wc-col-h">승점</span>
+        </div>
+        <div class="wc-row q1"><div class="wc-team"><span class="wc-flag">🇲🇦</span><span class="wc-name">모로코</span></div><span class="wc-n">3</span><span class="wc-n">2</span><span class="wc-n">1</span><span class="wc-n">0</span><span class="wc-n">3</span><span class="wc-n">1</span><span class="wc-n pts hi">7</span></div>
+        <div class="wc-row q2"><div class="wc-team"><span class="wc-flag">🇭🇷</span><span class="wc-name">크로아티아</span></div><span class="wc-n">3</span><span class="wc-n">1</span><span class="wc-n">1</span><span class="wc-n">1</span><span class="wc-n">4</span><span class="wc-n">3</span><span class="wc-n pts">4</span></div>
+        <div class="wc-row out"><div class="wc-team"><span class="wc-flag">🇨🇭</span><span class="wc-name">스위스</span></div><span class="wc-n">3</span><span class="wc-n">1</span><span class="wc-n">0</span><span class="wc-n">2</span><span class="wc-n">3</span><span class="wc-n">4</span><span class="wc-n pts">3</span></div>
+        <div class="wc-row out"><div class="wc-team"><span class="wc-flag">🇶🇦</span><span class="wc-name">카타르</span></div><span class="wc-n">3</span><span class="wc-n">0</span><span class="wc-n">0</span><span class="wc-n">3</span><span class="wc-n">2</span><span class="wc-n">4</span><span class="wc-n pts">0</span></div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="wc-legend">
+    <div class="wc-legend-item"><div class="wc-legend-dot" style="background:var(--accent)"></div>16강 진출 (1위)</div>
+    <div class="wc-legend-item"><div class="wc-legend-dot" style="background:rgba(212,255,0,.35)"></div>16강 진출 (2위)</div>
+    <div class="wc-legend-item" style="opacity:.5"><div class="wc-legend-dot" style="background:var(--muted)"></div>탈락</div>
+  </div>
+</section>
 
 <!-- ══ NEWS ══ -->
 <main id="news">
@@ -1393,7 +1735,9 @@
 
     <div class="news-primary">
       <article class="card card-featured reveal" tabindex="0">
-        <div class="card-bg"></div>
+        <div class="card-bg">
+          <img class="card-photo" src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=900&h=600&fit=crop&q=80" alt="" loading="lazy" onerror="this.style.display='none'">
+        </div>
         <div class="card-body">
           <span class="tag">마운틴바이크</span>
           <h3 class="card-title card-title-lg">Cam Zink, 21m 드롭 후 더블 플립으로 Rampage 역사 새로 써</h3>
@@ -1414,7 +1758,7 @@
       <div class="news-sidebar">
         <article class="card card-sm reveal">
           <div class="card-bg sk">
-            <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(10,9,6,.96) 0%,rgba(10,9,6,.12) 100%)"></div>
+            <img class="card-photo" src="https://images.unsplash.com/photo-1520045892732-304bc3ac5d8e?w=500&h=400&fit=crop&q=80" alt="" loading="lazy" onerror="this.style.display='none'">
           </div>
           <div class="card-body">
             <span class="tag">스케이트보드</span>
@@ -1424,7 +1768,7 @@
         </article>
         <article class="card card-sm reveal">
           <div class="card-bg wsl">
-            <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(10,9,6,.96) 0%,rgba(10,9,6,.12) 100%)"></div>
+            <img class="card-photo" src="https://images.unsplash.com/photo-1502680390469-be75c86b636f?w=500&h=400&fit=crop&q=80" alt="" loading="lazy" onerror="this.style.display='none'">
           </div>
           <div class="card-body">
             <span class="tag">서핑</span>
@@ -1434,7 +1778,7 @@
         </article>
         <article class="card card-sm reveal">
           <div class="card-bg mx">
-            <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(10,9,6,.96) 0%,rgba(10,9,6,.12) 100%)"></div>
+            <img class="card-photo" src="https://images.unsplash.com/photo-1568772585407-9361f9bf3a87?w=500&h=400&fit=crop&q=80" alt="" loading="lazy" onerror="this.style.display='none'">
           </div>
           <div class="card-body">
             <span class="tag">수퍼크로스</span>
@@ -1447,8 +1791,9 @@
 
     <div class="news-row">
       <article class="card-row reveal">
-        <span class="tag">BMX 프리스타일</span>
-        <div>
+        <img class="card-row-photo" src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=700&h=300&fit=crop&q=80" alt="" loading="lazy" onerror="this.style.display='none'">
+        <span class="tag" style="position:relative">BMX 프리스타일</span>
+        <div style="position:relative">
           <h3 class="card-title card-title-md">Logan Martin, 세계 최초 트리플 테일위핑 성공</h3>
           <p style="font-size:13px;color:var(--muted);line-height:1.65;margin-top:8px">
             호주 퀸즐랜드 출신 BMX 마에스트로 Logan Martin이 연습 중 트리플 테일위핑 영상을 공개했다.
@@ -1459,8 +1804,9 @@
         </div>
       </article>
       <article class="card-row reveal">
-        <span class="tag">스노보드</span>
-        <div>
+        <img class="card-row-photo" src="https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=700&h=300&fit=crop&q=80" alt="" loading="lazy" onerror="this.style.display='none'">
+        <span class="tag" style="position:relative">스노보드</span>
+        <div style="position:relative">
           <h3 class="card-title card-title-md">Shaun White 재단, 차세대 라이더 장학 프로그램 런칭</h3>
           <p style="font-size:13px;color:var(--muted);line-height:1.65;margin-top:8px">
             3회 올림픽 금메달리스트 Shaun White 재단이 전 세계 14세 이하 선수 육성 프로그램을 시작했다.
@@ -1471,8 +1817,9 @@
         </div>
       </article>
       <article class="card-row reveal">
-        <span class="tag">클리프다이빙</span>
-        <div>
+        <img class="card-row-photo" src="https://images.unsplash.com/photo-1530549387789-4c1017266635?w=700&h=300&fit=crop&q=80" alt="" loading="lazy" onerror="this.style.display='none'">
+        <span class="tag" style="position:relative">클리프다이빙</span>
+        <div style="position:relative">
           <h3 class="card-title card-title-md">Red Bull Cliff Diving, 오슬로 피요르드를 새 무대로</h3>
           <p style="font-size:13px;color:var(--muted);line-height:1.65;margin-top:8px">
             27m 오슬로 피요르드 절벽이 2026 Red Bull Cliff Diving World Series 새 스테이지로 선정됐다.
