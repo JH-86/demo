@@ -1567,6 +1567,179 @@
     .result-card--mlb { border-top: 2px solid #00C8FF !important; }
     .live-badge--nba { background: #FF6B35; }
     .live-badge--mlb { background: #00C8FF; color: #0A0906; }
+
+    /* ══════════════════════════════
+       BREAKING NEWS TICKER
+    ══════════════════════════════ */
+    .news-ticker {
+      display: flex;
+      align-items: stretch;
+      height: 38px;
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      overflow: hidden;
+      margin-bottom: 2px;
+    }
+    .ticker-label {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      padding: 0 16px;
+      background: var(--live);
+      font-family: 'Space Mono', monospace;
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: .12em;
+      color: #fff;
+      text-transform: uppercase;
+      flex-shrink: 0;
+      white-space: nowrap;
+    }
+    .ticker-label .live-dot { background: #fff; width: 6px; height: 6px; flex-shrink: 0; }
+    .ticker-track {
+      flex: 1;
+      overflow: hidden;
+      position: relative;
+    }
+    .ticker-track::before,
+    .ticker-track::after {
+      content: '';
+      position: absolute;
+      top: 0; bottom: 0;
+      width: 40px;
+      z-index: 1;
+      pointer-events: none;
+    }
+    .ticker-track::before { left: 0;  background: linear-gradient(to right, var(--surface), transparent); }
+    .ticker-track::after  { right: 0; background: linear-gradient(to left,  var(--surface), transparent); }
+    .ticker-inner {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      white-space: nowrap;
+      animation: ticker-run 48s linear infinite;
+      will-change: transform;
+    }
+    .ticker-inner:hover { animation-play-state: paused; }
+    @keyframes ticker-run {
+      0%   { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+    .ticker-item {
+      font-family: 'Noto Sans KR', sans-serif;
+      font-size: 12.5px;
+      color: var(--text);
+      padding: 0 28px 0 0;
+      cursor: default;
+      transition: color .15s;
+    }
+    .ticker-sep {
+      color: var(--accent);
+      font-size: 10px;
+      flex-shrink: 0;
+      padding-right: 28px;
+      opacity: .7;
+    }
+
+    /* ══════════════════════════════
+       ARTICLE BADGES
+    ══════════════════════════════ */
+    .art-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-family: 'Space Mono', monospace;
+      font-size: 8px;
+      font-weight: 700;
+      letter-spacing: .1em;
+      padding: 2px 8px;
+      text-transform: uppercase;
+      flex-shrink: 0;
+    }
+    .badge-breaking { background: var(--live); color: #fff; }
+    .badge-hot      { background: rgba(255,107,53,.15); color: #FF6B35; border: 1px solid rgba(255,107,53,.35); }
+    .badge-video    { background: rgba(212,255,0,.1); color: var(--accent); border: 1px solid rgba(212,255,0,.3); }
+    .badge-exclusive{ background: rgba(255,184,0,.1); color: var(--gold); border: 1px solid rgba(255,184,0,.3); }
+
+    /* ── Featured article stats strip ── */
+    .article-stats {
+      display: flex;
+      margin: 15px 0;
+      border: 1px solid rgba(212,255,0,.18);
+      background: rgba(212,255,0,.03);
+    }
+    .stat-chip {
+      flex: 1;
+      padding: 8px 10px;
+      border-right: 1px solid rgba(212,255,0,.12);
+      text-align: center;
+      min-width: 0;
+    }
+    .stat-chip:last-child { border-right: none; }
+    .stat-val {
+      display: block;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 22px;
+      font-weight: 900;
+      color: var(--accent);
+      line-height: 1;
+      letter-spacing: .02em;
+    }
+    .stat-lbl {
+      display: block;
+      font-family: 'Space Mono', monospace;
+      font-size: 7.5px;
+      color: var(--muted);
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      margin-top: 3px;
+    }
+
+    /* ── Card engagement row ── */
+    .card-engage {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 10px;
+      flex-wrap: wrap;
+    }
+    .engage-item {
+      font-family: 'Space Mono', monospace;
+      font-size: 9px;
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .engage-item svg { opacity: .5; }
+
+    /* ── Trending big number ── */
+    .trend-num {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 72px;
+      font-weight: 900;
+      color: rgba(212,255,0,.055);
+      position: absolute;
+      right: 10px;
+      bottom: -8px;
+      line-height: 1;
+      pointer-events: none;
+      user-select: none;
+    }
+
+    /* ── Row card upgrade ── */
+    .card-row-badge-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 6px;
+    }
+    @media (max-width: 768px) {
+      .article-stats { flex-wrap: wrap; }
+      .stat-chip { min-width: 50%; border-bottom: 1px solid rgba(212,255,0,.12); }
+      .stat-chip:nth-child(2) { border-right: none; }
+      .stat-chip:nth-last-child(-n+2) { border-bottom: none; }
+    }
     /* WC standings disclaimer bar */
     .wc-data-disclaimer {
       font-family: 'Space Mono', monospace;
@@ -2054,101 +2227,227 @@
       </div>
       <a href="#" class="sec-more">모든 뉴스 →</a>
     </div>
+  </div>
 
+  <!-- 속보 티커 -->
+  <div class="news-ticker">
+    <div class="ticker-label">
+      <span class="live-dot"></span>
+      속보
+    </div>
+    <div class="ticker-track">
+      <div class="ticker-inner" id="tickerInner">
+        <span class="ticker-item">⚽ FIFA 월드컵 2026 — 32강 전 경기 일정 확정, 7월 2일 첫 경기 시작</span>
+        <span class="ticker-sep">●</span>
+        <span class="ticker-item">🏀 NBA 파이널 — 오클라호마시티 선더 홈 게임 5 티켓 매진 · 팬 열기 최고조</span>
+        <span class="ticker-sep">●</span>
+        <span class="ticker-item">⚾ MLB — 뉴욕 양키스 후안 소토, 시즌 30호 홈런 돌파 · AL 홈런 공동 선두</span>
+        <span class="ticker-sep">●</span>
+        <span class="ticker-item">🚵 Red Bull Rampage 2026 — 신규 와일드카드 5인 선발 완료, 10월 버진 유타 개최</span>
+        <span class="ticker-sep">●</span>
+        <span class="ticker-item">🏄 WSL 챔피언십 투어 — Gabriel Medina, 시즌 포인트 1위 단독 선두 복귀</span>
+        <span class="ticker-sep">●</span>
+        <span class="ticker-item">🤽 LEN 챔피언스리그 워터폴로 — 파이널 에이트 8팀 모두 확정, 베오그라드 9월 개최</span>
+        <span class="ticker-sep">●</span>
+        <span class="ticker-item">🏂 Shaun White 재단, 차세대 라이더 글로벌 장학 프로그램 공식 출범</span>
+        <span class="ticker-sep">●</span>
+        <span class="ticker-item">🪂 Red Bull Cliff Diving World Series — 오슬로 피요르드 27m 절벽 신규 스테이지 확정</span>
+        <span class="ticker-sep">●</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="wrap">
     <div class="news-primary">
+      <!-- 피처드 기사 -->
       <article class="card card-featured reveal" tabindex="0">
         <div class="card-bg">
           <img class="card-photo" src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=900&h=600&fit=crop&q=80" alt="" loading="lazy" onerror="this.style.display='none'">
         </div>
         <div class="card-body">
-          <span class="tag">마운틴바이크</span>
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;flex-wrap:wrap">
+            <span class="art-badge badge-breaking">Breaking</span>
+            <span class="art-badge badge-video">
+              <svg width="9" height="9" viewBox="0 0 24 24" fill="currentColor"><polygon points="5,3 19,12 5,21"/></svg>
+              Video
+            </span>
+            <span class="tag" style="margin:0">마운틴바이크</span>
+          </div>
           <h3 class="card-title card-title-lg">Cam Zink, 21m 드롭 후 더블 플립으로 Rampage 역사 새로 써</h3>
+          <!-- 핵심 스탯 스트립 -->
+          <div class="article-stats">
+            <div class="stat-chip">
+              <span class="stat-val">97.2</span>
+              <span class="stat-lbl">역대 최고점</span>
+            </div>
+            <div class="stat-chip">
+              <span class="stat-val">21m</span>
+              <span class="stat-lbl">드롭 높이</span>
+            </div>
+            <div class="stat-chip">
+              <span class="stat-val">6K</span>
+              <span class="stat-lbl">현장 관중</span>
+            </div>
+            <div class="stat-chip">
+              <span class="stat-val">#1</span>
+              <span class="stat-lbl">최종 순위</span>
+            </div>
+          </div>
           <p class="card-excerpt">
             유타주 버진 사막에서 열린 2026 Red Bull Rampage에서 Cam Zink가 전인미답의 라인을 개척하며
             97.2점의 역대 최고 점수를 기록했다. 21m 드롭 직후 더블 백플립을 연속 성공시키는 장면에
             현장 6,000명 관중이 일제히 경악했다.
           </p>
-          <div class="card-foot">
-            <span class="card-date">2026.06.28</span>
-            <span class="card-sep">·</span>
-            <span class="card-byline">이재훈 기자</span>
+          <div class="card-engage">
+            <span class="engage-item">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg>
+              5분 읽기
+            </span>
+            <span class="engage-item">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+              47.2K 조회
+            </span>
+            <span class="engage-item" style="margin-left:auto">
+              <span class="card-date">2026.06.28</span>
+              <span class="card-sep" style="margin:0 4px">·</span>
+              <span class="card-byline">이재훈 기자</span>
+            </span>
           </div>
           <div class="card-read-more" aria-hidden="true">전체 기사 읽기 →</div>
         </div>
       </article>
 
       <div class="news-sidebar">
+        <!-- 사이드 카드 1 -->
         <article class="card card-sm reveal">
           <div class="card-bg sk">
             <img class="card-photo" src="https://images.unsplash.com/photo-1520045892732-304bc3ac5d8e?w=500&h=400&fit=crop&q=80" alt="" loading="lazy" onerror="this.style.display='none'">
           </div>
           <div class="card-body">
-            <span class="tag">스케이트보드</span>
+            <div style="display:flex;align-items:center;gap:6px;margin-bottom:7px">
+              <span class="art-badge badge-hot">🔥 Hot</span>
+              <span class="tag" style="margin:0">스케이트보드</span>
+            </div>
             <h3 class="card-title card-title-sm">Nyjah Huston, X Games 스트리트 9연속 금메달 도전</h3>
-            <div class="card-foot" style="margin-top:8px"><span class="card-date">2026.06.27</span></div>
+            <div class="card-engage" style="margin-top:8px">
+              <span class="engage-item">2분 · 12.4K</span>
+              <span class="card-date" style="margin-left:auto;font-family:'Space Mono',monospace;font-size:9px;color:var(--muted)">2026.06.27</span>
+            </div>
           </div>
         </article>
+        <!-- 사이드 카드 2 -->
         <article class="card card-sm reveal">
           <div class="card-bg wsl">
             <img class="card-photo" src="https://images.unsplash.com/photo-1502680390469-be75c86b636f?w=500&h=400&fit=crop&q=80" alt="" loading="lazy" onerror="this.style.display='none'">
           </div>
           <div class="card-body">
-            <span class="tag">서핑</span>
+            <div style="display:flex;align-items:center;gap:6px;margin-bottom:7px">
+              <span class="art-badge badge-video">
+                <svg width="8" height="8" viewBox="0 0 24 24" fill="currentColor"><polygon points="5,3 19,12 5,21"/></svg>
+                Video
+              </span>
+              <span class="tag" style="margin:0">서핑</span>
+            </div>
             <h3 class="card-title card-title-sm">파이프라인 마스터스, Medina 퍼펙트 10점 획득</h3>
-            <div class="card-foot" style="margin-top:8px"><span class="card-date">2026.06.26</span></div>
+            <div class="card-engage" style="margin-top:8px">
+              <span class="engage-item">2분 · 9.8K</span>
+              <span class="card-date" style="margin-left:auto;font-family:'Space Mono',monospace;font-size:9px;color:var(--muted)">2026.06.26</span>
+            </div>
           </div>
         </article>
+        <!-- 사이드 카드 3 -->
         <article class="card card-sm reveal">
           <div class="card-bg mx">
             <img class="card-photo" src="https://images.unsplash.com/photo-1568772585407-9361f9bf3a87?w=500&h=400&fit=crop&q=80" alt="" loading="lazy" onerror="this.style.display='none'">
           </div>
           <div class="card-body">
             <span class="tag">수퍼크로스</span>
-            <h3 class="card-title card-title-sm">Chase Sexton, 시즌 5번째 우승 랭킹 1위 굳히기</h3>
-            <div class="card-foot" style="margin-top:8px"><span class="card-date">2026.06.25</span></div>
+            <h3 class="card-title card-title-sm" style="margin-top:6px">Chase Sexton, 시즌 5번째 우승 랭킹 1위 굳히기</h3>
+            <div class="card-engage" style="margin-top:8px">
+              <span class="engage-item">2분 · 7.3K</span>
+              <span class="card-date" style="margin-left:auto;font-family:'Space Mono',monospace;font-size:9px;color:var(--muted)">2026.06.25</span>
+            </div>
           </div>
         </article>
       </div>
     </div>
 
     <div class="news-row">
-      <article class="card-row reveal">
+      <!-- 로우 카드 1 -->
+      <article class="card-row reveal" style="position:relative;overflow:hidden">
+        <span class="trend-num">01</span>
         <img class="card-row-photo" src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=700&h=300&fit=crop&q=80" alt="" loading="lazy" onerror="this.style.display='none'">
-        <span class="tag" style="position:relative">BMX 프리스타일</span>
+        <div class="card-row-badge-row" style="position:relative">
+          <span class="art-badge badge-exclusive">Exclusive</span>
+          <span class="tag" style="margin:0">BMX 프리스타일</span>
+        </div>
         <div style="position:relative">
           <h3 class="card-title card-title-md">Logan Martin, 세계 최초 트리플 테일위핑 성공</h3>
-          <p style="font-size:13px;color:var(--muted);line-height:1.65;margin-top:8px">
+          <p style="font-size:13px;color:var(--muted);line-height:1.7;margin-top:8px">
             호주 퀸즐랜드 출신 BMX 마에스트로 Logan Martin이 연습 중 트리플 테일위핑 영상을 공개했다.
           </p>
         </div>
-        <div class="card-foot">
-          <span class="card-date">2026.06.25</span><span class="card-sep">·</span><span class="card-byline">김민준 기자</span>
+        <div class="card-engage" style="margin-top:10px">
+          <span class="engage-item">3분 읽기</span>
+          <span class="engage-item">
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+            28.1K
+          </span>
+          <span class="card-sep" style="margin-left:auto">·</span>
+          <span class="card-byline">김민준 기자</span>
+          <span class="card-sep">·</span>
+          <span class="card-date">2026.06.25</span>
         </div>
       </article>
-      <article class="card-row reveal">
+      <!-- 로우 카드 2 -->
+      <article class="card-row reveal" style="position:relative;overflow:hidden">
+        <span class="trend-num">02</span>
         <img class="card-row-photo" src="https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=700&h=300&fit=crop&q=80" alt="" loading="lazy" onerror="this.style.display='none'">
-        <span class="tag" style="position:relative">스노보드</span>
+        <div class="card-row-badge-row" style="position:relative">
+          <span class="tag" style="margin:0">스노보드</span>
+        </div>
         <div style="position:relative">
           <h3 class="card-title card-title-md">Shaun White 재단, 차세대 라이더 장학 프로그램 런칭</h3>
-          <p style="font-size:13px;color:var(--muted);line-height:1.65;margin-top:8px">
+          <p style="font-size:13px;color:var(--muted);line-height:1.7;margin-top:8px">
             3회 올림픽 금메달리스트 Shaun White 재단이 전 세계 14세 이하 선수 육성 프로그램을 시작했다.
           </p>
         </div>
-        <div class="card-foot">
-          <span class="card-date">2026.06.24</span><span class="card-sep">·</span><span class="card-byline">박수진 기자</span>
+        <div class="card-engage" style="margin-top:10px">
+          <span class="engage-item">2분 읽기</span>
+          <span class="engage-item">
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+            6.2K
+          </span>
+          <span class="card-sep" style="margin-left:auto">·</span>
+          <span class="card-byline">박수진 기자</span>
+          <span class="card-sep">·</span>
+          <span class="card-date">2026.06.24</span>
         </div>
       </article>
-      <article class="card-row reveal">
+      <!-- 로우 카드 3 -->
+      <article class="card-row reveal" style="position:relative;overflow:hidden">
+        <span class="trend-num">03</span>
         <img class="card-row-photo" src="https://images.unsplash.com/photo-1530549387789-4c1017266635?w=700&h=300&fit=crop&q=80" alt="" loading="lazy" onerror="this.style.display='none'">
-        <span class="tag" style="position:relative">클리프다이빙</span>
+        <div class="card-row-badge-row" style="position:relative">
+          <span class="art-badge badge-hot">🔥 Hot</span>
+          <span class="tag" style="margin:0">클리프다이빙</span>
+        </div>
         <div style="position:relative">
           <h3 class="card-title card-title-md">Red Bull Cliff Diving, 오슬로 피요르드를 새 무대로</h3>
-          <p style="font-size:13px;color:var(--muted);line-height:1.65;margin-top:8px">
+          <p style="font-size:13px;color:var(--muted);line-height:1.7;margin-top:8px">
             27m 오슬로 피요르드 절벽이 2026 Red Bull Cliff Diving World Series 새 스테이지로 선정됐다.
           </p>
         </div>
-        <div class="card-foot">
-          <span class="card-date">2026.06.23</span><span class="card-sep">·</span><span class="card-byline">최한솔 기자</span>
+        <div class="card-engage" style="margin-top:10px">
+          <span class="engage-item">3분 읽기</span>
+          <span class="engage-item">
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+            15.7K
+          </span>
+          <span class="card-sep" style="margin-left:auto">·</span>
+          <span class="card-byline">최한솔 기자</span>
+          <span class="card-sep">·</span>
+          <span class="card-date">2026.06.23</span>
         </div>
       </article>
     </div>
@@ -2796,6 +3095,12 @@
 
   loadEspnWC();
   setInterval(loadEspnWC, 120000); /* 2분마다 자동 갱신 */
+
+  /* ── 속보 티커 무한루프 초기화 ── */
+  (function() {
+    var ti = document.getElementById('tickerInner');
+    if (ti) ti.innerHTML += ti.innerHTML;
+  })();
 
   /* ── ESPN NBA / MLB 실시간 스코어보드 ── */
   function renderScoreboard(events, max) {
