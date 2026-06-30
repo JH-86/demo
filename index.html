@@ -1442,6 +1442,62 @@
     }
     .result-yt-btn:hover { border-color: #FF4444; background: rgba(255,68,68,.07); }
     .result-yt-btn svg { flex-shrink: 0; }
+    /* ESPN live data card */
+    .result-card--live { border-top: 2px solid var(--live) !important; }
+    .live-badge {
+      display: inline-block;
+      font-family: 'Space Mono', monospace;
+      font-size: 8px;
+      letter-spacing: .1em;
+      padding: 2px 8px;
+      background: var(--live);
+      color: #fff;
+      vertical-align: middle;
+      margin-left: 8px;
+    }
+    .espn-loading {
+      font-family: 'Space Mono', monospace;
+      font-size: 11px;
+      color: var(--muted);
+      padding: 22px 0;
+      text-align: center;
+      line-height: 1.9;
+    }
+    .espn-loading span { font-size: 9px; opacity: .55; display: block; margin-top: 3px; }
+    .espn-live-stamp {
+      display: block;
+      font-family: 'Space Mono', monospace;
+      font-size: 9px;
+      color: var(--muted);
+      opacity: .55;
+      margin-top: 10px;
+    }
+    /* "예시 데이터" warning badge */
+    .data-warn {
+      display: inline-block;
+      font-family: 'Space Mono', monospace;
+      font-size: 8px;
+      letter-spacing: .05em;
+      color: #7A7870;
+      border: 1px solid rgba(122,120,112,.35);
+      padding: 1px 6px;
+      margin-left: 6px;
+      vertical-align: middle;
+    }
+    /* WC standings disclaimer bar */
+    .wc-data-disclaimer {
+      font-family: 'Space Mono', monospace;
+      font-size: 9px;
+      color: var(--muted);
+      padding: 8px 14px;
+      background: rgba(20,18,16,.8);
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      opacity: .7;
+    }
+    .wc-data-disclaimer svg { flex-shrink: 0; }
 
     /* match score (football / water polo) */
     .match-vs {
@@ -1869,10 +1925,10 @@
         <div class="wc-col-row">
           <span class="wc-col-h">팀</span><span class="wc-col-h">P</span><span class="wc-col-h">W</span><span class="wc-col-h">D</span><span class="wc-col-h">L</span><span class="wc-col-h">득</span><span class="wc-col-h">실</span><span class="wc-col-h">승점</span>
         </div>
-        <div class="wc-row q1"><div class="wc-team"><span class="wc-flag">🇰🇷</span><span class="wc-name">대한민국</span></div><span class="wc-n">3</span><span class="wc-n">2</span><span class="wc-n">1</span><span class="wc-n">0</span><span class="wc-n">4</span><span class="wc-n">2</span><span class="wc-n pts hi">7</span></div>
-        <div class="wc-row q2"><div class="wc-team"><span class="wc-flag">🇺🇸</span><span class="wc-name">미국</span></div><span class="wc-n">3</span><span class="wc-n">1</span><span class="wc-n">2</span><span class="wc-n">0</span><span class="wc-n">3</span><span class="wc-n">2</span><span class="wc-n pts">5</span></div>
-        <div class="wc-row out"><div class="wc-team"><span class="wc-flag">🇯🇵</span><span class="wc-name">일본</span></div><span class="wc-n">3</span><span class="wc-n">1</span><span class="wc-n">1</span><span class="wc-n">1</span><span class="wc-n">4</span><span class="wc-n">3</span><span class="wc-n pts">4</span></div>
-        <div class="wc-row out"><div class="wc-team"><span class="wc-flag">🇨🇦</span><span class="wc-name">캐나다</span></div><span class="wc-n">3</span><span class="wc-n">0</span><span class="wc-n">0</span><span class="wc-n">3</span><span class="wc-n">1</span><span class="wc-n">5</span><span class="wc-n pts">0</span></div>
+        <div class="wc-row q1"><div class="wc-team"><span class="wc-flag">🇺🇸</span><span class="wc-name">미국</span></div><span class="wc-n">3</span><span class="wc-n">2</span><span class="wc-n">1</span><span class="wc-n">0</span><span class="wc-n">5</span><span class="wc-n">2</span><span class="wc-n pts hi">7</span></div>
+        <div class="wc-row q2"><div class="wc-team"><span class="wc-flag">🇯🇵</span><span class="wc-name">일본</span></div><span class="wc-n">3</span><span class="wc-n">2</span><span class="wc-n">0</span><span class="wc-n">1</span><span class="wc-n">6</span><span class="wc-n">3</span><span class="wc-n pts">6</span></div>
+        <div class="wc-row out"><div class="wc-team"><span class="wc-flag">🇨🇦</span><span class="wc-name">캐나다</span></div><span class="wc-n">3</span><span class="wc-n">1</span><span class="wc-n">0</span><span class="wc-n">2</span><span class="wc-n">3</span><span class="wc-n">5</span><span class="wc-n pts">3</span></div>
+        <div class="wc-row out"><div class="wc-team"><span class="wc-flag">🇰🇷</span><span class="wc-name">대한민국</span></div><span class="wc-n">3</span><span class="wc-n">0</span><span class="wc-n">1</span><span class="wc-n">2</span><span class="wc-n">1</span><span class="wc-n">5</span><span class="wc-n pts">1</span></div>
       </div>
 
       <!-- F조 -->
@@ -1894,9 +1950,13 @@
   </div>
 
   <div class="wc-legend">
-    <div class="wc-legend-item"><div class="wc-legend-dot" style="background:var(--accent)"></div>16강 진출 (1위)</div>
-    <div class="wc-legend-item"><div class="wc-legend-dot" style="background:rgba(212,255,0,.35)"></div>16강 진출 (2위)</div>
+    <div class="wc-legend-item"><div class="wc-legend-dot" style="background:var(--accent)"></div>32강 진출 (1위)</div>
+    <div class="wc-legend-item"><div class="wc-legend-dot" style="background:rgba(212,255,0,.35)"></div>32강 진출 (2위)</div>
     <div class="wc-legend-item" style="opacity:.5"><div class="wc-legend-dot" style="background:var(--muted)"></div>탈락</div>
+  </div>
+  <div class="wc-data-disclaimer">
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+    이 조별리그 데이터는 예시 자료로 실제 결과와 다를 수 있습니다 · 아래 결과 섹션에서 ESPN 실시간 연동 경기 결과를 확인하세요
   </div>
 </section>
 
@@ -2031,7 +2091,8 @@
         <div class="result-meta">
           <span class="result-sport">마운틴바이크</span>
           <span class="result-loc">버진, 유타, 미국</span>
-          <span class="result-date">2026.06.28</span>
+          <span class="result-date">2026.10 예정</span>
+          <span class="data-warn">예시 데이터</span>
         </div>
         <div class="podium" role="list" aria-label="시상대 결과">
           <div class="podium-row p1" role="listitem"><span class="pos">1</span><div><div class="athlete-name">Cam Zink</div><div class="athlete-nat">미국</div></div><div><div class="score-val">97.20</div><div class="score-lbl">점수</div></div></div>
@@ -2050,7 +2111,8 @@
         <div class="result-meta">
           <span class="result-sport">스케이트보드</span>
           <span class="result-loc">애스펀, 콜로라도, 미국</span>
-          <span class="result-date">2026.06.20</span>
+          <span class="result-date">2026.01–02</span>
+          <span class="data-warn">예시 데이터</span>
         </div>
         <div class="podium" role="list" aria-label="시상대 결과">
           <div class="podium-row p1" role="listitem"><span class="pos">1</span><div><div class="athlete-name">Nyjah Huston</div><div class="athlete-nat">미국</div></div><div><div class="score-val">95.00</div><div class="score-lbl">점수</div></div></div>
@@ -2069,7 +2131,8 @@
         <div class="result-meta">
           <span class="result-sport">서핑</span>
           <span class="result-loc">파이프라인, 하와이, 미국</span>
-          <span class="result-date">2026.06.15</span>
+          <span class="result-date">2026.12–01</span>
+          <span class="data-warn">예시 데이터</span>
         </div>
         <div class="podium" role="list" aria-label="시상대 결과">
           <div class="podium-row p1" role="listitem"><span class="pos">1</span><div><div class="athlete-name">Gabriel Medina</div><div class="athlete-nat">브라질</div></div><div><div class="score-val">19.97</div><div class="score-lbl">합산</div></div></div>
@@ -2088,7 +2151,8 @@
         <div class="result-meta">
           <span class="result-sport">모토크로스</span>
           <span class="result-loc">라스베이거스, 네바다, 미국</span>
-          <span class="result-date">2026.06.08</span>
+          <span class="result-date">2026.01–05</span>
+          <span class="data-warn">예시 데이터</span>
         </div>
         <div class="podium" role="list" aria-label="시상대 결과">
           <div class="podium-row p1" role="listitem"><span class="pos">1</span><div><div class="athlete-name">Chase Sexton</div><div class="athlete-nat">미국</div></div><div><div class="score-val">+0.0s</div><div class="score-lbl">기준</div></div></div>
@@ -2101,81 +2165,39 @@
         </a>
       </div>
 
-      <!-- ⑤ FIFA WC 2026 R16 — 축구 -->
-      <div class="result-card reveal">
-        <div class="result-title">FIFA 월드컵 2026 — 16강</div>
+      <!-- ⑤ FIFA WC 2026 — ESPN 실시간 연동 -->
+      <div class="result-card result-card--live reveal">
+        <div class="result-title">
+          FIFA 월드컵 2026 — 최신 경기 결과
+          <span class="live-badge">ESPN LIVE</span>
+        </div>
         <div class="result-meta">
-          <span class="result-sport" style="color:#00C8FF">축구</span>
-          <span class="result-loc">SoFi Stadium, 로스앤젤레스, 미국</span>
-          <span class="result-date">2026.06.29</span>
+          <span class="result-sport" style="color:var(--live)">축구 · ESPN 실시간 연동</span>
+          <span class="espn-live-stamp" id="espn-wc-stamp"></span>
         </div>
-        <div class="match-vs">
-          <div class="match-side">
-            <span class="mflag">🇰🇷</span>
-            <span class="mname">대한민국</span>
-          </div>
-          <div class="mscore-wrap">
-            <span class="mgoal win">3</span>
-            <span class="mdash">—</span>
-            <span class="mgoal lose">1</span>
-          </div>
-          <div class="match-side away">
-            <span class="mflag">🇲🇽</span>
-            <span class="mname">멕시코</span>
-          </div>
+        <div id="espn-wc-body">
+          <p class="espn-loading">경기 결과 불러오는 중...<span>ESPN API 연결 중</span></p>
         </div>
-        <div class="match-scorers">
-          <div class="scorers-col">
-            <div><span class="scorer-name">손흥민</span> 23' 71'</div>
-            <div><span class="scorer-name">이강인</span> 45+2'</div>
-          </div>
-          <div class="scorers-col right">
-            <div>68' <span class="scorer-name">López</span></div>
-          </div>
-        </div>
-        <a class="result-yt-btn" href="https://www.youtube.com/results?search_query=FIFA+World+Cup+2026+Korea+Mexico+R16+highlights" target="_blank" rel="noopener" aria-label="YouTube 하이라이트">
+        <a class="result-yt-btn" href="https://www.youtube.com/results?search_query=FIFA+World+Cup+2026+best+goals+highlights" target="_blank" rel="noopener" aria-label="YouTube 하이라이트">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1C24 15.9 24 12 24 12s0-3.9-.5-5.8z"/><path d="M9.7 15.5V8.5l6.3 3.5-6.3 3.5z" fill="#0A0906"/></svg>
-          하이라이트 보기
+          전체 하이라이트
         </a>
       </div>
 
-      <!-- ⑥ LEN CL Water Polo -->
+      <!-- ⑥ LEN CL Water Polo — YouTube 링크만 제공 (API 미지원 종목) -->
       <div class="result-card reveal">
-        <div class="result-title">LEN 챔피언스리그 — A조 5라운드</div>
+        <div class="result-title">LEN 챔피언스리그 워터폴로 2025–26</div>
         <div class="result-meta">
           <span class="result-sport" style="color:#00C8FF">워터폴로</span>
-          <span class="result-loc">Piscina Zanelli, 사보나, 이탈리아</span>
-          <span class="result-date">2026.06.27</span>
+          <span class="result-loc">유럽 각지</span>
+          <span class="data-warn">API 미지원 종목</span>
         </div>
-        <div class="match-vs">
-          <div class="match-side">
-            <span class="mflag">🇮🇹</span>
-            <span class="mname">Pro Recco</span>
-          </div>
-          <div class="mscore-wrap">
-            <span class="mgoal win">13</span>
-            <span class="mdash">—</span>
-            <span class="mgoal lose">8</span>
-          </div>
-          <div class="match-side away">
-            <span class="mflag">🇬🇷</span>
-            <span class="mname">Olympiacos</span>
-          </div>
-        </div>
-        <div class="match-scorers">
-          <div class="scorers-col">
-            <div><span class="scorer-name">Di Fulvio</span> ×4</div>
-            <div><span class="scorer-name">Younger</span> ×3</div>
-            <div><span class="scorer-name">Echenique</span> ×3</div>
-          </div>
-          <div class="scorers-col right">
-            <div>×3 <span class="scorer-name">Fountoulis</span></div>
-            <div>×3 <span class="scorer-name">Papanastasiou</span></div>
-          </div>
-        </div>
-        <a class="result-yt-btn" href="https://www.youtube.com/results?search_query=LEN+Champions+League+water+polo+Pro+Recco+2026+highlights" target="_blank" rel="noopener" aria-label="YouTube 하이라이트">
+        <p style="font-family:'Space Mono',monospace;font-size:10px;color:var(--muted);line-height:1.7;margin:14px 0 0">
+          워터폴로는 공개 실시간 API가 없습니다.<br>아래 버튼으로 최신 경기 하이라이트를 YouTube에서 확인하세요.
+        </p>
+        <a class="result-yt-btn" href="https://www.youtube.com/results?search_query=LEN+Champions+League+water+polo+2026+highlights" target="_blank" rel="noopener" aria-label="YouTube 하이라이트">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1C24 15.9 24 12 24 12s0-3.9-.5-5.8z"/><path d="M9.7 15.5V8.5l6.3 3.5-6.3 3.5z" fill="#0A0906"/></svg>
-          하이라이트 보기
+          최신 하이라이트 보기
         </a>
       </div>
 
@@ -2539,6 +2561,120 @@
       link.classList.add('active');
     });
   });
+
+  /* ── ESPN World Cup 실시간 결과 ── */
+  const WC_FLAGS = {
+    'ARG':'🇦🇷','AUS':'🇦🇺','BEL':'🇧🇪','BOL':'🇧🇴','BRA':'🇧🇷',
+    'CAN':'🇨🇦','CHI':'🇨🇱','CIV':'🇨🇮','CMR':'🇨🇲','COL':'🇨🇴',
+    'CRC':'🇨🇷','CRO':'🇭🇷','CZE':'🇨🇿','DEN':'🇩🇰','ECU':'🇪🇨',
+    'EGY':'🇪🇬','ENG':'🏴󠁧󠁢󠁥󠁮󠁧󠁿','ESP':'🇪🇸','FIN':'🇫🇮','FRA':'🇫🇷',
+    'GEO':'🇬🇪','GER':'🇩🇪','GHA':'🇬🇭','GRE':'🇬🇷','HON':'🇭🇳',
+    'HUN':'🇭🇺','IRL':'🇮🇪','IRN':'🇮🇷','IRQ':'🇮🇶','ISL':'🇮🇸',
+    'ITA':'🇮🇹','JPN':'🇯🇵','KOR':'🇰🇷','MAR':'🇲🇦','MEX':'🇲🇽',
+    'MLI':'🇲🇱','MKD':'🇲🇰','NED':'🇳🇱','NGA':'🇳🇬','NOR':'🇳🇴',
+    'NZL':'🇳🇿','PAR':'🇵🇾','PER':'🇵🇪','POL':'🇵🇱','POR':'🇵🇹',
+    'QAT':'🇶🇦','ROM':'🇷🇴','SAU':'🇸🇦','SCO':'🏴󠁧󠁢󠁳󠁣󠁴󠁿','SEN':'🇸🇳',
+    'SRB':'🇷🇸','SUI':'🇨🇭','SVK':'🇸🇰','SVN':'🇸🇮','SWE':'🇸🇪',
+    'TUN':'🇹🇳','TUR':'🇹🇷','UAE':'🇦🇪','UKR':'🇺🇦','URU':'🇺🇾',
+    'USA':'🇺🇸','VEN':'🇻🇪','WAL':'🏴󠁧󠁢󠁷󠁬󠁳󠁿','KSA':'🇸🇦'
+  };
+  function wcFlag(a) { return WC_FLAGS[a] || '🏳'; }
+
+  async function loadEspnWC() {
+    const body  = document.getElementById('espn-wc-body');
+    const stamp = document.getElementById('espn-wc-stamp');
+    if (!body) return;
+
+    try {
+      let matches = [];
+      const now = new Date();
+
+      /* 최근 7일 내 완료된 경기 검색 */
+      for (let i = 0; i < 7 && matches.length < 4; i++) {
+        const d  = new Date(now.getTime() - i * 86400000);
+        const ds = `${d.getFullYear()}${String(d.getMonth()+1).padStart(2,'0')}${String(d.getDate()).padStart(2,'0')}`;
+        const r  = await fetch(
+          `https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/scoreboard?dates=${ds}`,
+          { mode: 'cors' }
+        );
+        if (!r.ok) continue;
+        const json = await r.json();
+        const done = (json.events || []).filter(e => e.status && e.status.type && e.status.type.completed);
+        matches.push(...done);
+      }
+
+      if (!matches.length) {
+        /* 오늘 예정된 경기 표시 */
+        const r = await fetch(
+          'https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/scoreboard',
+          { mode: 'cors' }
+        );
+        if (r.ok) {
+          const json = await r.json();
+          const upcoming = (json.events || []).filter(e => e.status && e.status.type && !e.status.type.completed);
+          if (upcoming.length) {
+            body.innerHTML = upcoming.slice(0,3).map(ev => {
+              const comp = ev.competitions && ev.competitions[0];
+              if (!comp) return '';
+              const home = (comp.competitors || []).find(c => c.homeAway === 'home') || comp.competitors[0];
+              const away = (comp.competitors || []).find(c => c.homeAway === 'away') || comp.competitors[1];
+              if (!home || !away) return '';
+              const hn = home.team && (home.team.shortDisplayName || home.team.displayName) || '?';
+              const an = away.team && (away.team.shortDisplayName || away.team.displayName) || '?';
+              const hf = wcFlag(home.team && home.team.abbreviation);
+              const af = wcFlag(away.team && away.team.abbreviation);
+              const time = ev.status && ev.status.type && ev.status.type.shortDetail || '예정';
+              return `<div class="match-vs" style="opacity:.75">
+                <div class="match-side"><span class="mflag">${hf}</span><span class="mname">${hn}</span></div>
+                <div class="mscore-wrap"><span class="mgoal" style="font-size:13px;color:var(--muted)">${time}</span></div>
+                <div class="match-side away"><span class="mflag">${af}</span><span class="mname">${an}</span></div>
+              </div>`;
+            }).join('');
+            if (stamp) stamp.textContent = 'ESPN 오늘 일정 · ' + now.toLocaleTimeString('ko-KR',{hour:'2-digit',minute:'2-digit'}) + ' 기준';
+            return;
+          }
+        }
+        body.innerHTML = '<p class="espn-loading">현재 완료된 경기가 없습니다.<span>조별리그 시작 전이거나 경기 없는 날입니다</span></p>';
+        if (stamp) stamp.textContent = 'ESPN 실시간 · ' + now.toLocaleTimeString('ko-KR',{hour:'2-digit',minute:'2-digit'}) + ' 기준';
+        return;
+      }
+
+      body.innerHTML = matches.slice(0,4).map(ev => {
+        const comp = ev.competitions && ev.competitions[0];
+        if (!comp) return '';
+        const home = (comp.competitors || []).find(c => c.homeAway === 'home') || comp.competitors[0];
+        const away = (comp.competitors || []).find(c => c.homeAway === 'away') || comp.competitors[1];
+        if (!home || !away) return '';
+        const hn = home.team && (home.team.shortDisplayName || home.team.displayName) || '?';
+        const an = away.team && (away.team.shortDisplayName || away.team.displayName) || '?';
+        const hs = home.score !== undefined ? home.score : '–';
+        const as = away.score !== undefined ? away.score : '–';
+        const hf = wcFlag(home.team && home.team.abbreviation);
+        const af = wcFlag(away.team && away.team.abbreviation);
+        const tied = hs === as;
+        return `<div class="match-vs">
+          <div class="match-side"><span class="mflag">${hf}</span><span class="mname">${hn}</span></div>
+          <div class="mscore-wrap">
+            <span class="mgoal ${tied ? '' : (home.winner ? 'win' : 'lose')}">${hs}</span>
+            <span class="mdash">—</span>
+            <span class="mgoal ${tied ? '' : (away.winner ? 'win' : 'lose')}">${as}</span>
+          </div>
+          <div class="match-side away"><span class="mflag">${af}</span><span class="mname">${an}</span></div>
+        </div>`;
+      }).join('');
+
+      if (stamp) {
+        stamp.textContent = 'ESPN 실시간 연동 · ' + now.toLocaleTimeString('ko-KR',{hour:'2-digit',minute:'2-digit'}) + ' 업데이트';
+      }
+
+    } catch (err) {
+      body.innerHTML = '<p class="espn-loading">ESPN 연결 오류 · 잠시 후 재시도됩니다<span>네트워크 상태를 확인하세요</span></p>';
+      if (stamp) stamp.textContent = '연결 실패 · 자동 재시도 중';
+    }
+  }
+
+  loadEspnWC();
+  setInterval(loadEspnWC, 120000); /* 2분마다 자동 갱신 */
 </script>
 
 </body>
