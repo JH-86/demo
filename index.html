@@ -1422,6 +1422,96 @@
       .wc-groups { grid-template-columns: repeat(1, minmax(188px,1fr)); }
     }
 
+    /* ══════════════════════════════
+       WATER POLO
+    ══════════════════════════════ */
+    .wp-section {
+      background: var(--bg);
+      border-top: 1px solid var(--border);
+    }
+    .wp-banner {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
+      padding: 28px 28px 24px;
+      padding-left:  calc(28px + var(--safe-left));
+      padding-right: calc(28px + var(--safe-right));
+      border-bottom: 1px solid var(--border);
+      position: relative;
+    }
+    .wp-banner::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(100deg, rgba(0,180,255,.04) 0%, transparent 55%);
+      pointer-events: none;
+    }
+    .wp-sport-badge {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: #0A0906;
+      background: #00C8FF;
+      padding: 4px 12px;
+      flex-shrink: 0;
+    }
+    .wp-title {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 34px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: .02em;
+      line-height: 1;
+    }
+    .wp-title span { color: #00C8FF; }
+    .wp-subtitle {
+      font-family: 'Space Mono', monospace;
+      font-size: 10px;
+      letter-spacing: .1em;
+      color: var(--muted);
+      text-transform: uppercase;
+      margin-top: 5px;
+    }
+    .wp-status {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-family: 'Space Mono', monospace;
+      font-size: 10px;
+      color: #00C8FF;
+      border: 1px solid rgba(0,200,255,.3);
+      padding: 6px 14px;
+      white-space: nowrap;
+      margin-left: auto;
+    }
+    .wp-status .live-dot { background: #00C8FF; box-shadow: 0 0 8px #00C8FF; }
+    /* 4-column override for water polo groups */
+    .wc-groups.cols4 { grid-template-columns: repeat(4, minmax(210px, 1fr)); }
+    @media (max-width: 1024px) { .wc-groups.cols4 { grid-template-columns: repeat(2, minmax(210px, 1fr)); } }
+    @media (max-width: 480px)  { .wc-groups.cols4 { grid-template-columns: repeat(1, minmax(210px, 1fr)); } }
+    /* water polo qualifier colors */
+    .wc-row.wp-q1 { border-left: 3px solid #00C8FF; }
+    .wc-row.wp-q2 { border-left: 3px solid rgba(0,200,255,.35); }
+    .wc-n.wp-hi   { color: #00C8FF; }
+    .wp-legend {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 10px 28px;
+      padding-left: calc(28px + var(--safe-left));
+      border-top: 1px solid var(--border);
+      background: rgba(255,255,255,.012);
+    }
+    @media (max-width: 768px) {
+      .wp-banner { padding: 20px 16px; }
+      .wp-title  { font-size: 26px; }
+      .wp-status { display: none; }
+      .wp-legend { padding: 10px 16px; }
+    }
+
     /* Scrollbar */
     ::-webkit-scrollbar { width: 5px; height: 5px; }
     ::-webkit-scrollbar-track { background: var(--bg); }
@@ -1599,6 +1689,7 @@
     <a href="#" class="cat-link">서핑</a>
     <a href="#" class="cat-link">스노보드</a>
     <a href="#" class="cat-link">클리프다이빙</a>
+    <a href="#waterpolo" class="cat-link">워터폴로</a>
     <a href="#" class="cat-link">파쿠르</a>
     <a href="#" class="cat-link">윙슈트</a>
   </div>
@@ -1904,6 +1995,144 @@
 
     </div>
   </div>
+</section>
+
+<!-- ══ WATER POLO ══ -->
+<section id="waterpolo" class="wp-section" style="margin-top:60px">
+
+  <div class="wp-banner">
+    <span class="wp-sport-badge">워터폴로</span>
+    <div>
+      <div class="wp-title">LEN 챔피언스리그 <span>2025–26</span></div>
+      <div class="wp-subtitle">조별리그 현황 · 상위 2팀 파이널 에이트 진출 · 유럽 워터폴로 최고 무대</div>
+    </div>
+    <div class="wp-status">
+      <span class="live-dot"></span>
+      그룹 스테이지 5라운드 진행 중
+    </div>
+  </div>
+
+  <div class="wc-groups-scroll">
+    <div class="wc-groups cols4">
+
+      <!-- 그룹 A -->
+      <div class="wc-group">
+        <div class="wc-group-hd">
+          <span class="wc-group-label"><em>A</em>조</span>
+          <span class="wc-group-done">5R 완료</span>
+        </div>
+        <div class="wc-col-row">
+          <span class="wc-col-h">팀</span><span class="wc-col-h">P</span><span class="wc-col-h">W</span><span class="wc-col-h">L</span><span class="wc-col-h">득</span><span class="wc-col-h">실</span><span class="wc-col-h" style="grid-column:span 2">승점</span>
+        </div>
+        <div class="wc-row wp-q1" style="grid-template-columns:1fr 18px 18px 18px 24px 24px 30px">
+          <div class="wc-team"><span class="wc-flag">🇮🇹</span><span class="wc-name">Pro Recco</span></div>
+          <span class="wc-n">5</span><span class="wc-n">5</span><span class="wc-n">0</span><span class="wc-n">72</span><span class="wc-n">48</span><span class="wc-n pts wp-hi">10</span>
+        </div>
+        <div class="wc-row wp-q2" style="grid-template-columns:1fr 18px 18px 18px 24px 24px 30px">
+          <div class="wc-team"><span class="wc-flag">🇭🇺</span><span class="wc-name">Ferencváros</span></div>
+          <span class="wc-n">5</span><span class="wc-n">4</span><span class="wc-n">1</span><span class="wc-n">61</span><span class="wc-n">52</span><span class="wc-n pts">8</span>
+        </div>
+        <div class="wc-row out" style="grid-template-columns:1fr 18px 18px 18px 24px 24px 30px">
+          <div class="wc-team"><span class="wc-flag">🇪🇸</span><span class="wc-name">Barceloneta</span></div>
+          <span class="wc-n">5</span><span class="wc-n">2</span><span class="wc-n">3</span><span class="wc-n">55</span><span class="wc-n">63</span><span class="wc-n pts">4</span>
+        </div>
+        <div class="wc-row out" style="grid-template-columns:1fr 18px 18px 18px 24px 24px 30px">
+          <div class="wc-team"><span class="wc-flag">🇬🇷</span><span class="wc-name">Olympiacos</span></div>
+          <span class="wc-n">5</span><span class="wc-n">0</span><span class="wc-n">5</span><span class="wc-n">40</span><span class="wc-n">65</span><span class="wc-n pts">0</span>
+        </div>
+      </div>
+
+      <!-- 그룹 B -->
+      <div class="wc-group">
+        <div class="wc-group-hd">
+          <span class="wc-group-label"><em>B</em>조</span>
+          <span class="wc-group-done">5R 완료</span>
+        </div>
+        <div class="wc-col-row">
+          <span class="wc-col-h">팀</span><span class="wc-col-h">P</span><span class="wc-col-h">W</span><span class="wc-col-h">L</span><span class="wc-col-h">득</span><span class="wc-col-h">실</span><span class="wc-col-h" style="grid-column:span 2">승점</span>
+        </div>
+        <div class="wc-row wp-q1" style="grid-template-columns:1fr 18px 18px 18px 24px 24px 30px">
+          <div class="wc-team"><span class="wc-flag">🇭🇺</span><span class="wc-name">Szolnoki VK</span></div>
+          <span class="wc-n">5</span><span class="wc-n">4</span><span class="wc-n">1</span><span class="wc-n">66</span><span class="wc-n">54</span><span class="wc-n pts wp-hi">8</span>
+        </div>
+        <div class="wc-row wp-q2" style="grid-template-columns:1fr 18px 18px 18px 24px 24px 30px">
+          <div class="wc-team"><span class="wc-flag">🇭🇷</span><span class="wc-name">Jadran Split</span></div>
+          <span class="wc-n">5</span><span class="wc-n">4</span><span class="wc-n">1</span><span class="wc-n">64</span><span class="wc-n">58</span><span class="wc-n pts">8</span>
+        </div>
+        <div class="wc-row out" style="grid-template-columns:1fr 18px 18px 18px 24px 24px 30px">
+          <div class="wc-team"><span class="wc-flag">🇷🇸</span><span class="wc-name">Novi Beograd</span></div>
+          <span class="wc-n">5</span><span class="wc-n">2</span><span class="wc-n">3</span><span class="wc-n">55</span><span class="wc-n">60</span><span class="wc-n pts">4</span>
+        </div>
+        <div class="wc-row out" style="grid-template-columns:1fr 18px 18px 18px 24px 24px 30px">
+          <div class="wc-team"><span class="wc-flag">🇫🇷</span><span class="wc-name">CN Marseille</span></div>
+          <span class="wc-n">5</span><span class="wc-n">0</span><span class="wc-n">5</span><span class="wc-n">45</span><span class="wc-n">58</span><span class="wc-n pts">0</span>
+        </div>
+      </div>
+
+      <!-- 그룹 C -->
+      <div class="wc-group">
+        <div class="wc-group-hd">
+          <span class="wc-group-label"><em>C</em>조</span>
+          <span class="wc-group-done">5R 완료</span>
+        </div>
+        <div class="wc-col-row">
+          <span class="wc-col-h">팀</span><span class="wc-col-h">P</span><span class="wc-col-h">W</span><span class="wc-col-h">L</span><span class="wc-col-h">득</span><span class="wc-col-h">실</span><span class="wc-col-h" style="grid-column:span 2">승점</span>
+        </div>
+        <div class="wc-row wp-q1" style="grid-template-columns:1fr 18px 18px 18px 24px 24px 30px">
+          <div class="wc-team"><span class="wc-flag">🇭🇷</span><span class="wc-name">Jug Dubrovnik</span></div>
+          <span class="wc-n">5</span><span class="wc-n">5</span><span class="wc-n">0</span><span class="wc-n">74</span><span class="wc-n">45</span><span class="wc-n pts wp-hi">10</span>
+        </div>
+        <div class="wc-row wp-q2" style="grid-template-columns:1fr 18px 18px 18px 24px 24px 30px">
+          <div class="wc-team"><span class="wc-flag">🇩🇪</span><span class="wc-name">Waspo Hannover</span></div>
+          <span class="wc-n">5</span><span class="wc-n">3</span><span class="wc-n">2</span><span class="wc-n">59</span><span class="wc-n">57</span><span class="wc-n pts">6</span>
+        </div>
+        <div class="wc-row out" style="grid-template-columns:1fr 18px 18px 18px 24px 24px 30px">
+          <div class="wc-team"><span class="wc-flag">🇭🇺</span><span class="wc-name">FTC-Telekom</span></div>
+          <span class="wc-n">5</span><span class="wc-n">2</span><span class="wc-n">3</span><span class="wc-n">55</span><span class="wc-n">62</span><span class="wc-n pts">4</span>
+        </div>
+        <div class="wc-row out" style="grid-template-columns:1fr 18px 18px 18px 24px 24px 30px">
+          <div class="wc-team"><span class="wc-flag">🇮🇹</span><span class="wc-name">BPM Sport</span></div>
+          <span class="wc-n">5</span><span class="wc-n">1</span><span class="wc-n">4</span><span class="wc-n">48</span><span class="wc-n">72</span><span class="wc-n pts">2</span>
+        </div>
+      </div>
+
+      <!-- 그룹 D -->
+      <div class="wc-group">
+        <div class="wc-group-hd">
+          <span class="wc-group-label"><em>D</em>조</span>
+          <span class="wc-group-done">5R 완료</span>
+        </div>
+        <div class="wc-col-row">
+          <span class="wc-col-h">팀</span><span class="wc-col-h">P</span><span class="wc-col-h">W</span><span class="wc-col-h">L</span><span class="wc-col-h">득</span><span class="wc-col-h">실</span><span class="wc-col-h" style="grid-column:span 2">승점</span>
+        </div>
+        <div class="wc-row wp-q1" style="grid-template-columns:1fr 18px 18px 18px 24px 24px 30px">
+          <div class="wc-team"><span class="wc-flag">🇷🇸</span><span class="wc-name">Partizan</span></div>
+          <span class="wc-n">5</span><span class="wc-n">5</span><span class="wc-n">0</span><span class="wc-n">70</span><span class="wc-n">50</span><span class="wc-n pts wp-hi">10</span>
+        </div>
+        <div class="wc-row wp-q2" style="grid-template-columns:1fr 18px 18px 18px 24px 24px 30px">
+          <div class="wc-team"><span class="wc-flag">🇪🇸</span><span class="wc-name">Sabadell</span></div>
+          <span class="wc-n">5</span><span class="wc-n">3</span><span class="wc-n">2</span><span class="wc-n">60</span><span class="wc-n">58</span><span class="wc-n pts">6</span>
+        </div>
+        <div class="wc-row out" style="grid-template-columns:1fr 18px 18px 18px 24px 24px 30px">
+          <div class="wc-team"><span class="wc-flag">🇭🇷</span><span class="wc-name">Mladost Zagreb</span></div>
+          <span class="wc-n">5</span><span class="wc-n">2</span><span class="wc-n">3</span><span class="wc-n">54</span><span class="wc-n">61</span><span class="wc-n pts">4</span>
+        </div>
+        <div class="wc-row out" style="grid-template-columns:1fr 18px 18px 18px 24px 24px 30px">
+          <div class="wc-team"><span class="wc-flag">🇭🇺</span><span class="wc-name">Eger</span></div>
+          <span class="wc-n">5</span><span class="wc-n">0</span><span class="wc-n">5</span><span class="wc-n">42</span><span class="wc-n">57</span><span class="wc-n pts">0</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="wp-legend">
+    <div class="wc-legend-item"><div class="wc-legend-dot" style="background:#00C8FF"></div>파이널 에이트 진출 (1위)</div>
+    <div class="wc-legend-item"><div class="wc-legend-dot" style="background:rgba(0,200,255,.35)"></div>파이널 에이트 진출 (2위)</div>
+    <div class="wc-legend-item" style="opacity:.5"><div class="wc-legend-dot" style="background:var(--muted)"></div>탈락</div>
+    <span style="margin-left:auto;font-family:'Space Mono',monospace;font-size:9px;color:var(--muted);letter-spacing:.08em">승점: 승=2점 · 패=0점</span>
+  </div>
+
 </section>
 
 <!-- ══ SCHEDULE ══ -->
