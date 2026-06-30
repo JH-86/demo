@@ -1423,6 +1423,94 @@
     }
 
     /* ══════════════════════════════
+       RESULT CARD — MATCH + YT BTN
+    ══════════════════════════════ */
+    .result-yt-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      margin-top: 14px;
+      padding: 8px 14px;
+      border: 1px solid rgba(255,60,60,.28);
+      color: #FF4444;
+      font-family: 'Space Mono', monospace;
+      font-size: 10px;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: border-color .15s, background .15s, color .15s;
+    }
+    .result-yt-btn:hover { border-color: #FF4444; background: rgba(255,68,68,.07); }
+    .result-yt-btn svg { flex-shrink: 0; }
+
+    /* match score (football / water polo) */
+    .match-vs {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--surface-2);
+      padding: 14px 16px;
+      border-left: 3px solid var(--border);
+      margin-bottom: 4px;
+    }
+    .match-side {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex: 1;
+      min-width: 0;
+    }
+    .match-side.away { flex-direction: row-reverse; }
+    .mflag { font-size: 20px; flex-shrink: 0; line-height: 1; }
+    .mname {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 17px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .03em;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .mscore-wrap {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-shrink: 0;
+      padding: 0 10px;
+    }
+    .mgoal {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 38px;
+      font-weight: 800;
+      line-height: 1;
+      font-variant-numeric: tabular-nums;
+    }
+    .mgoal.win { color: var(--accent); }
+    .mgoal.lose { color: var(--muted); }
+    .mdash {
+      font-family: 'Space Mono', monospace;
+      font-size: 16px;
+      color: var(--border);
+    }
+    .match-scorers {
+      padding: 8px 16px 2px;
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+    }
+    .scorers-col {
+      font-family: 'Space Mono', monospace;
+      font-size: 9.5px;
+      color: var(--muted);
+      line-height: 1.8;
+      flex: 1;
+    }
+    .scorers-col.right { text-align: right; }
+    .scorer-name { color: var(--text); }
+    @media (max-width: 480px) { .mgoal { font-size: 30px; } .mname { font-size: 14px; } }
+
+    /* ══════════════════════════════
        WATER POLO
     ══════════════════════════════ */
     .wp-section {
@@ -1931,12 +2019,13 @@
       <div class="sec-title-wrap">
         <div class="sec-accent-bar"></div>
         <h2 class="sec-title">최근 <span>경기 결과</span></h2>
-        <span class="sec-count">4건</span>
+        <span class="sec-count">6건</span>
       </div>
       <a href="#" class="sec-more">전체 결과 →</a>
     </div>
     <div class="results-grid">
 
+      <!-- ① Red Bull Rampage -->
       <div class="result-card reveal">
         <div class="result-title">Red Bull Rampage 2026</div>
         <div class="result-meta">
@@ -1949,8 +2038,13 @@
           <div class="podium-row p2" role="listitem"><span class="pos">2</span><div><div class="athlete-name">Brendan Fairclough</div><div class="athlete-nat">영국</div></div><div><div class="score-val">94.40</div><div class="score-lbl">점수</div></div></div>
           <div class="podium-row p3" role="listitem"><span class="pos">3</span><div><div class="athlete-name">Kyle Strait</div><div class="athlete-nat">미국</div></div><div><div class="score-val">91.80</div><div class="score-lbl">점수</div></div></div>
         </div>
+        <a class="result-yt-btn" href="https://www.youtube.com/results?search_query=Red+Bull+Rampage+2026+highlights+full" target="_blank" rel="noopener" aria-label="YouTube 하이라이트">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1C24 15.9 24 12 24 12s0-3.9-.5-5.8z"/><path d="M9.7 15.5V8.5l6.3 3.5-6.3 3.5z" fill="#0A0906"/></svg>
+          하이라이트 보기
+        </a>
       </div>
 
+      <!-- ② X Games Skateboard -->
       <div class="result-card reveal">
         <div class="result-title">X Games Aspen 2026 — 스케이트 스트리트</div>
         <div class="result-meta">
@@ -1963,8 +2057,13 @@
           <div class="podium-row p2" role="listitem"><span class="pos">2</span><div><div class="athlete-name">Yuto Horigome</div><div class="athlete-nat">일본</div></div><div><div class="score-val">93.60</div><div class="score-lbl">점수</div></div></div>
           <div class="podium-row p3" role="listitem"><span class="pos">3</span><div><div class="athlete-name">Kelvin Hoefler</div><div class="athlete-nat">브라질</div></div><div><div class="score-val">90.20</div><div class="score-lbl">점수</div></div></div>
         </div>
+        <a class="result-yt-btn" href="https://www.youtube.com/results?search_query=X+Games+Aspen+2026+skateboard+street+highlights" target="_blank" rel="noopener" aria-label="YouTube 하이라이트">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1C24 15.9 24 12 24 12s0-3.9-.5-5.8z"/><path d="M9.7 15.5V8.5l6.3 3.5-6.3 3.5z" fill="#0A0906"/></svg>
+          하이라이트 보기
+        </a>
       </div>
 
+      <!-- ③ WSL Surfing -->
       <div class="result-card reveal">
         <div class="result-title">WSL 챔피언십 투어 — 파이프라인</div>
         <div class="result-meta">
@@ -1977,8 +2076,13 @@
           <div class="podium-row p2" role="listitem"><span class="pos">2</span><div><div class="athlete-name">Jack Robinson</div><div class="athlete-nat">호주</div></div><div><div class="score-val">18.43</div><div class="score-lbl">합산</div></div></div>
           <div class="podium-row p3" role="listitem"><span class="pos">3</span><div><div class="athlete-name">John John Florence</div><div class="athlete-nat">미국</div></div><div><div class="score-val">17.80</div><div class="score-lbl">합산</div></div></div>
         </div>
+        <a class="result-yt-btn" href="https://www.youtube.com/results?search_query=WSL+Pipeline+Masters+2026+Medina+highlights" target="_blank" rel="noopener" aria-label="YouTube 하이라이트">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1C24 15.9 24 12 24 12s0-3.9-.5-5.8z"/><path d="M9.7 15.5V8.5l6.3 3.5-6.3 3.5z" fill="#0A0906"/></svg>
+          하이라이트 보기
+        </a>
       </div>
 
+      <!-- ④ AMA Supercross -->
       <div class="result-card reveal">
         <div class="result-title">AMA 수퍼크로스 Round 16</div>
         <div class="result-meta">
@@ -1991,6 +2095,88 @@
           <div class="podium-row p2" role="listitem"><span class="pos">2</span><div><div class="athlete-name">Eli Tomac</div><div class="athlete-nat">미국</div></div><div><div class="score-val">+1.2s</div><div class="score-lbl">차이</div></div></div>
           <div class="podium-row p3" role="listitem"><span class="pos">3</span><div><div class="athlete-name">Ken Roczen</div><div class="athlete-nat">독일</div></div><div><div class="score-val">+3.7s</div><div class="score-lbl">차이</div></div></div>
         </div>
+        <a class="result-yt-btn" href="https://www.youtube.com/results?search_query=AMA+Supercross+2026+Round+16+highlights" target="_blank" rel="noopener" aria-label="YouTube 하이라이트">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1C24 15.9 24 12 24 12s0-3.9-.5-5.8z"/><path d="M9.7 15.5V8.5l6.3 3.5-6.3 3.5z" fill="#0A0906"/></svg>
+          하이라이트 보기
+        </a>
+      </div>
+
+      <!-- ⑤ FIFA WC 2026 R16 — 축구 -->
+      <div class="result-card reveal">
+        <div class="result-title">FIFA 월드컵 2026 — 16강</div>
+        <div class="result-meta">
+          <span class="result-sport" style="color:#00C8FF">축구</span>
+          <span class="result-loc">SoFi Stadium, 로스앤젤레스, 미국</span>
+          <span class="result-date">2026.06.29</span>
+        </div>
+        <div class="match-vs">
+          <div class="match-side">
+            <span class="mflag">🇰🇷</span>
+            <span class="mname">대한민국</span>
+          </div>
+          <div class="mscore-wrap">
+            <span class="mgoal win">3</span>
+            <span class="mdash">—</span>
+            <span class="mgoal lose">1</span>
+          </div>
+          <div class="match-side away">
+            <span class="mflag">🇲🇽</span>
+            <span class="mname">멕시코</span>
+          </div>
+        </div>
+        <div class="match-scorers">
+          <div class="scorers-col">
+            <div><span class="scorer-name">손흥민</span> 23' 71'</div>
+            <div><span class="scorer-name">이강인</span> 45+2'</div>
+          </div>
+          <div class="scorers-col right">
+            <div>68' <span class="scorer-name">López</span></div>
+          </div>
+        </div>
+        <a class="result-yt-btn" href="https://www.youtube.com/results?search_query=FIFA+World+Cup+2026+Korea+Mexico+R16+highlights" target="_blank" rel="noopener" aria-label="YouTube 하이라이트">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1C24 15.9 24 12 24 12s0-3.9-.5-5.8z"/><path d="M9.7 15.5V8.5l6.3 3.5-6.3 3.5z" fill="#0A0906"/></svg>
+          하이라이트 보기
+        </a>
+      </div>
+
+      <!-- ⑥ LEN CL Water Polo -->
+      <div class="result-card reveal">
+        <div class="result-title">LEN 챔피언스리그 — A조 5라운드</div>
+        <div class="result-meta">
+          <span class="result-sport" style="color:#00C8FF">워터폴로</span>
+          <span class="result-loc">Piscina Zanelli, 사보나, 이탈리아</span>
+          <span class="result-date">2026.06.27</span>
+        </div>
+        <div class="match-vs">
+          <div class="match-side">
+            <span class="mflag">🇮🇹</span>
+            <span class="mname">Pro Recco</span>
+          </div>
+          <div class="mscore-wrap">
+            <span class="mgoal win">13</span>
+            <span class="mdash">—</span>
+            <span class="mgoal lose">8</span>
+          </div>
+          <div class="match-side away">
+            <span class="mflag">🇬🇷</span>
+            <span class="mname">Olympiacos</span>
+          </div>
+        </div>
+        <div class="match-scorers">
+          <div class="scorers-col">
+            <div><span class="scorer-name">Di Fulvio</span> ×4</div>
+            <div><span class="scorer-name">Younger</span> ×3</div>
+            <div><span class="scorer-name">Echenique</span> ×3</div>
+          </div>
+          <div class="scorers-col right">
+            <div>×3 <span class="scorer-name">Fountoulis</span></div>
+            <div>×3 <span class="scorer-name">Papanastasiou</span></div>
+          </div>
+        </div>
+        <a class="result-yt-btn" href="https://www.youtube.com/results?search_query=LEN+Champions+League+water+polo+Pro+Recco+2026+highlights" target="_blank" rel="noopener" aria-label="YouTube 하이라이트">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1C24 15.9 24 12 24 12s0-3.9-.5-5.8z"/><path d="M9.7 15.5V8.5l6.3 3.5-6.3 3.5z" fill="#0A0906"/></svg>
+          하이라이트 보기
+        </a>
       </div>
 
     </div>
